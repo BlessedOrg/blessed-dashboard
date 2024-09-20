@@ -9,7 +9,7 @@ export default function HomePage({ searchParams }: { searchParams: { [key: strin
     redirect("/");
   }
   return (
-    <div className="flex w-full flex-col bg-gray-500">
+    <div className="flex w-full flex-col">
       <Navigation />
       <HomeDashboard />
     </div>

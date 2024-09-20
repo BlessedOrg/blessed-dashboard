@@ -23,7 +23,7 @@ export const MobileNavigation = () => {
           isOpen ? "translate-x-0" : "-translate-x-full px-4"
         }`}
       >
-        <DashboardNav currentTabIndex={currentTabIndex} onTabChange={toggleMenu} />
+        <DashboardNav currentTabIndex={currentTabIndex} />
       </div>
     </>
   );

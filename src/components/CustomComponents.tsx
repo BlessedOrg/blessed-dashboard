@@ -8,7 +8,7 @@ export const CustomButton = ({
   return (
     <button
       disabled={isProcessing}
-      className={`disabled:cursor-no-drop font-semibold bg-primary-500 text-black-500 h-[52px] px-6 py-2 rounded-full ${className ? className : ""}`}
+      className={`disabled:cursor-no-drop font-semibold bg-green-500 text-black-500 h-[52px] px-6 py-2 rounded-full ${className ? className : ""}`}
       {...rest}
     >
       {isProcessing ? "Loading..." : children}
@@ -23,7 +23,7 @@ export const CustomLink = ({
   return (
     <Link
       href={href}
-      className={`flex items-center justify-center text-center font-semibold bg-primary-500 text-black-500 h-[52px] px-6 py-2 rounded-full ${className ? className : ""}`}
+      className={`flex items-center justify-center text-center font-semibold bg-green-500 text-black-500 h-[52px] px-6 py-2 rounded-full ${className ? className : ""}`}
       {...rest}
     >
       {children}

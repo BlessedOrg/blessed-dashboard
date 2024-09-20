@@ -1,4 +1,4 @@
-import { Card } from "../../Card";
+import { Card } from "../../ui/Card";
 import Image from "next/image";
 import Link from "next/link";
 import { ReactNode } from "react";
@@ -17,7 +17,7 @@ export const TemplateCard = ({ name, description, image, linkLabel, style }: Tem
     <Card className={`border-2 border-black xl:max-w-[241px] w-full flex flex-col gap-4 ${style || ""}`}>
       <div className="flex gap-2 justify-between items-center">
         <Image src={image} alt={name} width={40} height={40} />
-        <button className="bg-gray-500 rounded-full p-2">
+        <button className="rounded-full p-2">
           <Plus size={24} />
         </button>
       </div>

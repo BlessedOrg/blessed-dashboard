@@ -4,7 +4,7 @@ import { Suspense } from "react";
 
 export default function CreatePage() {
   return (
-    <div className="flex w-full flex-col bg-gray-500">
+    <div className="flex w-full flex-col">
       <CreateDashboardNav />
       <Suspense>
         <CreateDashboard />

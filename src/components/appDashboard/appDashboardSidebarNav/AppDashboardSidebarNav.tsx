@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { appDashboardSidebarNavItems } from "./appDashboardSidebarNavItems";
 
-export const AppDashboardSidebarNav = ({ currentTabIndex, onTabChange, className }) => {
+export const AppDashboardSidebarNav = ({ currentTabIndex, className }) => {
   return (
     <div className={`xl:sticky xl:top-[6.25rem] xl:h-[calc(100vh-6.25rem)] xl:min-w-[15.5rem] ${className || ""}`}>
       <ul className="bg-white p-2 rounded-3xl">
@@ -10,9 +10,8 @@ export const AppDashboardSidebarNav = ({ currentTabIndex, onTabChange, className
           return (
             <li key={nav.label + index}>
               <Link
-                onClick={() => !!onTabChange && onTabChange()}
                 href={nav.href}
-                className={`rounded-full px-5 py-2 font-semibold hover:bg-gray-300 w-full text-left my-1 block ${isActive ? "bg-gray-500" : ""}`}
+                className={`rounded-full px-5 py-2 font-semibold hover:bg-gray-300 w-full text-left my-1 block ${isActive ? "bg-gray-200" : ""}`}
               >
                 {nav.label}
               </Link>

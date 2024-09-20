@@ -1,33 +1,24 @@
-import { Card } from "../../Card";
-import { CustomLink } from "../../CustomComponents";
-import { EntriesView } from "../views/EntriesView";
+import { Card } from "../../ui/Card";
+import { AppsView } from "../views/AppsView";
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
+import { CreateAppModal } from "@/src/components/createAppModal/CreateAppModal";
 
 export const Dashboard = () => {
   return (
     <div className="w-full flex flex-col gap-10 pb-10">
-      <Card className="bg-primary flex flex-col gap-10">
+      <Card className="bg-primary flex flex-col gap-10 bg-gradient-to-r to-yellow-500 from-green-500">
         <div>
           <h2 className="font-bold text-3xl uppercase">Start creating</h2>
-          <p className="text-sm">
-            Create and manage your entry API in just three steps.
-          </p>
+          <p className="text-sm">Create and manage your entry API in just three steps.</p>
         </div>
-        <CustomLink
-          href="/create"
-          className="bg-transparent border-2 border-black-50 w-fit"
-        >
-          Create app
-        </CustomLink>
+        <CreateAppModal />
       </Card>
 
       <Card className="flex gap-5 justify-between">
         <div className="flex-col flex justify-between pb-3">
           <div>
-            <p className="text-sm text-gray-200 uppercase font-semibold">
-              August 20, 2024
-            </p>
+            <p className="text-sm text-gray-500 uppercase font-semibold">August 20, 2024</p>
             <h2 className="font-bold text-3xl uppercase">Total ticket sales</h2>
           </div>
           <div className="flex gap-1 items-center">
@@ -58,24 +49,20 @@ export const Dashboard = () => {
               strokeDashoffset="25"
             />
           </svg>
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-xl font-bold">
-            75%
-          </div>
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-xl font-bold">75%</div>
         </div>
       </Card>
 
       <div className="flex flex-col gap-4">
         <h2 className="font-semibold text-xl">Upcoming dates</h2>
         <Card className="flex flex-col">
-          <p className="text-sm text-gray-200 uppercase font-semibold">Next</p>
+          <p className="text-sm text-gray-500 uppercase font-semibold">Next</p>
           <h3 className="font-semibold text-lg">Gaming pass 2025</h3>
-          <p className="text-sm text-gray-200 uppercase font-semibold">
-            August 20, 2024
-          </p>
+          <p className="text-sm text-gray-500 uppercase font-semibold">August 20, 2024</p>
         </Card>
       </div>
 
-      <EntriesView />
+      <AppsView />
     </div>
   );
 };

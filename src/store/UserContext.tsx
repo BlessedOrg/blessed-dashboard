@@ -1,11 +1,5 @@
 "use client";
-import React, {
-  createContext,
-  ReactNode,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import React, { createContext, ReactNode, useContext, useEffect, useState } from "react";
 import useSWR from "swr";
 import { fetcher } from "../requests/requests";
 import { apiUrl } from "@/src/variables/variables";
@@ -22,7 +16,12 @@ interface UserHook {
   isLoggedIn: boolean;
   accountDeployed: boolean;
   vaultKey: string | null;
-  ApiTokens: { id: string; vaultKey: string; createdAt: string }[];
+  ApiTokens: { id: string; vaultKey: string; createdAt: string; revoked: boolean; appId: string }[];
+  appsData: {
+    apps: IAppData[];
+    mutate: () => Promise<any>;
+    isAppsLoading: boolean;
+  };
 }
 const defaultState = {
   walletAddress: null,
@@ -32,6 +31,11 @@ const defaultState = {
   accountDeployed: false,
   vaultKey: null,
   isLoggedIn: false,
+  appsData: {
+    apps: [],
+    mutate: async () => {},
+    isAppsLoading: false,
+  },
   mutate: async () => {},
 } as UserHook;
 
@@ -41,10 +45,12 @@ const UserContextProvider = ({ children }: IProps) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userData, setUserData] = useState(defaultState);
 
-  const { data, mutate, isLoading } = useSWR(
-    `${apiUrl}/api/account/me`,
-    fetcher,
-  );
+  const { data, mutate, isLoading } = useSWR(`${apiUrl}/api/account/me`, fetcher);
+  const {
+    data: appsData,
+    mutate: mutateApps,
+    isLoading: isAppsLoading,
+  } = useSWR(isLoggedIn ? `${apiUrl}/api/app` : null, fetcher);
 
   useEffect(() => {
     if (data) {
@@ -61,6 +67,11 @@ const UserContextProvider = ({ children }: IProps) => {
         value={{
           ...defaultState,
           isLoading,
+          appsData: {
+            isAppsLoading,
+            mutate: mutateApps,
+            apps: [],
+          },
           isLoggedIn,
         }}
       >
@@ -76,6 +87,11 @@ const UserContextProvider = ({ children }: IProps) => {
         mutate,
         isLoading,
         isLoggedIn,
+        appsData: {
+          apps: appsData || [],
+          mutate: mutateApps,
+          isAppsLoading,
+        },
       }}
     >
       {children}
