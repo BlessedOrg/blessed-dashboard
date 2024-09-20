@@ -5,9 +5,15 @@ import { useForm } from "react-hook-form";
 import Image from "next/image";
 
 export const NameAndDescriptionTab = ({
+  appData,
   ...props
-}: DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>) => {
-  const { setValue, watch } = useForm();
+}: DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> & { appData: IAppData }) => {
+  const { setValue, watch } = useForm({
+    defaultValues: {
+      name: appData?.name || "",
+      description: appData?.description || "",
+    },
+  });
   const [isEditingName, setIsEditingName] = useState(false);
   const [isEditingDescription, setIsEditingDescription] = useState(false);
   const currentName = watch("name");

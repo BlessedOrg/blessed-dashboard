@@ -4,7 +4,8 @@ const { fontFamily } = require("tailwindcss/defaultTheme");
 
 /** @type {import("tailwindcss").Config} */
 const config: Config = {
-  content: ["./src/**/*.{js,ts,jsx,tsx,mdx}"],
+  darkMode: ["class"],
+  content: ["./src/**/*.{js,ts,jsx,tsx,mdx}", "./components/**/*.{js,ts,jsx,tsx,mdx}"],
   theme: {
     container: {
       center: true,
@@ -20,7 +21,7 @@ const config: Config = {
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
-        primary: {
+        green: {
           50: "#E0FEF0",
           100: "#B3FCE0",
           200: "#80FAD0",
@@ -32,7 +33,7 @@ const config: Config = {
           800: "#037134",
           900: "#024D1A",
         },
-        secondary: {
+        yellow: {
           50: "#FFFEF5",
           100: "#FFFDEB",
           200: "#FFFBD6",
@@ -63,30 +64,6 @@ const config: Config = {
         card: {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
-        },
-        gray: {
-          50: "#FFFFFF",
-          100: "#F7F7F7",
-          200: "#5F5F5F",
-          300: "#E0E0E0",
-          400: "#D1D1D1",
-          500: "#EFEFEF",
-          600: "#B3B3B3",
-          700: "#A4A4A4",
-          800: "#959595",
-          900: "#868686",
-        },
-        black: {
-          50: "#000000",
-          100: "#D9D9D9",
-          200: "#BFBFBF",
-          300: "#A6A6A6",
-          400: "#8C8C8C",
-          500: "#1D1D1D",
-          600: "#191919",
-          700: "#141414",
-          800: "#101010",
-          900: "#0C0C0C",
         },
       },
       borderRadius: {

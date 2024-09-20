@@ -2,6 +2,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { createDashboardSidebarCategoriesAndFields } from "./createDashboardSidebarCategoriesAndFields";
 import Image from "next/image";
+
 export const CreateDashboardSidebarFields = ({ selectedCategory, selectedTab }) => {
   const router = useRouter();
   return (
@@ -11,14 +12,14 @@ export const CreateDashboardSidebarFields = ({ selectedCategory, selectedTab }) 
           return (
             <div
               key={category.id}
-              className={`bg-gradient-to-r ${category.id === selectedCategory ? "from-primary-500 to-secondary-500" : "from-white to-secondary-500 cursor-pointer"} p-4`}
+              className={`bg-gradient-to-r ${category.id === selectedCategory ? "from-green-500 to-yellow-500" : "from-white to-yellow-500 cursor-pointer"} p-4`}
               onClick={
                 selectedCategory !== category.id
                   ? () => {
-                    router.replace(
-                      `/create?category=${category.id}&tab=${category.tabs.find((tab) => tab.primary).href}`
-                    );
-                  }
+                      router.replace(
+                        `/create?category=${category.id}&tab=${category.tabs.find((tab) => tab.primary).href}`
+                      );
+                    }
                   : null
               }
             >
@@ -29,7 +30,9 @@ export const CreateDashboardSidebarFields = ({ selectedCategory, selectedTab }) 
                       <Image src={category.icon} alt="heart icon" width={24} height={24} />
                       <h2 className="font-semibold">{category.name}</h2>
                     </div>
-                    <span className="font-semibold text-xl">{index + 1 + "/" + createDashboardSidebarCategoriesAndFields.length}</span>
+                    <span className="font-semibold text-xl">
+                      {index + 1 + "/" + createDashboardSidebarCategoriesAndFields.length}
+                    </span>
                   </div>
                   <p>{category.description}</p>
                 </div>
@@ -44,7 +47,12 @@ export const CreateDashboardSidebarFields = ({ selectedCategory, selectedTab }) 
                       key={tab.href}
                       className={`w-full font-semibold ${selectedTab === tab.href ? "bg-gray-500" : ""}`}
                     >
-                      <Link href={`/create?category=${category.id}&tab=${tab.href}`} className="px-4 py-2 inline-block w-full">{tab.name}</Link>
+                      <Link
+                        href={`/create?category=${category.id}&tab=${tab.href}`}
+                        className="px-4 py-2 inline-block w-full"
+                      >
+                        {tab.name}
+                      </Link>
                     </li>
                   ))}
                 </ul>
@@ -54,5 +62,5 @@ export const CreateDashboardSidebarFields = ({ selectedCategory, selectedTab }) 
         })}
       </div>
     </div>
-      );
-      };
+  );
+};

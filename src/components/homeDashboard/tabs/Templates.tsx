@@ -82,7 +82,7 @@ export const Templates = () => {
           image="/img/icons/lock.svg"
           href="/"
           linkLabel="Contact us"
-          style="!bg-secondary-500"
+          style="!bg-yellow-500"
         />
         {templates.map((template) => {
           return <TemplateCard key={template.id} {...template} />;

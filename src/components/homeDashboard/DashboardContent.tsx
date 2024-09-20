@@ -2,20 +2,20 @@
 import { Analyticts } from "./tabs/Analyticts";
 import { Dashboard } from "./tabs/Dashboard";
 import { Templates } from "./tabs/Templates";
-import { EntriesView } from "./views/EntriesView";
+import { AppsView } from "./views/AppsView";
 import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 
 const paramsIndexPerId = {
   dashboard: 0,
-  entries: 1,
+  apps: 1,
   analytics: 2,
   templates: 3,
 };
 
 const contentPerTab = {
   0: <Dashboard />,
-  1: <EntriesView />,
+  1: <AppsView />,
   2: <Analyticts />,
   3: <Templates />,
 };
