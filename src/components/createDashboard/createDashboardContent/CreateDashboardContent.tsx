@@ -1,5 +1,5 @@
 import { createDashboardSidebarCategoriesAndFields } from "../createDashboardSidebarFields/createDashboardSidebarCategoriesAndFields";
-import { Card } from "../../Card";
+import { Card } from "../../ui/Card";
 
 export const CreateDashboardContent = ({ selectedTab, form }) => {
   const { register } = form;
@@ -8,14 +8,7 @@ export const CreateDashboardContent = ({ selectedTab, form }) => {
       {createDashboardSidebarCategoriesAndFields.flatMap((category) =>
         category.tabs.flatMap((tab) =>
           tab?.customFieldComponents?.map((Components, index) => {
-            return (
-              <Components
-                key={index}
-                form={form}
-                fields={tab.fields}
-                className={`${selectedTab === tab.href ? "" : "!hidden"}`}
-              />
-            );
+            return <Components key={index} form={form} fields={tab.fields} className={`${selectedTab === tab.href ? "" : "!hidden"}`} />;
           })
         )
       )}
@@ -29,13 +22,7 @@ export const CreateDashboardContent = ({ selectedTab, form }) => {
                     {field.name}
                   </label>
                 </div>
-                <input
-                  id={field.id}
-                  type={field.type}
-                  placeholder={field.placeholder}
-                  required={field.required}
-                  {...register(field.id)}
-                />
+                <input id={field.id} type={field.type} placeholder={field.placeholder} required={field.required} {...register(field.id)} />
               </div>
             </Card>
           ))

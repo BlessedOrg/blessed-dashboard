@@ -1,4 +1,4 @@
-import { Card } from "../../Card";
+import { Card } from "../../ui/Card";
 import { AppsView } from "../views/AppsView";
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";

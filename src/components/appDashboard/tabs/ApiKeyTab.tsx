@@ -1,11 +1,11 @@
-import { Card } from "../../Card";
+import { Card } from "../../ui/Card";
 import { useState } from "react";
 import { useUserContext } from "@/src/store/UserContext";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/src/components/ui/table";
 import { Square } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/src/components/ui/button";
 import { createApiToken } from "@/src/api/createApiToken";
-import { CopyButton } from "@/components/ui/copy-button";
+import { CopyButton } from "@/src/components/ui/copy-button";
 
 export const ApiKeyTab = ({ appId }) => {
   const [generatedApiToken, setGeneratedApiToken] = useState("");
@@ -35,18 +35,12 @@ export const ApiKeyTab = ({ appId }) => {
         <div className="flex flex-col gap-4">
           <h2 className="font-semibold text-xl">Generate a new API key</h2>
           <Card className="!bg-yellow-500">
-            <span className="font-semibold">Remember</span> You will only see the token once, so be sure to copy and
-            store it securely when it's displayed.
+            <span className="font-semibold">Remember</span> You will only see the token once, so be sure to copy and store it securely when
+            it's displayed.
           </Card>
         </div>
         <div className="flex gap-4 items-center">
-          <Button
-            onClick={onGenerateNewApiKey}
-            variant="outline"
-            isLoading={isGeneratingApiKey}
-            className="w-fit rounded-full"
-            size="lg"
-          >
+          <Button onClick={onGenerateNewApiKey} variant="outline" isLoading={isGeneratingApiKey} className="w-fit rounded-full" size="lg">
             Create new token
           </Button>
           {!!generatedApiToken && (
@@ -62,9 +56,8 @@ export const ApiKeyTab = ({ appId }) => {
         <div className="flex flex-col gap-4">
           <h2 className="font-semibold text-xl">Existing API tokens</h2>
           <Card className="!bg-yellow-500">
-            Here, you'll find a list of your existing API tokens. For security reasons, the actual tokens are not
-            displayed. Revoking a token is immediate and cannot be undone. If you revoke a token by mistake, you will
-            need to generate a new one.
+            Here, you'll find a list of your existing API tokens. For security reasons, the actual tokens are not displayed. Revoking a
+            token is immediate and cannot be undone. If you revoke a token by mistake, you will need to generate a new one.
           </Card>
         </div>
 

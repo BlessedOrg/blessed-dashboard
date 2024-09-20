@@ -1,4 +1,4 @@
-import { Card } from "../../../Card";
+import { Card } from "../../../ui/Card";
 import { DetailedHTMLProps, HTMLAttributes, useState } from "react";
 import { Check, Pencil, X } from "lucide-react";
 import { FieldValues, UseFormReturn } from "react-hook-form";
@@ -7,10 +7,7 @@ import Image from "next/image";
 interface IProps {
   form: UseFormReturn<FieldValues, any, undefined>;
 }
-export const NameAndDescriptionField = ({
-  form,
-  ...props
-}: DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> & IProps) => {
+export const NameAndDescriptionField = ({ form, ...props }: DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> & IProps) => {
   const { setValue, watch } = form;
   const [isEditingName, setIsEditingName] = useState(false);
   const [isEditingDescription, setIsEditingDescription] = useState(false);
