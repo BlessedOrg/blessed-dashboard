@@ -6,7 +6,7 @@ import { CreateAppModal } from "@/src/components/createAppModal/CreateAppModal";
 export const Navigation = () => {
   return (
     <nav className="flex justify-between w-full py-6 bg-background px-6 sticky top-0 left-0 right-0 z-20">
-      <Link href={"/public"} className="p-2 pr-4 rounded-full bg-white h-[3.25rem] flex items-center justify-center">
+      <Link href={"/"} className="p-2 pr-4 rounded-full bg-white h-[3.25rem] flex items-center justify-center">
         <Image src={"/logo.svg"} alt="logo blessed" width={119} height={36} className="h-[36px]" />
       </Link>
       <div className="hidden md:flex gap-5 items-center">

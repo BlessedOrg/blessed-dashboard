@@ -2,7 +2,9 @@
 import React, { createContext, ReactNode, useContext, useEffect, useState } from "react";
 import useSWR from "swr";
 import { fetcher } from "../requests/requests";
-import { apiUrl } from "@/src/variables/variables";
+import { apiUrl, landingPageUrl } from "@/src/variables/variables";
+import { isArray } from "lodash-es";
+import { getCookie } from "cookies-next";
 
 interface IProps {
   children: ReactNode;
@@ -44,13 +46,9 @@ const UserContext = createContext<UserHook | undefined>(undefined);
 const UserContextProvider = ({ children }: IProps) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userData, setUserData] = useState(defaultState);
-
+  const accessTokenExists = getCookie("accessToken");
   const { data, mutate, isLoading } = useSWR(`${apiUrl}/api/account/me`, fetcher);
-  const {
-    data: appsData,
-    mutate: mutateApps,
-    isLoading: isAppsLoading,
-  } = useSWR(isLoggedIn ? `${apiUrl}/api/app` : null, fetcher);
+  const { data: appsData, mutate: mutateApps, isLoading: isAppsLoading } = useSWR(isLoggedIn ? `${apiUrl}/api/app` : null, fetcher);
 
   useEffect(() => {
     if (data) {
@@ -60,6 +58,12 @@ const UserContextProvider = ({ children }: IProps) => {
       setIsLoggedIn(false);
     }
   }, [data]);
+
+  useEffect(() => {
+    if (!accessTokenExists || (!isLoggedIn && !isLoading && !!data?.error)) {
+      window.location.replace(landingPageUrl);
+    }
+  }, [data, isLoggedIn]);
 
   if (!isLoggedIn) {
     return (
@@ -88,7 +92,7 @@ const UserContextProvider = ({ children }: IProps) => {
         isLoading,
         isLoggedIn,
         appsData: {
-          apps: appsData || [],
+          apps: isArray(appsData) ? appsData : [],
           mutate: mutateApps,
           isAppsLoading,
         },
