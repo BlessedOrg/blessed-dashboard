@@ -2,7 +2,7 @@
 import React, { createContext, ReactNode, useContext, useEffect, useState } from "react";
 import useSWR from "swr";
 import { fetcher, fetcherWithToken } from "../requests/requests";
-import { apiUrl, landingPageUrl } from "@/src/variables/variables";
+import { apiUrl } from "@/src/variables/variables";
 import { isArray } from "lodash-es";
 import { getCookie } from "cookies-next";
 
@@ -61,7 +61,9 @@ const UserContextProvider = ({ children }: IProps) => {
 
   useEffect(() => {
     if (!accessTokenExists || (!isLoggedIn && !isLoading && !!data?.error)) {
-      window.location.replace(landingPageUrl);
+      // window.location.replace(landingPageUrl);
+      console.table([{ accessTokenExists, isLoggedIn, isLoading, dataError: data?.errror }]);
+      console.log("Redirect due to no access token");
     }
   }, [data, isLoading]);
 
