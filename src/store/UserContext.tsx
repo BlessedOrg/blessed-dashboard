@@ -51,7 +51,7 @@ const UserContextProvider = ({ children }: IProps) => {
   const { data: appsData, mutate: mutateApps, isLoading: isAppsLoading } = useSWR(isLoggedIn ? `${apiUrl}/api/app` : null, fetcher);
 
   useEffect(() => {
-    if (data) {
+    if (!!data && !data?.error && !!data?.id) {
       setUserData(data);
       setIsLoggedIn(true);
     } else {
@@ -63,7 +63,7 @@ const UserContextProvider = ({ children }: IProps) => {
     if (!accessTokenExists || (!isLoggedIn && !isLoading && !!data?.error)) {
       window.location.replace(landingPageUrl);
     }
-  }, [data, isLoggedIn]);
+  }, [data, isLoading]);
 
   if (!isLoggedIn) {
     return (
