@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import Image from "next/image";
 import { generateQrCode } from "../../utils/generateQrCode";
 import { CustomButton } from "../../components/CustomComponents";
-import { fetcher } from "../../requests/requests";
+import { fetcherWithToken } from "../../requests/requests";
 import { apiUrl } from "@/src/variables/variables";
 
 export const EntranceForm = () => {
@@ -20,7 +20,7 @@ export const EntranceForm = () => {
 
   const onSubmit = async () => {
     try {
-      const res = await fetcher(`${apiUrl}/entrance/notify`, {
+      const res = await fetcherWithToken(`${apiUrl}/entrance/notify`, {
         method: "POST",
         body: JSON.stringify({
           enteredEmail,
@@ -38,7 +38,7 @@ export const EntranceForm = () => {
         setEnteredToEvent(true);
       } else {
         const isLocalhost = window?.location?.hostname === "localhost";
-        await fetcher(`/entrance/notify`, {
+        await fetcherWithToken(`/entrance/notify`, {
           method: "POST",
           body: JSON.stringify({
             contractAddress,
@@ -60,7 +60,7 @@ export const EntranceForm = () => {
   const generateQrCodeForContract = async () => {
     const mobileDomain = process.env.NEXT_PUBLIC_MOBILE_BASE_URL;
     const qr = await generateQrCode(
-      `http://${mobileDomain}/entrance?contractAddress=0x73a4a17ebe1fe23652d0b7b03a5a7759b6eb7649d2a8e61da02755fe6cab771`,
+      `http://${mobileDomain}/entrance?contractAddress=0x73a4a17ebe1fe23652d0b7b03a5a7759b6eb7649d2a8e61da02755fe6cab771`
     );
     setQrCode(qr);
     return;
@@ -78,18 +78,11 @@ export const EntranceForm = () => {
       {!!contractAddress && !enteredToEvent && !errorMessage && (
         <div className="flex flex-col gap-2">
           <p>Enter email to join the event</p>
-          <input
-            onChange={onEmailChange}
-            value={enteredEmail}
-            type={"email"}
-            placeholder={"Enter email"}
-          />
+          <input onChange={onEmailChange} value={enteredEmail} type={"email"} placeholder={"Enter email"} />
           <CustomButton onClick={onSubmit}>Submit</CustomButton>
         </div>
       )}
-      {!contractAddress && qrCode && (
-        <Image src={qrCode} alt={"qr"} width={200} height={200} />
-      )}
+      {!contractAddress && qrCode && <Image src={qrCode} alt={"qr"} width={200} height={200} />}
     </div>
   );
 };
