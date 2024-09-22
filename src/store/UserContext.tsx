@@ -1,7 +1,7 @@
 "use client";
 import React, { createContext, ReactNode, useContext, useEffect, useState } from "react";
 import useSWR from "swr";
-import { fetcher, fetcherWithToken } from "../requests/requests";
+import { fetcherWithToken } from "../requests/requests";
 import { apiUrl } from "@/src/variables/variables";
 import { isArray } from "lodash-es";
 import { getCookie } from "cookies-next";
@@ -48,7 +48,11 @@ const UserContextProvider = ({ children }: IProps) => {
   const [userData, setUserData] = useState(defaultState);
   const accessTokenExists = getCookie("accessToken");
   const { data, mutate, isLoading } = useSWR(`${apiUrl}/api/account/me`, fetcherWithToken);
-  const { data: appsData, mutate: mutateApps, isLoading: isAppsLoading } = useSWR(isLoggedIn ? `${apiUrl}/api/app` : null, fetcher);
+  const {
+    data: appsData,
+    mutate: mutateApps,
+    isLoading: isAppsLoading,
+  } = useSWR(isLoggedIn ? `${apiUrl}/api/app` : null, fetcherWithToken);
 
   useEffect(() => {
     if (!!data && !data?.error && !!data?.id) {
