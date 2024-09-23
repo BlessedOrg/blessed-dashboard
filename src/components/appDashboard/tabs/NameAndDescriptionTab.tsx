@@ -50,7 +50,7 @@ export const NameAndDescriptionTab = ({
       <div className="flex gap-2 w-full">
         <div className="flex flex-col gap-2 w-full">
           <div className="gap-2 flex items-center w-full">
-            <h2 className={`font-semibold text-xl ${isEditingName ? "hidden" : ""}`}>{currentName || "Name"}</h2>
+            <h3 className={`font-semibold text-xl ${isEditingName ? "hidden" : ""}`}>{currentName || "Name"}</h3>
             <input
               type="text"
               id="name"
