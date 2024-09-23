@@ -2,9 +2,10 @@
 import React, { createContext, ReactNode, useContext, useEffect, useState } from "react";
 import useSWR from "swr";
 import { fetcherWithToken } from "../requests/requests";
-import { apiUrl } from "@/src/variables/variables";
+import { apiUrl } from "@/variables/variables";
 import { isArray } from "lodash-es";
 import { getCookie } from "cookies-next";
+import { AuthModal } from "@/components/authModal/AuthModal";
 
 interface IProps {
   children: ReactNode;
@@ -44,6 +45,7 @@ const defaultState = {
 const UserContext = createContext<UserHook | undefined>(undefined);
 
 const UserContextProvider = ({ children }: IProps) => {
+  const [showAuthModal, setShowAuthModal] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userData, setUserData] = useState(defaultState);
   const accessTokenExists = getCookie("accessToken");
@@ -62,14 +64,16 @@ const UserContextProvider = ({ children }: IProps) => {
       setIsLoggedIn(false);
     }
   }, [data]);
-
   useEffect(() => {
-    if (!accessTokenExists || (!isLoggedIn && !isLoading && !!data?.error)) {
-      // window.location.replace(landingPageUrl);
-      console.table([{ accessTokenExists, isLoggedIn, isLoading, dataError: data?.errror }]);
-      console.log("Redirect due to no access token");
+    if (accessTokenExists && !isLoading && !isLoggedIn) {
+      mutate();
     }
-  }, [data, isLoading]);
+  }, [accessTokenExists]);
+  useEffect(() => {
+    if (!accessTokenExists && !isLoggedIn && !isLoading) {
+      setShowAuthModal(true);
+    }
+  }, [data, isLoading, accessTokenExists]);
 
   if (!isLoggedIn) {
     return (
@@ -86,6 +90,7 @@ const UserContextProvider = ({ children }: IProps) => {
         }}
       >
         {children}
+        <AuthModal isOpen={showAuthModal} />
       </UserContext.Provider>
     );
   }

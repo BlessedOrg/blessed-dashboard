@@ -1,5 +1,5 @@
-import { apiUrl } from "@/src/variables/variables";
-import { fetcherWithToken } from "@/src/requests/requests";
+import { apiUrl } from "@/variables/variables";
+import { fetcherWithToken } from "@/requests/requests";
 
 interface IProps {
   name: string;

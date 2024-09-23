@@ -1,8 +1,8 @@
 import { AppDashboard } from "../../components/appDashboard/AppDashboard";
 import { AppDashboardNav } from "../../components/appDashboard/appDashboardNav/AppDashboardNav";
-import { apiUrl } from "@/src/variables/variables";
+import { apiUrl } from "@/variables/variables";
 import { notFound } from "next/navigation";
-import { fetcherWithToken } from "@/src/requests/requests";
+import { fetcherWithToken } from "@/requests/requests";
 
 async function getAppData(id: string) {
   const appData = await fetcherWithToken(`${apiUrl}/api/app/${id}`);

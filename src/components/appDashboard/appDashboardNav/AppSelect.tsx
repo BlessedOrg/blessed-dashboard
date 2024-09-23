@@ -1,8 +1,8 @@
 "use client";
 
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/src/components/ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useRouter } from "next/navigation";
-import { useUserContext } from "@/src/store/UserContext";
+import { useUserContext } from "@/store/UserContext";
 
 export const AppSelect = ({ currentAppId }) => {
   const router = useRouter();

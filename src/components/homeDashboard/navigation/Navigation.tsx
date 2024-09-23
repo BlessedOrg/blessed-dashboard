@@ -2,7 +2,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { MobileNavigation } from "./MobileNavigation";
-import { CreateAppModal } from "@/src/components/createAppModal/CreateAppModal";
+import { CreateAppModal } from "@/components/createAppModal/CreateAppModal";
 import { useEffect } from "react";
 import { setCookie } from "cookies-next";
 import { redirect } from "next/navigation";

@@ -1,15 +1,15 @@
 "use client";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/src/components/ui/dialog";
-import { Button } from "@/src/components/ui/button";
-import { Input } from "@/src/components/ui/input";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/src/components/ui/form";
-import { createApplication } from "@/src/api/createApplication";
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { createApplication } from "@/api/createApplication";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useUserContext } from "@/src/store/UserContext";
+import { useUserContext } from "@/store/UserContext";
 
 const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters").max(50, "Name must be less than 50 characters"),

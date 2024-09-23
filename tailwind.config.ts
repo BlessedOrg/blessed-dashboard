@@ -72,6 +72,7 @@ const config: Config = {
         sm: "calc(var(--radius) - 4px)",
       },
       fontFamily: {
+        ttBluescreens: ["var(--font-tt-bluescreens)"],
         sans: ["var(--font-sans)", ...fontFamily.sans],
       },
       keyframes: {

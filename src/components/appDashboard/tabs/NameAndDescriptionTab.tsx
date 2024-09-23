@@ -1,4 +1,4 @@
-import { Card } from "../../ui/Card";
+import { Card } from "../../ui/card";
 import { DetailedHTMLProps, HTMLAttributes, useState } from "react";
 import { Check, Pencil, X } from "lucide-react";
 import { useForm } from "react-hook-form";

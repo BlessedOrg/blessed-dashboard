@@ -6,7 +6,7 @@ import Image from "next/image";
 import { generateQrCode } from "../../utils/generateQrCode";
 import { CustomButton } from "../../components/CustomComponents";
 import { fetcherWithToken } from "../../requests/requests";
-import { apiUrl } from "@/src/variables/variables";
+import { apiUrl } from "@/variables/variables";
 
 export const EntranceForm = () => {
   const [enteredToEvent, setEnteredToEvent] = useState(false);

@@ -1,4 +1,4 @@
-import { Card } from "../../ui/Card";
+import { Card } from "../../ui/card";
 import Image from "next/image";
 import Link from "next/link";
 import { ReactNode } from "react";

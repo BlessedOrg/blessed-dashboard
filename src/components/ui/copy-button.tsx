@@ -20,9 +20,5 @@ export function CopyButton({ text = "Text to copy" }: CopyButtonProps) {
     }
   };
 
-  return (
-    <button onClick={copyToClipboard} className="">
-      {isCopied ? <Check className="mr-2 h-4 w-4" /> : <Copy className="mr-2 h-4 w-4" />}
-    </button>
-  );
+  return <button onClick={copyToClipboard}>{isCopied ? <Check /> : <Copy />}</button>;
 }

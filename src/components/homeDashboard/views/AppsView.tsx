@@ -1,9 +1,9 @@
-import { Card } from "../../ui/Card";
+import { Card } from "../../ui/card";
 import Image from "next/image";
-import { CreateAppModal } from "@/src/components/createAppModal/CreateAppModal";
-import { Button } from "@/src/components/ui/button";
-import { useUserContext } from "@/src/store/UserContext";
-import { LoadingDashboardSkeleton } from "@/src/components/homeDashboard/LoadingDashboardSkeleton";
+import { CreateAppModal } from "@/components/createAppModal/CreateAppModal";
+import { Button } from "@/components/ui/button";
+import { useUserContext } from "@/store/UserContext";
+import { LoadingDashboardSkeleton } from "@/components/homeDashboard/LoadingDashboardSkeleton";
 import { ChevronRight } from "lucide-react";
 import Link from "next/link";
 
@@ -15,7 +15,7 @@ export const AppsView = () => {
   return (
     <div className="flex flex-col gap-5 w-full">
       <div className="flex flex-col gap-4">
-        <h2 className="font-semibold text-xl">Recent apps</h2>
+        <h3 className="font-semibold text-xl">Recent apps</h3>
         {isAppsLoading || (isLoading && <LoadingDashboardSkeleton />)}
         {!apps.length && !isAppsLoading && !isLoading && (
           <Card>

@@ -1,15 +1,15 @@
-import { Card } from "../../ui/Card";
+import { Card } from "../../ui/card";
 import { AppsView } from "../views/AppsView";
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
-import { CreateAppModal } from "@/src/components/createAppModal/CreateAppModal";
+import { CreateAppModal } from "@/components/createAppModal/CreateAppModal";
 
 export const Dashboard = () => {
   return (
     <div className="w-full flex flex-col gap-10 pb-10">
       <Card className="bg-primary flex flex-col gap-10 bg-gradient-to-r to-yellow-500 from-green-500">
         <div>
-          <h2 className="font-bold text-3xl uppercase">Start creating</h2>
+          <h2 className="font-bold text-5xl uppercase">Start creating</h2>
           <p className="text-sm">Create and manage your entry API in just three steps.</p>
         </div>
         <CreateAppModal />
@@ -19,7 +19,7 @@ export const Dashboard = () => {
         <div className="flex-col flex justify-between pb-3">
           <div>
             <p className="text-sm text-gray-500 uppercase font-semibold">August 20, 2024</p>
-            <h2 className="font-bold text-3xl uppercase">Total ticket sales</h2>
+            <h2 className="font-bold text-5xl uppercase">Total ticket sales</h2>
           </div>
           <div className="flex gap-1 items-center">
             <Link href={"/"} className="font-semibold">
@@ -54,7 +54,7 @@ export const Dashboard = () => {
       </Card>
 
       <div className="flex flex-col gap-4">
-        <h2 className="font-semibold text-xl">Upcoming dates</h2>
+        <h3 className="font-semibold text-xl">Upcoming dates</h3>
         <Card className="flex flex-col">
           <p className="text-sm text-gray-500 uppercase font-semibold">Next</p>
           <h3 className="font-semibold text-lg">Gaming pass 2025</h3>

@@ -3,7 +3,7 @@ import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import { ApiKeyTab } from "../tabs/ApiKeyTab";
 import { NameAndDescriptionTab } from "../tabs/NameAndDescriptionTab";
-import { Card } from "../../ui/Card";
+import { Card } from "../../ui/card";
 
 const paramsIndexPerId = {
   "api-key": 0,

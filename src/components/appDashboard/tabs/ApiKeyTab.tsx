@@ -1,11 +1,11 @@
-import { Card } from "../../ui/Card";
+import { Card } from "../../ui/card";
 import { useState } from "react";
-import { useUserContext } from "@/src/store/UserContext";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/src/components/ui/table";
+import { useUserContext } from "@/store/UserContext";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Square } from "lucide-react";
-import { Button } from "@/src/components/ui/button";
-import { createApiToken } from "@/src/api/createApiToken";
-import { CopyButton } from "@/src/components/ui/copy-button";
+import { Button } from "@/components/ui/button";
+import { createApiToken } from "@/api/createApiToken";
+import { CopyButton } from "@/components/ui/copy-button";
 
 export const ApiKeyTab = ({ appId }) => {
   const [generatedApiToken, setGeneratedApiToken] = useState("");
@@ -45,7 +45,9 @@ export const ApiKeyTab = ({ appId }) => {
           </Button>
           {!!generatedApiToken && (
             <div className="flex gap-2 items-center">
-              {generatedApiToken.slice(0, 6) + "..." + generatedApiToken.slice(-4)}
+              <div className="border border-black rounded-lg p-2">
+                {generatedApiToken.slice(0, 9) + "..." + generatedApiToken.slice(-6)}
+              </div>
               <CopyButton text={generatedApiToken} />
             </div>
           )}
