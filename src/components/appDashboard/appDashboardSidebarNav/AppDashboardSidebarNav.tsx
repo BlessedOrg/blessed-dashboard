@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { appDashboardSidebarNavItems } from "./appDashboardSidebarNavItems";
+import { ArrowUpRight } from "lucide-react";
 
 export const AppDashboardSidebarNav = ({ currentTabIndex, className }) => {
   return (
@@ -11,9 +12,10 @@ export const AppDashboardSidebarNav = ({ currentTabIndex, className }) => {
             <li key={nav.label + index}>
               <Link
                 href={nav.href}
-                className={`rounded-full px-5 py-2 font-semibold hover:bg-gray-300 w-full text-left my-1 block ${isActive ? "bg-gray-200" : ""}`}
+                target={nav.target}
+                className={`flex gap-1 items-center rounded-full px-5 py-2 font-semibold hover:bg-gray-300 w-full text-left my-1 ${isActive ? "bg-gray-200" : ""}`}
               >
-                {nav.label}
+                {nav.label} {nav?.target === "_blank" && <ArrowUpRight />}
               </Link>
             </li>
           );

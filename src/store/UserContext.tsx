@@ -70,7 +70,7 @@ const UserContextProvider = ({ children }: IProps) => {
     }
   }, [accessTokenExists]);
   useEffect(() => {
-    if (!accessTokenExists && !isLoggedIn && !isLoading) {
+    if ((!accessTokenExists && !isLoggedIn && !isLoading) || (!isLoading && data?.error)) {
       setShowAuthModal(true);
     }
   }, [data, isLoading, accessTokenExists]);

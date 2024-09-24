@@ -3,6 +3,7 @@ import Image from "next/image";
 import { CustomButton } from "../../CustomComponents";
 import { MobileNavigation } from "../../homeDashboard/navigation/MobileNavigation";
 import { AppSelect } from "./AppSelect";
+import { Button } from "@/components/ui";
 
 export const AppDashboardNav = ({ appId }) => {
   return (
@@ -13,18 +14,23 @@ export const AppDashboardNav = ({ appId }) => {
         </Link>
         <AppSelect currentAppId={appId} />
       </div>
-      <div className="flex gap-2">
+      <div className="hidden gap-2 md:flex">
         <CustomButton className="bg-white">App</CustomButton>
         <CustomButton className="bg-transparent">Analyze</CustomButton>
       </div>
-      <Image
-        alt=""
-        height="52"
-        referrerPolicy="no-referrer"
-        src="/img/placeholder_avatar.png"
-        width="52"
-        className="h-button w-[52px] rounded-full"
-      />
+      <div className="hidden gap-2 items-center md:flex">
+        <Button variant="green" asChild className="px-10 rounded-full" size="lg">
+          <Link href={"https://docs.blessed.fan/"}>Docs</Link>
+        </Button>
+        <Image
+          alt=""
+          height="52"
+          referrerPolicy="no-referrer"
+          src="/img/placeholder_avatar.png"
+          width="52"
+          className="h-button w-[52px] rounded-full"
+        />
+      </div>
       <MobileNavigation />
     </nav>
   );

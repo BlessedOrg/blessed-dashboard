@@ -19,4 +19,10 @@ export const appDashboardSidebarNavItems = [
     label: "Token management",
     href: "?tab=token-management",
   },
+  {
+    id: 4,
+    label: "Docs",
+    target: "_blank",
+    href: "https://docs.blessed.fan/",
+  },
 ];

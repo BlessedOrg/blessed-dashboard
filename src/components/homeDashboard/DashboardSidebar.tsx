@@ -27,7 +27,7 @@ export const DashboardSidebar = () => {
       <div className="bg-yellow-500 w-full rounded-3xl flex justify-between gap-2 items-center p-6">
         <span className="font-semibold">
           Need more details?{" "}
-          <Link href={"/docs"} className="underline font-normal">
+          <Link href={"https://docs.blessed.fan/"} className="underline font-normal">
             Visit our Docs
           </Link>
         </span>
