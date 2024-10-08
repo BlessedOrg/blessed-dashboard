@@ -2,10 +2,10 @@ import { AppDashboard } from "../../components/appDashboard/AppDashboard";
 import { AppDashboardNav } from "../../components/appDashboard/appDashboardNav/AppDashboardNav";
 import { apiUrl } from "@/variables/variables";
 import { notFound } from "next/navigation";
-import { fetcherWithToken } from "@/requests/requests";
+import { serverFetcherWithToken } from "@/requests/serverFetcher";
 
-async function getAppData(id: string) {
-  const appData = await fetcherWithToken(`${apiUrl}/api/app/${id}`);
+async function getAppData(slug: string) {
+  const appData = await serverFetcherWithToken(`${apiUrl}/applications/${slug}`);
   if (!appData || !!appData?.error) notFound();
   return appData;
 }

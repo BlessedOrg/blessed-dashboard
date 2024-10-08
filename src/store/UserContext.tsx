@@ -4,7 +4,7 @@ import useSWR from "swr";
 import { fetcherWithToken } from "../requests/requests";
 import { apiUrl } from "@/variables/variables";
 import { isArray } from "lodash-es";
-import { getCookie } from "cookies-next";
+import { deleteCookie, getCookie } from "cookies-next";
 import { AuthModal } from "@/components/authModal/AuthModal";
 
 interface IProps {
@@ -25,6 +25,7 @@ interface UserHook {
     mutate: () => Promise<any>;
     isAppsLoading: boolean;
   };
+  onLogout: () => Promise<void>;
 }
 const defaultState = {
   walletAddress: null,
@@ -75,6 +76,18 @@ const UserContextProvider = ({ children }: IProps) => {
     }
   }, [data, isLoading, accessTokenExists]);
 
+
+  const onLogout = async () => {
+    const res = await fetcherWithToken(`${apiUrl}/developers/logout`, {
+      method: "POST",
+    });
+    if (!!res?.message) {
+      setUserData(defaultState);
+      setIsLoggedIn(false);
+      deleteCookie("accessToken");
+      window.location.reload()
+    }
+  }
   if (!isLoggedIn) {
     return (
       <UserContext.Provider
@@ -87,6 +100,7 @@ const UserContextProvider = ({ children }: IProps) => {
             apps: [],
           },
           isLoggedIn,
+          onLogout
         }}
       >
         {children}
@@ -107,6 +121,7 @@ const UserContextProvider = ({ children }: IProps) => {
           mutate: mutateApps,
           isAppsLoading,
         },
+        onLogout
       }}
     >
       {children}

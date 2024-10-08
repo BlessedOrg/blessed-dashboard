@@ -6,6 +6,7 @@ import { CreateAppModal } from "@/components/createAppModal/CreateAppModal";
 import { useEffect } from "react";
 import { setCookie } from "cookies-next";
 import { redirect } from "next/navigation";
+import { AvatarMenu } from "@/components/ui/avatar-menu";
 
 export const Navigation = ({ searchParams }) => {
   useEffect(() => {
@@ -20,14 +21,7 @@ export const Navigation = ({ searchParams }) => {
         <Image src={"/logo.svg"} alt="logo blessed" width={119} height={36} className="h-[36px]" />
       </Link>
       <div className="hidden md:flex gap-5 items-center">
-        <Image
-          alt=""
-          height="52"
-          referrerPolicy="no-referrer"
-          src="/img/placeholder_avatar.png"
-          width="52"
-          className="h-button w-[52px] rounded-full"
-        />
+        <AvatarMenu />
         <CreateAppModal label="Add new app" variant="green" size="xl" />
       </div>
       <MobileNavigation />

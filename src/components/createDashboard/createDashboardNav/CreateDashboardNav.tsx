@@ -4,6 +4,7 @@ import { CustomButton } from "../../CustomComponents";
 import { MobileNavigation } from "../../homeDashboard/navigation/MobileNavigation";
 import { ProjectSelect } from "./ProjectSelect";
 import { Suspense } from "react";
+import { AvatarMenu } from "@/components/ui/avatar-menu";
 
 export const CreateDashboardNav = () => {
   return (
@@ -19,14 +20,7 @@ export const CreateDashboardNav = () => {
         <CustomButton className="bg-transparent">Analyze</CustomButton>
       </div>
       <div className="hidden md:flex gap-5 items-center">
-        <Image
-          alt=""
-          height="52"
-          referrerPolicy="no-referrer"
-          src="/img/placeholder_avatar.png"
-          width="52"
-          className="h-button w-[52px] rounded-full"
-        />
+        <AvatarMenu />
         <CustomButton>Publish</CustomButton>
       </div>
       <Suspense>
