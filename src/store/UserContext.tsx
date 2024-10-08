@@ -2,7 +2,7 @@
 import React, { createContext, ReactNode, useContext, useEffect, useState } from "react";
 import useSWR from "swr";
 import { fetcherWithToken } from "../requests/requests";
-import { apiUrl, landingPageUrl } from "@/variables/variables";
+import { apiUrl } from "@/variables/variables";
 import { isArray } from "lodash-es";
 import { deleteCookie, getCookie } from "cookies-next";
 import { AuthModal } from "@/components/authModal/AuthModal";
@@ -76,7 +76,8 @@ const UserContextProvider = ({ children }: IProps) => {
   }, [accessTokenExists]);
   useEffect(() => {
     if ((!accessTokenExists && !isLoggedIn && !isLoading && !accessTokenInParam) || (!!accessTokenExists && !isLoading && data?.error && !accessTokenInParam)) {
-      window.location.replace(landingPageUrl+"?logout=true")
+      // window.location.replace(landingPageUrl+"?logout=true")
+      console.log("log out and redirect")
     }
   }, [data, isLoading, accessTokenExists]);
 
@@ -89,7 +90,8 @@ const UserContextProvider = ({ children }: IProps) => {
       setUserData(defaultState);
       setIsLoggedIn(false);
       deleteCookie("accessToken");
-      window.location.replace(landingPageUrl+"?logout=true")
+
+     console.log("log out and redirect") // window.location.replace(landingPageUrl+"?logout=true")
     }
   }
   if (!isLoggedIn) {
