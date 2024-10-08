@@ -6,6 +6,8 @@ import { apiUrl, landingPageUrl } from "@/variables/variables";
 import { isArray } from "lodash-es";
 import { deleteCookie, getCookie } from "cookies-next";
 import { AuthModal } from "@/components/authModal/AuthModal";
+import { FixedLoading } from "@/components/ui/fixed-loading";
+import { useSearchParams } from "next/navigation";
 
 interface IProps {
   children: ReactNode;
@@ -46,6 +48,8 @@ const defaultState = {
 const UserContext = createContext<UserHook | undefined>(undefined);
 
 const UserContextProvider = ({ children }: IProps) => {
+  const searchParams = useSearchParams();
+  const accessTokenInParam = searchParams.get("accessToken");
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userData, setUserData] = useState(defaultState);
@@ -71,7 +75,7 @@ const UserContextProvider = ({ children }: IProps) => {
     }
   }, [accessTokenExists]);
   useEffect(() => {
-    if ((!accessTokenExists && !isLoggedIn && !isLoading) || (!!accessTokenExists && !isLoading && data?.error)) {
+    if ((!accessTokenExists && !isLoggedIn && !isLoading && !accessTokenInParam) || (!!accessTokenExists && !isLoading && data?.error && !accessTokenInParam)) {
       window.location.replace(landingPageUrl+"?logout=true")
     }
   }, [data, isLoading, accessTokenExists]);
@@ -97,12 +101,13 @@ const UserContextProvider = ({ children }: IProps) => {
           appsData: {
             isAppsLoading,
             mutate: mutateApps,
-            apps: [],
+            apps: []
           },
           isLoggedIn,
           onLogout
         }}
       >
+        {isLoading && <FixedLoading />}
         {children}
         <AuthModal isOpen={showAuthModal} />
       </UserContext.Provider>
