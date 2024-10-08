@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { setCookie } from "cookies-next";
 import { apiUrl } from "@/variables/variables";
-import { Button, Card, Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger, Input, InputOTP, InputOTPGroup, InputOTPSlot, Label } from "@/components/ui";
+import { Button, Card, Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, Input, InputOTP, InputOTPGroup, InputOTPSlot, Label } from "@/components/ui";
 import { REGEXP_ONLY_DIGITS } from "input-otp";
 
 export const AuthModal = ({ isOpen }: { isOpen: boolean }) => {
@@ -99,15 +99,6 @@ export const AuthModal = ({ isOpen }: { isOpen: boolean }) => {
         }
       }}
     >
-      <DialogTrigger asChild={type === "onboarding"}>
-        {type === "login" ? (
-          "Log in"
-        ) : (
-          <Button variant="green" className="rounded-full" size="lg">
-            Start for free
-          </Button>
-        )}
-      </DialogTrigger>
       <DialogContent
         withClose={false}
         className={`sm:max-w-[350px] ${isLoading && emailSent && type === "onboarding" ? "opacity-0" : "opacity-100"}`}

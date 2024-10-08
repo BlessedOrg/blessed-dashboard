@@ -5,14 +5,13 @@ import { MobileNavigation } from "./MobileNavigation";
 import { CreateAppModal } from "@/components/createAppModal/CreateAppModal";
 import { useEffect } from "react";
 import { setCookie } from "cookies-next";
-import { redirect } from "next/navigation";
 import { AvatarMenu } from "@/components/ui/avatar-menu";
 
 export const Navigation = ({ searchParams }) => {
   useEffect(() => {
     if (!!searchParams?.token) {
       setCookie("accessToken", `${searchParams.token}`);
-      redirect("/");
+      window.location.replace(new URL(window.location.origin))
     }
   }, [searchParams]);
   return (
