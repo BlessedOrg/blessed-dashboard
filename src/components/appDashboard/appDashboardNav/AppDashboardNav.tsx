@@ -4,6 +4,7 @@ import { CustomButton } from "../../CustomComponents";
 import { MobileNavigation } from "../../homeDashboard/navigation/MobileNavigation";
 import { AppSelect } from "./AppSelect";
 import { Button } from "@/components/ui";
+import { AvatarMenu } from "@/components/ui/avatar-menu";
 
 export const AppDashboardNav = ({ appId }) => {
   return (
@@ -22,14 +23,7 @@ export const AppDashboardNav = ({ appId }) => {
         <Button variant="green" asChild className="px-10 rounded-full" size="lg">
           <Link href={"https://docs.blessed.fan/"}>Docs</Link>
         </Button>
-        <Image
-          alt=""
-          height="52"
-          referrerPolicy="no-referrer"
-          src="/img/placeholder_avatar.png"
-          width="52"
-          className="h-button w-[52px] rounded-full"
-        />
+        <AvatarMenu />
       </div>
       <MobileNavigation />
     </nav>

@@ -48,7 +48,7 @@ export const AppsView = () => {
                   </div>
                 </div>
               </div>
-              <Link href={`/${app.id}`}>
+              <Link href={`/${app.slug}`}>
                 <ChevronRight size={32} />
               </Link>
             </Card>
