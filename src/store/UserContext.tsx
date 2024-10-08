@@ -50,12 +50,12 @@ const UserContextProvider = ({ children }: IProps) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userData, setUserData] = useState(defaultState);
   const accessTokenExists = getCookie("accessToken");
-  const { data, mutate, isLoading } = useSWR(`${apiUrl}/api/account/me`, fetcherWithToken);
+  const { data, mutate, isLoading } = useSWR(`${apiUrl}/developers/me`, fetcherWithToken);
   const {
     data: appsData,
     mutate: mutateApps,
     isLoading: isAppsLoading,
-  } = useSWR(isLoggedIn ? `${apiUrl}/api/app` : null, fetcherWithToken);
+  } = useSWR(isLoggedIn ? `${apiUrl}/applications` : null, fetcherWithToken);
 
   useEffect(() => {
     if (!!data && !data?.error && !!data?.id) {
