@@ -75,7 +75,27 @@ const UserContextProvider = ({ children }: IProps) => {
   }, [accessTokenExists]);
   useEffect(() => {
     if (((!accessTokenExists || !!accessTokenExists && !!data?.error) && !isLoggedIn && !isLoading && !accessTokenInParam) ) {
-      window.location.replace(landingPageUrl+"?logout=true")
+      console.log("Redirect to home page")
+      console.table([
+        {
+          firstCondition : {
+            condition: (!accessTokenExists || !!accessTokenExists && !!data?.error),
+            varaibles:{
+              accessTokenExists,
+              data
+            }
+          },
+          secondCondition : {
+            condition: !isLoggedIn && !isLoading && !accessTokenInParam,
+            varaibles:{
+              isLoggedIn,
+              isLoading,
+              accessTokenInParam
+            }
+          }
+        }
+      ])
+      // window.location.replace(landingPageUrl+"?logout=true")
     }
   }, [data, isLoading, accessTokenExists]);
 
