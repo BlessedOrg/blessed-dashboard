@@ -1,7 +1,5 @@
 import type { Config } from "tailwindcss";
 
-const { fontFamily } = require("tailwindcss/defaultTheme");
-
 /** @type {import("tailwindcss").Config} */
 const config: Config = {
   darkMode: ["class"],
@@ -73,7 +71,6 @@ const config: Config = {
       },
       fontFamily: {
         ttBluescreens: ["var(--font-tt-bluescreens)"],
-        sans: ["var(--font-sans)", ...fontFamily.sans],
       },
       keyframes: {
         "accordion-down": {

@@ -1,15 +1,13 @@
 "use client";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { createApplication } from "@/api/createApplication";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useUserContext } from "@/store/UserContext";
+import { Button, Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, Form, Input, Textarea } from "@/components/ui";
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 
 const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters").max(50, "Name must be less than 50 characters"),
@@ -40,7 +38,7 @@ export const CreateAppModal = ({
 
       if (res?.id) {
         mutate();
-        router.push(`/${res.id}`);
+        router.push(`/${res.id}?tab=api-key`);
       }
     } catch (e) {
       console.log(e);
@@ -55,10 +53,9 @@ export const CreateAppModal = ({
           {label}
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="max-w-[330px]">
         <DialogHeader>
-          <DialogTitle>Create App</DialogTitle>
-          <DialogDescription>Quickly create application and get API key to start.</DialogDescription>
+          <DialogTitle className="uppercase text-5xl text-center">Create your App</DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-4">
@@ -67,11 +64,10 @@ export const CreateAppModal = ({
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Name</FormLabel>
+                  <FormLabel>App name</FormLabel>
                   <FormControl>
                     <Input placeholder="Modular summit" {...field} />
                   </FormControl>
-                  <FormDescription>This is your app name.</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -81,15 +77,15 @@ export const CreateAppModal = ({
               name="description"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Description</FormLabel>
+                  <FormLabel>Description <span className="text-gray-500">(optional)</span></FormLabel>
                   <FormControl>
-                    <Input placeholder="Lorem ipsum dolor sit amet" {...field} />
+                    <Textarea placeholder="Welcome to Summer Pulse Festival 2024, a three-day immersive music and arts extravaganza set in beautiful open fields." {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <Button type="submit" className="self-end" isLoading={isLoading}>
+            <Button size="base" type="submit" variant="green" className="self-center" isLoading={isLoading}>
               Create application
             </Button>
           </form>

@@ -6,12 +6,12 @@ import { Square } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { createApiToken } from "@/api/createApiToken";
 import { CopyButton } from "@/components/ui/copy-button";
+import { toast } from "react-toastify";
 
-export const ApiKeyTab = ({ appId }) => {
+export const ApiKeyTab = ({ appId, apiTokens }) => {
   const [generatedApiToken, setGeneratedApiToken] = useState("");
-  const { ApiTokens, mutate } = useUserContext();
-  const existingTokens = (ApiTokens || [])
-    .filter((i) => i.appId === appId)
+  const { mutate } = useUserContext();
+  const existingTokens = (apiTokens || [])
     .sort((a, b) => (new Date(a.createdAt).getTime() > new Date(b.createdAt).getTime() ? -1 : 1));
   const [isGeneratingApiKey, setIsGeneratingApiKey] = useState(false);
 
@@ -19,12 +19,13 @@ export const ApiKeyTab = ({ appId }) => {
     setIsGeneratingApiKey(true);
     try {
       const res = await createApiToken(appId);
-      if (!!res?.apiToken) {
-        setGeneratedApiToken(res.apiToken);
+      if (!!res?.apiKey) {
+        setGeneratedApiToken(res.apiKey);
         mutate();
+        toast("Successfully created new API key!", { type: "success" });
       }
     } catch (e) {
-      console.log(e);
+      toast(`Something went wrong: ${e?.message}`, { type: "error" });
     }
     setIsGeneratingApiKey(false);
   };
@@ -36,7 +37,7 @@ export const ApiKeyTab = ({ appId }) => {
           <h3 className="font-semibold text-xl">Generate a new API key</h3>
           <Card className="!bg-yellow-500">
             <span className="font-semibold">Remember</span> You will only see the token once, so be sure to copy and store it securely when
-            it's displayed.
+            it's displayed. Each new token will mark the previous one as <span className="text-red-500">revoked</span>.
           </Card>
         </div>
         <div className="flex gap-4 items-center">
@@ -52,6 +53,9 @@ export const ApiKeyTab = ({ appId }) => {
             </div>
           )}
         </div>
+        {!!generatedApiToken && <div className="flex flex-col gap-4">
+         <p> You can play around with the token in the <a href={"https://docs.blessed.fan/"} target="_blank" className="font-semibold underline">API Docs</a>.</p>
+        </div>}
       </Card>
 
       <Card className="flex gap-4 flex-col">
@@ -68,6 +72,7 @@ export const ApiKeyTab = ({ appId }) => {
             <TableRow>
               <TableHead>Token ID</TableHead>
               <TableHead>Status</TableHead>
+              <TableHead>Created At</TableHead>
               <TableHead></TableHead>
             </TableRow>
           </TableHeader>
@@ -81,6 +86,7 @@ export const ApiKeyTab = ({ appId }) => {
                       {token?.revoked ? "Revoked" : "Active"}
                     </span>
                   </TableCell>
+                  <TableCell>{new Date(token?.createdAt).toLocaleString()}</TableCell>
                   <TableCell>
                     <button className="flex gap-1 ml-auto">
                       <Square size={8} strokeWidth={"5px"} />

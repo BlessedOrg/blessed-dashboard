@@ -4,8 +4,12 @@ import { AppDashboardSidebarNav } from "./appDashboardSidebarNav/AppDashboardSid
 import { Suspense, useState } from "react";
 import { LoadingDashboardSkeleton } from "../homeDashboard/LoadingDashboardSkeleton";
 import { AppDashboardContent } from "./appDashboardContent/AppDashboardContent";
+import useSWR from "swr";
+import { fetcherWithToken } from "@/requests/requests";
+import { apiUrl } from "@/variables/variables";
 
-export const AppDashboard = ({ appData }) => {
+export const AppDashboard = ({ appId }) => {
+  const {data: appData, isLoading} = useSWR(`${apiUrl}/applications/${appId}`, fetcherWithToken);
   const [currentTabIndex, setCurrentTabIndex] = useState(0);
 
   const onTabChange = (index) => {

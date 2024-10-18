@@ -11,7 +11,7 @@ export const AppSelect = ({ currentAppId }) => {
   } = useUserContext();
 
   return (
-    <Select onValueChange={(value) => router.push(`/${value}`)}>
+    <Select onValueChange={(value) => router.push(`/${value}?tab=api-key`)}>
       <SelectTrigger className="w-[180px]" disabled={isAppsLoading}>
         <SelectValue placeholder={apps.find((i) => i.id === currentAppId)?.name || "Select app"} />
       </SelectTrigger>

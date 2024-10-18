@@ -17,7 +17,7 @@ export const AppDashboardContent = ({ currentTabIndex, onTabChange, appData }) =
   const currentTab = searchParams.get("tab") || "name-and-description";
 
   const contentPerTab = {
-    0: <ApiKeyTab appId={appData?.id} />,
+    0: <ApiKeyTab appId={appData?.id} apiTokens={appData?.ApiTokens}/>,
     1: <NameAndDescriptionTab appData={appData} />,
     2: <Card className="w-full h-fit" />,
     3: <Card className="w-full h-fit" />,

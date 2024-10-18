@@ -21,7 +21,6 @@ interface UserHook {
   isLoggedIn: boolean;
   accountDeployed: boolean;
   vaultKey: string | null;
-  ApiTokens: { id: string; vaultKey: string; createdAt: string; revoked: boolean; appId: string }[];
   appsData: {
     apps: IAppData[];
     mutate: () => Promise<any>;
@@ -75,7 +74,7 @@ const UserContextProvider = ({ children }: IProps) => {
     }
   }, [accessTokenExists]);
   useEffect(() => {
-    if ((!accessTokenExists && !isLoggedIn && !isLoading && !accessTokenInParam)) {
+    if (((!accessTokenExists || !!accessTokenExists && !!data?.error) && !isLoggedIn && !isLoading && !accessTokenInParam) ) {
       window.location.replace(landingPageUrl+"?logout=true")
     }
   }, [data, isLoading, accessTokenExists]);
