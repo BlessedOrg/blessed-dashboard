@@ -95,7 +95,9 @@ const UserContextProvider = ({ children }: IProps) => {
   const updateParamToken = (token) => {
     setCookie("accessToken", token);
     setParamToken(token);
-    window.location.reload();
+    if (!paramToken) {
+      window.location.reload();
+    }
   };
   if (!isLoggedIn) {
     return (
