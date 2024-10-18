@@ -17,7 +17,8 @@ export const AppDashboardNav = ({ appId }) => {
       </div>
       <div className="hidden gap-2 md:flex">
         <CustomButton className="bg-white">App</CustomButton>
-        <CustomButton className="bg-transparent">Analyze</CustomButton>
+        {/*TODO hidden temporary*/}
+        {/*<CustomButton className="bg-transparent">Analyze</CustomButton>*/}
       </div>
       <div className="hidden gap-2 items-center md:flex">
         <Button variant="green" asChild className="px-10 rounded-full" size="lg">

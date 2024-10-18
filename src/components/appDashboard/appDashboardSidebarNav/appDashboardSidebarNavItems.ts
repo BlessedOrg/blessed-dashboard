@@ -9,16 +9,17 @@ export const appDashboardSidebarNavItems = [
     label: "Name and description",
     href: "?tab=name-and-description",
   },
-  {
-    id: 2,
-    label: "Ticket management",
-    href: "?tab=ticket-management",
-  },
-  {
-    id: 3,
-    label: "Token management",
-    href: "?tab=token-management",
-  },
+  //TODO hidden temporary
+  // {
+  //   id: 2,
+  //   label: "Ticket management",
+  //   href: "?tab=ticket-management",
+  // },
+  // {
+  //   id: 3,
+  //   label: "Token management",
+  //   href: "?tab=token-management",
+  // },
   {
     id: 4,
     label: "Docs",

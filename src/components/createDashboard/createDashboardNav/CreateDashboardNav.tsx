@@ -17,7 +17,8 @@ export const CreateDashboardNav = () => {
       </div>
       <div className="flex gap-2">
         <CustomButton className="bg-white">Create</CustomButton>
-        <CustomButton className="bg-transparent">Analyze</CustomButton>
+        {/*TODO hidden temporary*/}
+        {/*<CustomButton className="bg-transparent">Analyze</CustomButton>*/}
       </div>
       <div className="hidden md:flex gap-5 items-center">
         <AvatarMenu />
