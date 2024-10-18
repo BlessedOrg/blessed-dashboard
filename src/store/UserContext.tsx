@@ -27,6 +27,7 @@ interface UserHook {
   };
   onLogout: () => Promise<void>;
   updateParamToken: (value: string) => void;
+  paramToken?: string;
 }
 const defaultState = {
   walletAddress: null,
@@ -95,9 +96,7 @@ const UserContextProvider = ({ children }: IProps) => {
   const updateParamToken = (token) => {
     setCookie("accessToken", token);
     setParamToken(token);
-    if (!paramToken) {
-      window.location.reload();
-    }
+    window.location.reload();
   };
   if (!isLoggedIn) {
     return (
@@ -112,7 +111,8 @@ const UserContextProvider = ({ children }: IProps) => {
           },
           isLoggedIn,
           onLogout,
-          updateParamToken
+          updateParamToken,
+          paramToken
         }}
       >
         {isLoading && <FixedLoading />}
@@ -134,7 +134,8 @@ const UserContextProvider = ({ children }: IProps) => {
           isAppsLoading
         },
         onLogout,
-        updateParamToken
+        updateParamToken,
+        paramToken
       }}
     >
       {children}

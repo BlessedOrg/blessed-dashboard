@@ -4,18 +4,16 @@ import Link from "next/link";
 import { MobileNavigation } from "./MobileNavigation";
 import { CreateAppModal } from "@/components/createAppModal/CreateAppModal";
 import { useEffect } from "react";
-import { setCookie } from "cookies-next";
 import { AvatarMenu } from "@/components/ui/avatar-menu";
 import { useUserContext } from "@/store/UserContext";
 
 export const Navigation = ({ searchParams }) => {
-  const { updateParamToken } = useUserContext();
+  const { updateParamToken, paramToken } = useUserContext();
   useEffect(() => {
-    if (!!searchParams?.token) {
-      setCookie("accessToken", `${searchParams.token}`);
+    if (!!searchParams?.token && !paramToken) {
       updateParamToken(searchParams.token);
     }
-  }, [searchParams]);
+  }, [searchParams, paramToken]);
   return (
     <nav className="flex justify-between w-full py-6 bg-background px-6 sticky top-0 left-0 right-0 z-20">
       <Link href={"/"} className="p-2 pr-4 rounded-full bg-white h-[3.25rem] flex items-center justify-center">
