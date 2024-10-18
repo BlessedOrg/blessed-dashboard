@@ -6,12 +6,15 @@ import { CreateAppModal } from "@/components/createAppModal/CreateAppModal";
 import { useEffect } from "react";
 import { setCookie } from "cookies-next";
 import { AvatarMenu } from "@/components/ui/avatar-menu";
+import { useUserContext } from "@/store/UserContext";
 
 export const Navigation = ({ searchParams }) => {
+  const{updateParamToken} = useUserContext()
   useEffect(() => {
     if (!!searchParams?.token) {
       setCookie("accessToken", `${searchParams.token}`);
-      window.location.replace(new URL(window.location.origin))
+      updateParamToken(searchParams.token)
+      // window.location.replace(new URL(window.location.origin))
     }
   }, [searchParams]);
   return (

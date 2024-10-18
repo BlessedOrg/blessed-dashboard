@@ -27,6 +27,7 @@ interface UserHook {
     isAppsLoading: boolean;
   };
   onLogout: () => Promise<void>;
+  updateParamToken: (value: string) => void;
 }
 const defaultState = {
   walletAddress: null,
@@ -47,6 +48,7 @@ const defaultState = {
 const UserContext = createContext<UserHook | undefined>(undefined);
 
 const UserContextProvider = ({ children }: IProps) => {
+  const [paramToken, setParamToken] = useState("");
   const searchParams = useSearchParams();
   const accessTokenInParam = searchParams.get("accessToken");
   const [showAuthModal, setShowAuthModal] = useState(false);
@@ -112,6 +114,9 @@ const UserContextProvider = ({ children }: IProps) => {
       window.location.replace(landingPageUrl+"?logout=true")
     }
   }
+  const updateParamToken = (token) => {
+   setParamToken(token)
+  }
   if (!isLoggedIn) {
     return (
       <UserContext.Provider
@@ -124,7 +129,8 @@ const UserContextProvider = ({ children }: IProps) => {
             apps: []
           },
           isLoggedIn,
-          onLogout
+          onLogout,
+          updateParamToken
         }}
       >
         {isLoading && <FixedLoading />}
@@ -146,7 +152,8 @@ const UserContextProvider = ({ children }: IProps) => {
           mutate: mutateApps,
           isAppsLoading,
         },
-        onLogout
+        onLogout,
+        updateParamToken
       }}
     >
       {children}
