@@ -1,6 +1,6 @@
 import { Card } from "../../ui/card";
-import { AppsView } from "../views/AppsView";
 import { CreateAppModal } from "@/components/createAppModal/CreateAppModal";
+import { AppsView } from "@/components/homeDashboard/views/AppsView";
 
 export const Dashboard = () => {
   return (
