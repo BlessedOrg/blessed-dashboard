@@ -55,7 +55,7 @@ const UserContextProvider = ({ children }: IProps) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userData, setUserData] = useState(defaultState);
   const accessTokenExists = getCookie("accessToken");
-  const { data, mutate, isLoading } = useSWR(`${apiUrl}/developers/me`, fetcherWithToken);
+  const { data, mutate, isLoading } = useSWR(accessTokenExists ? `${apiUrl}/developers/me`: null, fetcherWithToken);
   const {
     data: appsData,
     mutate: mutateApps,
@@ -76,30 +76,30 @@ const UserContextProvider = ({ children }: IProps) => {
     }
   }, [accessTokenExists]);
   useEffect(() => {
-    if (((!accessTokenExists || !!accessTokenExists && !!data?.error) && !isLoggedIn && !isLoading && !accessTokenInParam) ) {
-      console.log("Redirect to home page")
-      console.table([
-        {
-          firstCondition : {
-            condition: (!accessTokenExists || !!accessTokenExists && !!data?.error),
-            varaibles:{
-              accessTokenExists,
-              data
-            }
-          },
-          secondCondition : {
-            condition: !isLoggedIn && !isLoading && !accessTokenInParam,
-            varaibles:{
-              isLoggedIn,
-              isLoading,
-              accessTokenInParam
-            }
-          }
-        }
-      ])
-      // window.location.replace(landingPageUrl+"?logout=true")
+    if (((!accessTokenExists || !!accessTokenExists && !!data?.error) && !isLoggedIn && !isLoading && !accessTokenInParam && !paramToken) ) {
+      // console.log("Redirect to home page")
+      // console.table([
+      //   {
+      //     firstCondition : {
+      //       condition: (!accessTokenExists || !!accessTokenExists && !!data?.error),
+      //       varaibles:{
+      //         accessTokenExists,
+      //         data
+      //       }
+      //     },
+      //     secondCondition : {
+      //       condition: !isLoggedIn && !isLoading && !accessTokenInParam,
+      //       varaibles:{
+      //         isLoggedIn,
+      //         isLoading,
+      //         accessTokenInParam
+      //       }
+      //     }
+      //   }
+      // ])
+      window.location.replace(landingPageUrl+"?logout=true")
     }
-  }, [data, isLoading, accessTokenExists]);
+  }, [data, isLoading, accessTokenExists, paramToken]);
 
 
   const onLogout = async () => {

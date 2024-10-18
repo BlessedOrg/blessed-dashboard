@@ -14,7 +14,7 @@ export const Navigation = ({ searchParams }) => {
     if (!!searchParams?.token) {
       setCookie("accessToken", `${searchParams.token}`);
       updateParamToken(searchParams.token)
-      // window.location.replace(new URL(window.location.origin))
+      window.location.replace(new URL(window.location.origin))
     }
   }, [searchParams]);
   return (
