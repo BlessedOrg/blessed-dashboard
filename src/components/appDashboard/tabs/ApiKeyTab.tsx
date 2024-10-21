@@ -7,12 +7,12 @@ import { Button } from "@/components/ui/button";
 import { createApiToken } from "@/api/createApiToken";
 import { CopyButton } from "@/components/ui/copy-button";
 import { toast } from "react-toastify";
+import { apiDogsUrl } from "@/variables/variables";
 
 export const ApiKeyTab = ({ appId, apiTokens }) => {
   const [generatedApiToken, setGeneratedApiToken] = useState("");
   const { mutate } = useUserContext();
-  const existingTokens = (apiTokens || [])
-    .sort((a, b) => (new Date(a.createdAt).getTime() > new Date(b.createdAt).getTime() ? -1 : 1));
+  const existingTokens = (apiTokens || []).sort((a, b) => (new Date(a.createdAt).getTime() > new Date(b.createdAt).getTime() ? -1 : 1));
   const [isGeneratingApiKey, setIsGeneratingApiKey] = useState(false);
 
   const onGenerateNewApiKey = async () => {
@@ -53,9 +53,18 @@ export const ApiKeyTab = ({ appId, apiTokens }) => {
             </div>
           )}
         </div>
-        {!!generatedApiToken && <div className="flex flex-col gap-4">
-         <p> You can play around with the token in the <a href={"https://docs.blessed.fan/"} target="_blank" className="font-semibold underline">API Docs</a>.</p>
-        </div>}
+        {!!generatedApiToken && (
+          <div className="flex flex-col gap-4">
+            <p>
+              {" "}
+              You can play around with the token in the{" "}
+              <a href={`${apiDogsUrl}?appSlug=${appId}&apiKey=${generatedApiToken}`} target="_blank" className="font-semibold underline">
+                API Docs
+              </a>
+              .
+            </p>
+          </div>
+        )}
       </Card>
 
       <Card className="flex gap-4 flex-col">
