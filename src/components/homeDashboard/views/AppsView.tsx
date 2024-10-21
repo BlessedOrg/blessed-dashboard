@@ -11,13 +11,13 @@ import Link from "next/link";
 export const AppsView = () => {
   const {
     appsData: { apps, isAppsLoading },
-    isLoading
+    isLoading,
   } = useUserContext();
   return (
     <div className="flex flex-col gap-5 w-full">
       <div className="flex flex-col gap-4">
         <h3 className="font-semibold text-xl">Recent apps</h3>
-        {isAppsLoading || (isLoading && <LoadingDashboardSkeleton />)}
+        {(isAppsLoading || isLoading) && <LoadingDashboardSkeleton />}
         {!apps.length && !isAppsLoading && !isLoading && (
           <Card>
             <p className="font-semibold text-lg text-gray-500 text-center">No apps, create one!</p>
