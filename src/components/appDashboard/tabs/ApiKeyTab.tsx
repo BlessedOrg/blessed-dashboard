@@ -59,7 +59,7 @@ export const ApiKeyTab = ({ appId, apiTokens }) => {
               {" "}
               You can play around with the token in the{" "}
               <a href={`${apiDogsUrl}?appSlug=${appId}&apiKey=${generatedApiToken}`} target="_blank" className="font-semibold underline">
-                API Docs
+                API Interface
               </a>
               .
             </p>
