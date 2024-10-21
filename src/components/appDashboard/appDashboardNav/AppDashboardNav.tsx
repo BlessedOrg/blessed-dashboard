@@ -5,6 +5,7 @@ import { MobileNavigation } from "../../homeDashboard/navigation/MobileNavigatio
 import { AppSelect } from "./AppSelect";
 import { Button } from "@/components/ui";
 import { AvatarMenu } from "@/components/ui/avatar-menu";
+import { docsUrl } from "@/variables/variables";
 
 export const AppDashboardNav = ({ appId }) => {
   return (
@@ -22,7 +23,7 @@ export const AppDashboardNav = ({ appId }) => {
       </div>
       <div className="hidden gap-2 items-center md:flex">
         <Button variant="green" asChild className="px-10 rounded-full" size="lg">
-          <Link href={"https://docs.blessed.fan/"}>Docs</Link>
+          <Link href={docsUrl}>Docs</Link>
         </Button>
         <AvatarMenu />
       </div>
