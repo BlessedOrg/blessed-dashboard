@@ -25,7 +25,8 @@ export const AppsView = () => {
         )}
         {apps.map((app, index) => {
           return (
-            <Card key={app.name + index} className="flex gap-4 justify-between items-center">
+            <Card key={app.name + index} className="flex gap-4 justify-between items-center relative">
+              <Link href={`/${app.slug}`} className="absolute w-full h-full" />
               <div className="flex gap-4 w-full">
                 {!!app.imageUrl ? (
                   <Image
@@ -49,9 +50,7 @@ export const AppsView = () => {
                   </div>
                 </div>
               </div>
-              <Link href={`/${app.slug}`}>
-                <ChevronRight size={32} />
-              </Link>
+              <ChevronRight size={32} />
             </Card>
           );
         })}
