@@ -9,7 +9,7 @@ import { fetcherWithToken } from "@/requests/requests";
 import { apiUrl } from "@/variables/variables";
 
 export const AppDashboard = ({ appId }) => {
-  const {data: appData, isLoading} = useSWR(`${apiUrl}/applications/${appId}`, fetcherWithToken);
+  const { data: appData } = useSWR(`${apiUrl}/applications/${appId}`, fetcherWithToken);
   const [currentTabIndex, setCurrentTabIndex] = useState(0);
 
   const onTabChange = (index) => {

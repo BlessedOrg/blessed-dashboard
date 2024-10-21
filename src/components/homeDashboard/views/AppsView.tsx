@@ -1,3 +1,4 @@
+"use client";
 import { Card } from "../../ui/card";
 import Image from "next/image";
 import { CreateAppModal } from "@/components/createAppModal/CreateAppModal";
@@ -10,7 +11,7 @@ import Link from "next/link";
 export const AppsView = () => {
   const {
     appsData: { apps, isAppsLoading },
-    isLoading,
+    isLoading
   } = useUserContext();
   return (
     <div className="flex flex-col gap-5 w-full">

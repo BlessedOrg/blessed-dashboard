@@ -3,11 +3,9 @@ import React, { createContext, ReactNode, useContext, useEffect, useState } from
 import useSWR from "swr";
 import { fetcherWithToken } from "../requests/requests";
 import { apiUrl, landingPageUrl } from "@/variables/variables";
-import { isArray } from "lodash-es";
 import { deleteCookie, getCookie } from "cookies-next";
-import { AuthModal } from "@/components/authModal/AuthModal";
 import { FixedLoading } from "@/components/ui/fixed-loading";
-import { useSearchParams } from "next/navigation";
+import { isArray } from "lodash-es";
 
 interface IProps {
   children: ReactNode;
@@ -27,7 +25,6 @@ interface UserHook {
     isAppsLoading: boolean;
   };
   onLogout: () => Promise<void>;
-  updateParamToken: (value: string) => void;
 }
 const defaultState = {
   walletAddress: null,
@@ -39,68 +36,54 @@ const defaultState = {
   isLoggedIn: false,
   appsData: {
     apps: [],
-    mutate: async () => {},
+    mutate: async () => {
+      return 0;
+    },
     isAppsLoading: false,
   },
-  mutate: async () => {},
+  mutate: async () => {
+    return 0;
+  },
 } as UserHook;
 
 const UserContext = createContext<UserHook | undefined>(undefined);
 
 const UserContextProvider = ({ children }: IProps) => {
-  const [paramToken, setParamToken] = useState("");
-  const searchParams = useSearchParams();
-  const accessTokenInParam = searchParams.get("accessToken");
-  const [showAuthModal, setShowAuthModal] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userData, setUserData] = useState(defaultState);
   const accessTokenExists = getCookie("accessToken");
-  const { data, mutate, isLoading } = useSWR(accessTokenExists ? `${apiUrl}/developers/me`: null, fetcherWithToken);
+
   const {
-    data: appsData,
+    data: userDataResponse,
+    mutate,
+    isLoading: isUserDataLoading,
+  } = useSWR(accessTokenExists ? `${apiUrl}/developers/me` : null, fetcherWithToken);
+  const {
+    data: appsDataResponse,
     mutate: mutateApps,
     isLoading: isAppsLoading,
   } = useSWR(isLoggedIn ? `${apiUrl}/applications` : null, fetcherWithToken);
 
+  const isLoading = !accessTokenExists ? true : isUserDataLoading;
+
   useEffect(() => {
-    if (!!data && !data?.error && !!data?.id) {
-      setUserData(data);
+    if (!!userDataResponse && !userDataResponse?.error && !!userDataResponse?.id) {
+      setUserData(userDataResponse);
       setIsLoggedIn(true);
     } else {
       setIsLoggedIn(false);
     }
-  }, [data]);
+  }, [userDataResponse]);
   useEffect(() => {
     if (accessTokenExists && !isLoading && !isLoggedIn) {
       mutate();
     }
   }, [accessTokenExists]);
   useEffect(() => {
-    if (((!accessTokenExists || !!accessTokenExists && !!data?.error) && !isLoggedIn && !isLoading && !accessTokenInParam && !paramToken) ) {
-      // console.log("Redirect to home page")
-      // console.table([
-      //   {
-      //     firstCondition : {
-      //       condition: (!accessTokenExists || !!accessTokenExists && !!data?.error),
-      //       varaibles:{
-      //         accessTokenExists,
-      //         data
-      //       }
-      //     },
-      //     secondCondition : {
-      //       condition: !isLoggedIn && !isLoading && !accessTokenInParam,
-      //       varaibles:{
-      //         isLoggedIn,
-      //         isLoading,
-      //         accessTokenInParam
-      //       }
-      //     }
-      //   }
-      // ])
-      window.location.replace(landingPageUrl+"?logout=true")
+    if (!accessTokenExists || (!!accessTokenExists && !isLoading && !!userDataResponse?.error)) {
+      window.location.replace(landingPageUrl + "?logout=true");
     }
-  }, [data, isLoading, accessTokenExists, paramToken]);
-
+  }, [userDataResponse, isLoading, accessTokenExists]);
 
   const onLogout = async () => {
     const res = await fetcherWithToken(`${apiUrl}/developers/logout`, {
@@ -111,52 +94,42 @@ const UserContextProvider = ({ children }: IProps) => {
       setIsLoggedIn(false);
       deleteCookie("accessToken");
 
-      window.location.replace(landingPageUrl+"?logout=true")
+      window.location.replace(landingPageUrl + "?logout=true");
     }
-  }
-  const updateParamToken = (token) => {
-   setParamToken(token)
-  }
-  if (!isLoggedIn) {
-    return (
-      <UserContext.Provider
-        value={{
-          ...defaultState,
-          isLoading,
-          appsData: {
-            isAppsLoading,
-            mutate: mutateApps,
-            apps: []
-          },
-          isLoggedIn,
-          onLogout,
-          updateParamToken
-        }}
-      >
-        {isLoading && <FixedLoading />}
-        {children}
-        <AuthModal isOpen={showAuthModal} />
-      </UserContext.Provider>
-    );
-  }
+  };
 
+  const unloggedValues = {
+    ...defaultState,
+    isLoading,
+    appsData: {
+      isAppsLoading,
+      mutate: mutateApps,
+      apps: [],
+    },
+    isLoggedIn,
+    onLogout,
+  };
   return (
     <UserContext.Provider
-      value={{
-        ...userData,
-        mutate,
-        isLoading,
-        isLoggedIn,
-        appsData: {
-          apps: isArray(appsData) ? appsData : [],
-          mutate: mutateApps,
-          isAppsLoading,
-        },
-        onLogout,
-        updateParamToken
-      }}
+      value={
+        !isLoggedIn
+          ? unloggedValues
+          : {
+              ...userData,
+              mutate,
+              isLoading,
+              isLoggedIn,
+              appsData: {
+                apps: isArray(appsDataResponse) ? appsDataResponse : [],
+                mutate: mutateApps,
+                isAppsLoading,
+              },
+              onLogout,
+            }
+      }
     >
-      {children}
+      {isLoading && <FixedLoading />}
+      {!isLoading && isLoggedIn && children}
     </UserContext.Provider>
   );
 };

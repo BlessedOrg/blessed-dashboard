@@ -10,14 +10,7 @@ export const RootProvider = ({ children }) => {
       <Suspense fallback={<FixedLoading />}>
         <UserContextProvider>{children}</UserContextProvider>
       </Suspense>
-      <ToastContainer
-        position="bottom-center"
-        autoClose={3000}
-        hideProgressBar={false}
-        theme={"dark"}
-        newestOnTop={false}
-        closeOnClick
-      />
+      <ToastContainer position="bottom-center" autoClose={3000} hideProgressBar={false} theme={"dark"} newestOnTop={false} closeOnClick />
     </>
   );
 };

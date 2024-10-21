@@ -10,14 +10,14 @@ const paramsIndexPerId = {
   dashboard: 0,
   apps: 1,
   analytics: 2,
-  templates: 3,
+  templates: 3
 };
 
 const contentPerTab = {
   0: <Dashboard />,
   1: <AppsView />,
   2: <Analyticts />,
-  3: <Templates />,
+  3: <Templates />
 };
 
 export const DashboardContent = ({ currentTabIndex, onTabChange }) => {

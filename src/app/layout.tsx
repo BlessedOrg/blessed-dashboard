@@ -18,7 +18,7 @@ const ttBluescreens = localFont({
   variable: "--font-tt-bluescreens",
   display: "swap",
 });
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${ttBluescreens.variable}`}>
       <body className={inter.className}>

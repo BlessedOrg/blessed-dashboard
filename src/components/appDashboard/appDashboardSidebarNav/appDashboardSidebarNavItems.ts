@@ -1,3 +1,5 @@
+import { docsUrl } from "@/variables/variables";
+
 export const appDashboardSidebarNavItems = [
   {
     id: 0,
@@ -24,6 +26,6 @@ export const appDashboardSidebarNavItems = [
     id: 4,
     label: "Docs",
     target: "_blank",
-    href: "https://docs.blessed.fan/",
+    href: docsUrl,
   },
 ];
