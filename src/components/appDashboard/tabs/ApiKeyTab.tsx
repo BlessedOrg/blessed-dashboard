@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { createApiToken } from "@/api/createApiToken";
 import { CopyButton } from "@/components/ui/copy-button";
 import { toast } from "react-toastify";
-import { apiDogsUrl } from "@/variables/variables";
+import { apiDogsDocsUrl } from "@/variables/variables";
 
 export const ApiKeyTab = ({ appId, apiTokens }) => {
   const [generatedApiToken, setGeneratedApiToken] = useState("");
@@ -56,9 +56,8 @@ export const ApiKeyTab = ({ appId, apiTokens }) => {
         {!!generatedApiToken && (
           <div className="flex flex-col gap-4">
             <p>
-              {" "}
               You can play around with the token in the{" "}
-              <a href={`${apiDogsUrl}?appSlug=${appId}&apiKey=${generatedApiToken}`} target="_blank" className="font-semibold underline">
+              <a href={`${apiDogsDocsUrl}?environment[apiKey]=${generatedApiToken}&environment[app]=${appId}`} target="_blank" className="font-semibold underline">
                 API Interface
               </a>
               .
