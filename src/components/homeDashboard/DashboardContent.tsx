@@ -1,23 +1,17 @@
 "use client";
-import { Analyticts } from "./tabs/Analyticts";
 import { Dashboard } from "./tabs/Dashboard";
-import { Templates } from "./tabs/Templates";
 import { AppsView } from "./views/AppsView";
 import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 
 const paramsIndexPerId = {
   dashboard: 0,
-  apps: 1,
-  analytics: 2,
-  templates: 3
+  apps: 1
 };
 
 const contentPerTab = {
   0: <Dashboard />,
-  1: <AppsView />,
-  2: <Analyticts />,
-  3: <Templates />
+  1: <AppsView />
 };
 
 export const DashboardContent = ({ currentTabIndex, onTabChange }) => {

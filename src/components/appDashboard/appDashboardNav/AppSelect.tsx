@@ -7,18 +7,18 @@ import { useUserContext } from "@/store/UserContext";
 export const AppSelect = ({ currentAppId }) => {
   const router = useRouter();
   const {
-    appsData: { apps, isAppsLoading },
+    appsData: { apps, isAppsLoading }
   } = useUserContext();
 
   return (
     <Select onValueChange={(value) => router.push(`/${value}?tab=api-key`)}>
-      <SelectTrigger className="w-[180px]" disabled={isAppsLoading}>
-        <SelectValue placeholder={apps.find((i) => i.id === currentAppId)?.name || "Select app"} />
+      <SelectTrigger className="w-[150px]" disabled={isAppsLoading}>
+        <SelectValue placeholder={apps.find((i) => i.slug === currentAppId)?.name || "Select app"} />
       </SelectTrigger>
       <SelectContent>
         {apps.map((app) => {
           return (
-            <SelectItem value={app.id} key={app.id}>
+            <SelectItem value={app.slug} key={app.id}>
               {app.name}
             </SelectItem>
           );

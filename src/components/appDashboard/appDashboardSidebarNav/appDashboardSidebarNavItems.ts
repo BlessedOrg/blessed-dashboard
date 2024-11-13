@@ -4,28 +4,23 @@ export const appDashboardSidebarNavItems = [
   {
     id: 0,
     label: "API key",
-    href: "?tab=api-key",
+    href: "?tab=api-key"
   },
   {
     id: 1,
     label: "Name and description",
-    href: "?tab=name-and-description",
+    href: "?tab=name-and-description"
   },
-  //TODO hidden temporary
-  // {
-  //   id: 2,
-  //   label: "Ticket management",
-  //   href: "?tab=ticket-management",
-  // },
-  // {
-  //   id: 3,
-  //   label: "Token management",
-  //   href: "?tab=token-management",
-  // },
+  {
+    id: 2,
+    label: "Campaigns & Audience",
+    href: "?tab=campaigns-and-audience"
+  },
   {
     id: 4,
     label: "Docs",
     target: "_blank",
-    href: docsUrl,
-  },
+    href: docsUrl
+  }
+
 ];

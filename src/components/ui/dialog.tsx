@@ -32,10 +32,11 @@ DialogOverlay.displayName = DialogPrimitive.Overlay.displayName;
 const DialogContent = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content> & {
-    withClose?: boolean;
-    overlayProps?: React.ComponentPropsWithoutRef<typeof DialogPrimitive.Overlay>;
-  }
->(({ className, children, withClose = true, overlayProps, ...props }, ref) => (
+  withClose?: boolean;
+  overlayProps?: React.ComponentPropsWithoutRef<typeof DialogPrimitive.Overlay>;
+  customCloseHandler?: () => void
+}
+>(({ className, children, withClose = true, customCloseHandler, overlayProps, ...props }, ref) => (
   <DialogPortal>
     <DialogOverlay {...overlayProps} />
     <DialogPrimitive.Content
@@ -48,7 +49,7 @@ const DialogContent = React.forwardRef<
     >
       {children}
       {withClose && (
-        <DialogPrimitive.Close className="absolute right-0 -top-[4rem] flex items-center justify-center bg-white rounded-full h-[3rem] w-[3rem]">
+        <DialogPrimitive.Close className="absolute right-0 -top-[4rem] flex items-center justify-center bg-white rounded-full h-[3rem] w-[3rem]" {...(!!customCloseHandler ? { onClick: customCloseHandler } : {})}>
           <X className="h-[1.5rem] w-[1.5rem]" />
           <span className="sr-only">Close</span>
         </DialogPrimitive.Close>
@@ -94,5 +95,5 @@ export {
   DialogHeader,
   DialogFooter,
   DialogTitle,
-  DialogDescription,
+  DialogDescription
 };

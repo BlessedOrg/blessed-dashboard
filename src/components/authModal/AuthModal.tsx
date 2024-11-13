@@ -3,7 +3,21 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { setCookie } from "cookies-next";
 import { apiUrl } from "@/variables/variables";
-import { Button, Card, Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, Input, InputOTP, InputOTPGroup, InputOTPSlot, Label } from "@/components/ui";
+import {
+  Button,
+  Card,
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  Input,
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSlot,
+  Label,
+} from "@/components/ui";
 import { REGEXP_ONLY_DIGITS } from "input-otp";
 
 export const AuthModal = ({ isOpen }: { isOpen: boolean }) => {
@@ -17,7 +31,7 @@ export const AuthModal = ({ isOpen }: { isOpen: boolean }) => {
   const onEmailSubmit = async () => {
     setIsLoading(true);
     try {
-      const res = await fetch(`${apiUrl}/developers/login`, {
+      const res = await fetch(`${apiUrl}/private/developers/login`, {
         method: "POST",
         body: JSON.stringify({ email }),
       });
@@ -37,13 +51,13 @@ export const AuthModal = ({ isOpen }: { isOpen: boolean }) => {
   const onCodeSubmit = async () => {
     setIsLoading(true);
     try {
-      const res = await fetch(`${apiUrl}/developers/verify`, {
+      const res = await fetch(`${apiUrl}/private/developers/verify`, {
         method: "POST",
         body: JSON.stringify({ code }),
       });
       const data = await res.json();
 
-      if (res.status !== 200 || (!data?.accessToken)) {
+      if (res.status !== 200 || !data?.accessToken) {
         toast(`Something went wrong: ${data?.message || res.statusText}`, { type: "error" });
       } else {
         setCookie("accessToken", data.accessToken, {

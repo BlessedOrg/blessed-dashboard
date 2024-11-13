@@ -7,9 +7,9 @@ interface IProps {
   imageUrl?: string;
 }
 export async function createApplication({ name, description, imageUrl }: IProps) {
-  const response = await fetcherWithToken(`${apiUrl}/apps`, {
+  const response = await fetcherWithToken(`${apiUrl}/private/apps`, {
     method: "POST",
-    body: JSON.stringify({ name, description, imageUrl })
+    body: JSON.stringify({ name, description, imageUrl }),
   });
   return response;
 }
