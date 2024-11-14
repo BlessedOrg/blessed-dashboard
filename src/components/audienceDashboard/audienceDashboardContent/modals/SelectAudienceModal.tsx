@@ -7,7 +7,7 @@ import { apiUrl } from "@/variables/variables";
 import { fetcherWithToken } from "@/requests/requests";
 import { isArray } from "lodash-es";
 import { LoadingDashboardSkeleton } from "@/components/homeDashboard/LoadingDashboardSkeleton";
-import { updateCampaign } from "@/api/campaigns";
+import { updateCampaignAudiences } from "@/api/campaigns";
 import { toast } from "react-toastify";
 
 export const SelectAudienceModal = ({
@@ -51,7 +51,7 @@ export const SelectAudienceModal = ({
   };
   const onSubmit = async () => {
     try {
-      const res = await updateCampaign({
+      const res = await updateCampaignAudiences({
         appId,
         id: campaignId,
         audiences: selectedAudience.filter((i) => !defaultValues.includes(i)),
