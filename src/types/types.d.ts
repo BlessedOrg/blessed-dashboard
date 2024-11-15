@@ -51,6 +51,7 @@ declare global {
     name: string;
     slug: string;
     appId: string;
+    description: string;
     logoUrl: string;
     Tickets: ITicket[];
     createdAt: Date;
@@ -93,5 +94,6 @@ declare global {
     developerId: string;
     createdAt: string;
     updatedAt: string;
+    ApiTokens: any[];
   }
 }

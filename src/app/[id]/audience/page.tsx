@@ -1,10 +1,10 @@
-import { CampaignsDashboardNav } from "@/components/campaignsDashboard/campaignsDashboardNav/CampaignsDashboardNav";
-import { AudienceDashboard } from "@/components/audienceDashboard/AudienceDashboard";
+import { AudienceDashboard } from "@/components/dashboards/audienceDashboard/AudienceDashboard";
+import { Navigation } from "@/components/navigation/Navigation";
 
 export default async function AudiencePage({ params }: { params: { id: string } }) {
   return (
     <div className="flex w-full flex-col bg-background">
-      <CampaignsDashboardNav type="audience" appId={params.id} />
+      <Navigation appId={params.id} />
       <AudienceDashboard appId={params.id} />
     </div>
   );

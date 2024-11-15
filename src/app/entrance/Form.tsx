@@ -3,10 +3,10 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { toast } from "react-toastify";
 import Image from "next/image";
-import { generateQrCode } from "../../utils/generateQrCode";
-import { CustomButton } from "../../components/CustomComponents";
-import { fetcherWithToken } from "../../requests/requests";
 import { apiUrl } from "@/variables/variables";
+import { Button } from "@/components/ui";
+import { fetcherWithToken } from "@/requests/requests";
+import { generateQrCode } from "@/utils/generateQrCode";
 
 export const EntranceForm = () => {
   const [enteredToEvent, setEnteredToEvent] = useState(false);
@@ -79,7 +79,7 @@ export const EntranceForm = () => {
         <div className="flex flex-col gap-2">
           <p>Enter email to join the event</p>
           <input onChange={onEmailChange} value={enteredEmail} type={"email"} placeholder={"Enter email"} />
-          <CustomButton onClick={onSubmit}>Submit</CustomButton>
+          <Button onClick={onSubmit}>Submit</Button>
         </div>
       )}
       {!contractAddress && qrCode && <Image src={qrCode} alt={"qr"} width={200} height={200} />}

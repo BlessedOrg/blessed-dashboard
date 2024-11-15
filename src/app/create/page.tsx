@@ -1,11 +1,11 @@
-import { CreateDashboard } from "../../components/createDashboard/CreateDashboard";
-import { CreateDashboardNav } from "../../components/createDashboard/createDashboardNav/CreateDashboardNav";
 import { Suspense } from "react";
+import { CreateDashboard } from "@/components/dashboards/createDashboard/CreateDashboard";
+import { Navigation } from "@/components/navigation/Navigation";
 
 export default function CreatePage() {
   return (
     <div className="flex w-full flex-col">
-      <CreateDashboardNav />
+      <Navigation />
       <Suspense>
         <CreateDashboard />
       </Suspense>

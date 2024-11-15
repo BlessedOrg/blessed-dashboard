@@ -262,7 +262,7 @@ export function EventSelectTable({
 
       <div className="pt-4 flex justify-end">
         <DialogClose asChild>
-          <Button variant="green" size="lg" onClick={() => onSaveEvents(selectedEvents)}>
+          <Button variant="green" onClick={() => onSaveEvents(selectedEvents)}>
             Save
           </Button>
         </DialogClose>
