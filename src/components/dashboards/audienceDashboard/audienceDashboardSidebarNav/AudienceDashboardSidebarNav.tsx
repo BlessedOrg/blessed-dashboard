@@ -7,7 +7,7 @@ export const AudienceDashboardSidebarNav = ({
   audiences,
   onTabChange,
   appId,
-  mutateAudience,
+  mutateAudience
 }: {
   currentTabId: string;
   className?: string;
@@ -16,7 +16,7 @@ export const AudienceDashboardSidebarNav = ({
   appId: string;
   mutateAudience: any;
 }) => {
-  const sortedAudiences = audiences.sort((a, b) => (b.AudienceUser?.length || 0) - (a.AudienceUser?.length || 0));
+  const sortedAudiences = audiences.sort((a, b) => (b.AudienceUsers?.length || 0) - (a.AudienceUsers?.length || 0));
   return (
     <div className={`flex flex-col gap-4 lg:sticky lg:top-[6.25rem] lg:h-[calc(100vh-6.25rem)] lg:min-w-[20.5rem] ${className || ""}`}>
       <CreateAudienceModal appId={appId} onSuccess={mutateAudience} />
@@ -36,8 +36,8 @@ export const AudienceDashboardSidebarNav = ({
                       <p className="text-sm">Created at {new Date(audience.createdAt).toLocaleDateString()}</p>
                     </div>
                     <div className="flex flex-col">
-                      <p>{audience?.AudienceUser?.length || 0} users</p>
-                      {!audience?.AudienceUser?.length && <Badge className="bg-red-300 text-center flex justify-center">Draft</Badge>}
+                      <p>{audience?.AudienceUsers?.length || 0} users</p>
+                      {!audience?.AudienceUsers?.length && <Badge className="bg-red-300 text-center flex justify-center">Draft</Badge>}
                     </div>
                   </button>
                 </li>

@@ -14,7 +14,7 @@ export const AudienceDashboardContent = ({
   appId,
   isLoading,
   mutateAudience,
-  currentAudience,
+  currentAudience
 }: {
   currentAudience: IAudience;
   appId: string;
@@ -23,7 +23,7 @@ export const AudienceDashboardContent = ({
 }) => {
   const [isSaving, setIsSaving] = useState(false);
   const [eligibleUsers, setEligibleUsers] = useState<{ userIds: string[]; externalAddresses: string[] }>(null);
-  const users = currentAudience?.AudienceUser || [];
+  const users = currentAudience?.AudienceUsers || [];
 
   const onAudienceNameChange = async (name: string) => {
     try {
@@ -46,7 +46,7 @@ export const AudienceDashboardContent = ({
     try {
       const response = await fetcherWithToken(`${apiUrl}/private/apps/${appId}/audiences/${currentAudience.id}/assign`, {
         method: "POST",
-        body: JSON.stringify(eligibleUsers),
+        body: JSON.stringify(eligibleUsers)
       });
       if (response?.message) {
         await mutateAudience();
@@ -58,8 +58,9 @@ export const AudienceDashboardContent = ({
     setIsSaving(false);
   };
 
-  const isDraft = !currentAudience?.AudienceUser?.length;
+  const isDraft = !currentAudience?.AudienceUsers?.length;
   const onAudienceDelete = async (id: string) => {};
+
   return (
     <div className="w-full">
       {!isLoading ? (
@@ -90,7 +91,7 @@ export const AudienceDashboardContent = ({
           {!isDraft && (
             <Card className="flex gap-2 items-center justify-between font-semibold">
               <p>Total audience</p>
-              <p>{currentAudience?.AudienceUser?.length || 0} users</p>
+              <p>{currentAudience?.AudienceUsers?.length || 0} users</p>
             </Card>
           )}
           {isDraft && <CreateAudiencesView isLoading={isLoading} handleEligibleUsersChange={handleEligibleUsersChange} />}

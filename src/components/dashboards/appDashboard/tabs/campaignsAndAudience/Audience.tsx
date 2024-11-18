@@ -27,7 +27,7 @@ export const Audience = ({ appId }: { appId: string }) => {
               <div className="flex flex-col gap-1">
                 <div>
                   <h3 className="font-semibold text-lg">{audience.name}</h3>
-                  <p className="text-sm font-semibold text-gray-500">{audience?.AudienceUser?.length || 0} users</p>
+                  <p className="text-sm font-semibold text-gray-500">{audience?.AudienceUsers?.length || 0} users</p>
                 </div>
               </div>
             </Card>

@@ -1,11 +1,11 @@
 "use client";
 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { fetcherWithToken } from "@/requests/requests";
+import { apiUrl } from "@/variables/variables";
+import { isArray } from "lodash-es";
 import { useRouter } from "next/navigation";
 import useSWR from "swr";
-import { apiUrl } from "@/variables/variables";
-import { fetcherWithToken } from "@/requests/requests";
-import { isArray } from "lodash-es";
 
 export const EventSelect = ({ currentEventSlug, appId }) => {
   const router = useRouter();
@@ -14,7 +14,7 @@ export const EventSelect = ({ currentEventSlug, appId }) => {
 
   return (
     <Select onValueChange={(value) => router.push(`/${appId}/${value}`)}>
-      <SelectTrigger className="w-fit max-w-[8rem] text-left" disabled={isLoading}>
+      <SelectTrigger className="w-fit max-w-[10rem] text-left" disabled={isLoading}>
         <SelectValue placeholder={isLoading ? "Loading.." : events.find((i) => i.slug === currentEventSlug)?.name || "Select event"} />
       </SelectTrigger>
       <SelectContent>

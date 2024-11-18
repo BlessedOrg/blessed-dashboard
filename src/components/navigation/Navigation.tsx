@@ -5,7 +5,7 @@ import { AppSelect } from "@/components/navigation/AppSelect";
 import { Button } from "@/components/ui";
 import { AvatarMenu } from "@/components/ui/avatar-menu";
 import { MobileNavigation } from "@/components/navigation/MobileNavigation";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { CreateAppModal } from "@/components/modals/CreateAppModal";
 import { CreateEventModal } from "@/components/modals/CreateEventModal";
 import { EventSelect } from "@/components/navigation/EventSelect";
@@ -67,6 +67,7 @@ const RightSideMenu = ({ showRightSideCta, rightSideCta }: Pick<PathSettings, "s
 
 export const Navigation = ({ appId, eventId }: NavigationProps) => {
   const pathname = usePathname();
+  const router = useRouter();
 
   const navigationConfig = {
     middleNavigationItems: {
@@ -124,7 +125,10 @@ export const Navigation = ({ appId, eventId }: NavigationProps) => {
       <div className="flex gap-2">
         <Logo showFullLogo={settings.showFullLogo} />
         {settings.showArrowBack && (
-          <Button className="bg-white w-[3.25rem] h-[3.25rem] rounded-full flex items-center justify-center p-0">
+          <Button
+            className="bg-white w-[3.25rem] h-[3.25rem] rounded-full flex items-center justify-center p-0"
+            onClick={() => router.back()}
+          >
             <ChevronLeft color="#000" />
           </Button>
         )}

@@ -2,13 +2,7 @@
 import { LoadingDashboardSkeleton } from "@/components/common/LoadingDashboardSkeleton";
 import { Button, Card } from "@/components/ui";
 import { Trash } from "lucide-react";
-import {
-  deleteCampaign,
-  distributeCampaign,
-  updateCampaignAudiences,
-  updateCampaignName,
-  updateCampaignTickets,
-} from "@/app/api/campaigns";
+import { deleteCampaign, distributeCampaign, updateCampaignAudiences, updateCampaignName, updateCampaignTickets } from "@/app/api/campaigns";
 import { toast } from "react-toastify";
 import { SelectAudienceModal } from "@/components/dashboards/campaignsDashboard/campaignsDashboardContent/modals/SelectAudienceModal";
 import { countAllAudienceUsers, countAllUniqueAudienceUsers } from "@/utils/countAllCampaignUsers";
@@ -23,7 +17,7 @@ export const CampaignsDashboardContent = ({
   currentCampaign,
   appId,
   isLoading,
-  mutateCampaigns,
+  mutateCampaigns
 }: {
   currentCampaign: ICampaign;
   appId: string;
@@ -52,7 +46,7 @@ export const CampaignsDashboardContent = ({
         appId,
         id: currentCampaign.id,
         tickets: toAdd.map((i) => i.ticketId),
-        ticketsToRemove: toRemove.map((i) => i.id),
+        ticketsToRemove: toRemove.map((i) => i.id)
       });
       if (res?.id) {
         await mutateCampaigns();
@@ -111,7 +105,7 @@ export const CampaignsDashboardContent = ({
   const allAudienceUsers = countAllAudienceUsers(currentCampaign);
   const allUniqueAudienceUsers = countAllUniqueAudienceUsers(currentCampaign);
 
-  const campaignDistribution = currentCampaign?.CampaignDistribution;
+  const campaignDistribution = currentCampaign?.CampaignDistributions;
   return (
     <div className="w-full pb-10">
       {!isLoading ? (
@@ -147,7 +141,7 @@ export const CampaignsDashboardContent = ({
               <p className="font-semibold text-lg text-gray-500 text-center py-5">No audiences, add one!</p>
             )}
             {(currentCampaign?.Audiences || [])
-              .filter((audience) => !!audience.AudienceUser.length)
+              .filter((audience) => !!audience.AudienceUsers.length)
               .map((audience) => {
                 return (
                   <div className="flex flex-col gap-2" key={audience.id}>
@@ -155,7 +149,7 @@ export const CampaignsDashboardContent = ({
                       <div className="w-full py-2 flex items-center gap-2 justify-between">
                         <div>
                           <p className="font-semibold">{audience.name}</p>
-                          <p>{audience.AudienceUser.length} users</p>
+                          <p>{audience.AudienceUsers.length} users</p>
                         </div>
                         <div className="flex gap-4">
                           <AudiencesPreviewModal audience={audience} />

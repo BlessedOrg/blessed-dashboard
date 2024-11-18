@@ -4,7 +4,7 @@ import React from "react";
 import { isArray } from "lodash-es";
 
 export const AudiencesPreviewModal = ({ audience }: { audience: IAudience | IAudienceUser[] }) => {
-  const users = isArray(audience) ? audience : audience?.AudienceUser || [];
+  const users = isArray(audience) ? audience : audience?.AudienceUsers || [];
   return (
     <Dialog>
       <DialogTrigger asChild>

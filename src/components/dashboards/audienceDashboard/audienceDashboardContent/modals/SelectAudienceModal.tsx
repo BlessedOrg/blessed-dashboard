@@ -15,7 +15,7 @@ export const SelectAudienceModal = ({
   defaultValues,
   customTriggerButton,
   campaignId,
-  mutateCampaigns,
+  mutateCampaigns
 }: {
   appId: string;
   customTriggerButton?: React.ReactNode;
@@ -55,7 +55,7 @@ export const SelectAudienceModal = ({
         appId,
         id: campaignId,
         audiences: selectedAudience.filter((i) => !defaultValues.includes(i)),
-        audiencesToRemove,
+        audiencesToRemove
       });
       if (res?.id) {
         await mutateCampaigns();
@@ -104,7 +104,7 @@ export const SelectAudienceModal = ({
               >
                 <div className="flex flex-col gap-1">
                   <p className="font-semibold">{audience.name}</p>
-                  <p className="font-medium">{audience.AudienceUser.length} users</p>
+                  <p className="font-medium">{audience.AudienceUsers.length} users</p>
                   <p className="text-sm">Created at {new Date(audience.createdAt).toLocaleDateString()}</p>
                 </div>
                 <Checkbox checked={selectedAudience.some((i) => i === audience.id)} />

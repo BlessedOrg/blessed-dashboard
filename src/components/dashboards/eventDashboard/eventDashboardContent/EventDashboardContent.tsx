@@ -1,9 +1,9 @@
 "use client";
+import { LoadingDashboardSkeleton } from "@/components/common/LoadingDashboardSkeleton";
+import { NameAndDescriptionTab } from "@/components/dashboards/eventDashboard/tabs/NameAndDescriptionTab";
+import { TicketsTab } from "@/components/dashboards/eventDashboard/tabs/TicketsTab";
 import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
-import { LoadingDashboardSkeleton } from "@/components/common/LoadingDashboardSkeleton";
-import { Card } from "@/components/ui";
-import { NameAndDescriptionTab } from "@/components/dashboards/eventDashboard/tabs/NameAndDescriptionTab";
 
 type TabId = keyof typeof TAB_PARAMS_MAP;
 
@@ -35,7 +35,7 @@ export const EventDashboardContent = ({ currentTabIndex, onTabChange, eventData,
         eventId={eventId}
       />
     ),
-    1: <Card className="w-full h-fit" />,
+    1: <TicketsTab appId={appId} eventId={eventId} />,
   };
 
   useEffect(() => {
