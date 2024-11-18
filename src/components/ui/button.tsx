@@ -6,7 +6,7 @@ import { Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+  "inline-flex items-center justify-center whitespace-nowrap rounded-full text-sm font-semibold ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 w-fit",
   {
     variants: {
       variant: {
@@ -17,13 +17,14 @@ const buttonVariants = cva(
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
         green: "bg-green-500 hover:bg-gray-300 font-semibold rounded-full",
+        yellow: "bg-gradient-to-r from-white to-yellow-500 font-semibold rounded-full",
       },
       size: {
-        default: "h-10 px-4 py-2",
+        default: "h-[3.25rem] py-3 px-7 text-md",
         sm: "h-9 px-3",
-        lg: "h-11 px-8",
+        lg: "h-11 px-4",
         base: "h-[3.25rem] px-10 text-md",
-        xl: "h-14 px-8 text-md",
+        xl: "h-14 px-5 text-md",
         icon: "h-10 w-10",
       },
     },
@@ -34,9 +35,7 @@ const buttonVariants = cva(
   }
 );
 
-export interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {
+export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement>, VariantProps<typeof buttonVariants> {
   asChild?: boolean;
   isLoading?: boolean;
 }
@@ -49,6 +48,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         className={cn(buttonVariants({ variant, size, className }))}
         ref={ref}
         disabled={isLoading || props.disabled}
+        type={"button"}
         {...props}
       >
         {isLoading ? (

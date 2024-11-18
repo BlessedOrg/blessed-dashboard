@@ -5,7 +5,7 @@
 @font-face {
   font-family: "TT Bluescreens";
   font-style: normal;
-  font-weight: normal;
+  font-weight: 700;
   src: url("/fonts/TT_Bluescreens_Bold.woff") format("woff");
 }
 
@@ -59,4 +59,18 @@
   * > h1, h2 {
     font-family: "TT Bluescreens";
   }
+}
+
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+#arrow-top-arc, #arrow-top-head {
+  transform-origin: center;
+  animation: rotate 2s linear infinite;
+}
+#arrow-bottom-arc, #arrow-bottom-head {
+  transform-origin: center;
+  animation: rotate 2s linear infinite;
 }

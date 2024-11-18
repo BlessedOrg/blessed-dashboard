@@ -1,6 +1,6 @@
 import { Suspense } from "react";
-import { HomeDashboard } from "@/components/homeDashboard/HomeDashboard";
-import { Navigation } from "@/components/homeDashboard/navigation/Navigation";
+import { HomeDashboard } from "@/components/dashboards/homeDashboard/HomeDashboard";
+import { Navigation } from "@/components/navigation/Navigation";
 
 export default function HomePage() {
   return (

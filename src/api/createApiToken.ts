@@ -1,7 +1,0 @@
-import { fetcherWithToken } from "@/requests/requests";
-import { apiUrl } from "@/variables/variables";
-
-export async function createApiToken(appSlug: string) {
-  const response = await fetcherWithToken(`${apiUrl}/apps/${appSlug}/api-key`);
-  return response;
-}
