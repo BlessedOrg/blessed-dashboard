@@ -28,7 +28,8 @@ export const CreateEventModal = ({
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema)
+    resolver: zodResolver(formSchema),
+    defaultValues: { name: "" }
   });
 
   async function onSubmit(values) {

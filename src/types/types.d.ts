@@ -12,7 +12,7 @@ declare global {
     slug: string;
     Audiences: IAudience[];
     Tickets?: ITicket[];
-    CampaignDistributions: ICampaignDistribution;
+    CampaignDistribution: ICampaignDistribution;
     appId: string;
     createdAt: Date;
     updatedAt: Date | null;

@@ -8,21 +8,21 @@ import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/comp
 import { createCampaign } from "@/app/api/campaigns";
 
 const formSchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters").max(50, "Name must be less than 50 characters"),
+  name: z.string().min(2, "Name must be at least 2 characters").max(50, "Name must be less than 50 characters")
 });
 export const CreateCampaignModal = ({
   appId,
   onSuccess,
-  mode = "yellow",
+  mode = "yellow"
 }: {
   appId: string;
-  onSuccess: () => void;
+  onSuccess: (slug?: string) => void;
   mode?: "yellow" | "green";
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(formSchema)
   });
 
   async function onSubmit(values) {
@@ -31,7 +31,7 @@ export const CreateCampaignModal = ({
       const res = await createCampaign({ ...values, appId });
 
       if (res?.id) {
-        onSuccess();
+        onSuccess(res.slug);
         setIsOpen(false);
       }
     } catch (e) {

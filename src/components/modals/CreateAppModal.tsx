@@ -11,22 +11,23 @@ import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/comp
 
 const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters").max(50, "Name must be less than 50 characters"),
-  description: z.string().optional(),
+  description: z.string().optional()
 });
 export const CreateAppModal = ({
   variant = "outline",
-  label = "Create app",
+  label = "Create app"
 }: {
   variant?: "green" | "yellow" | "outline";
   label?: string;
 }) => {
   const {
-    appsData: { mutate },
+    appsData: { mutate }
   } = useUserContext();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
+    defaultValues: { name: "", description: "" }
   });
 
   async function onSubmit(values) {

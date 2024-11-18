@@ -8,12 +8,12 @@ import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/comp
 import { createAudience } from "@/app/api/audience";
 
 const formSchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters").max(50, "Name must be less than 50 characters"),
+  name: z.string().min(2, "Name must be at least 2 characters").max(50, "Name must be less than 50 characters")
 });
 export const CreateAudienceModal = ({
   appId,
   onSuccess,
-  mode = "yellow",
+  mode = "yellow"
 }: {
   mode?: "yellow" | "green";
   appId: string;
@@ -23,6 +23,7 @@ export const CreateAudienceModal = ({
   const [isLoading, setIsLoading] = useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
+    defaultValues: { name: "" }
   });
 
   async function onSubmit(values) {

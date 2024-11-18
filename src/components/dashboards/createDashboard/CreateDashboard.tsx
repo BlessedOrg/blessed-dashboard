@@ -1,15 +1,14 @@
 "use client";
-
 import { useSearchParams } from "next/navigation";
-import { DashboardSidebar } from "../../common/DashboardSidebar";
-import { CreateDashboardSidebarFields } from "./createDashboardSidebarFields/CreateDashboardSidebarFields";
-import { CreateDashboardContent } from "./createDashboardContent/CreateDashboardContent";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { schema } from "./createDashboardContent/schema";
 import { useEffect } from "react";
-import { useUserContext } from "../../../store/UserContext";
-import { LoadingDashboardSkeleton } from "../../common/LoadingDashboardSkeleton";
+import { useUserContext } from "@/store/UserContext";
+import { CreateDashboardSidebarFields } from "@/components/dashboards/createDashboard/createDashboardSidebarFields/CreateDashboardSidebarFields";
+import { CreateDashboardContent } from "@/components/dashboards/createDashboard/createDashboardContent/CreateDashboardContent";
+import { LoadingDashboardSkeleton } from "@/components/common/LoadingDashboardSkeleton";
+import { DashboardSidebar } from "@/components/common/DashboardSidebar";
 
 export const CreateDashboard = () => {
   const { isLoggedIn, isLoading } = useUserContext();
@@ -17,11 +16,11 @@ export const CreateDashboard = () => {
   const selectedTab = useSearchParams().get("tab") || "name-and-description";
 
   const form = useForm({
-    resolver: zodResolver(schema),
+    resolver: zodResolver(schema)
   });
   const {
     watch,
-    formState: { errors },
+    formState: { errors }
   } = form;
 
   const currentData = watch();

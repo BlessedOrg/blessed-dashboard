@@ -7,7 +7,7 @@ export const CampaignsDashboardSidebarNav = ({
   campaigns,
   onTabChange,
   appId,
-  mutateCampaigns,
+  mutateCampaigns
 }: {
   currentTabId: string;
   className?: string;
@@ -16,12 +16,16 @@ export const CampaignsDashboardSidebarNav = ({
   appId: string;
   mutateCampaigns: any;
 }) => {
+  const onSuccessCampaignCreate = (newSlug: string) => {
+    mutateCampaigns();
+    onTabChange(newSlug);
+  };
   return (
     <div className={`flex flex-col gap-4 lg:sticky lg:top-[6.25rem] lg:h-[calc(100vh-6.25rem)] lg:min-w-[20.5rem] ${className || ""}`}>
-      <CreateCampaignModal appId={appId} onSuccess={mutateCampaigns} />
+      <CreateCampaignModal appId={appId} onSuccess={onSuccessCampaignCreate} />
       {!!campaigns?.length && (
         <ul className="bg-white py-2 rounded-3xl overflow-hidden">
-          {campaigns.map((campaign, index) => {
+          {campaigns.map((campaign) => {
             const isActive = campaign.slug === currentTabId;
             return (
               <li key={campaign.id} className={`px-5 py-2 hover:bg-[#FAFAFA] transition-all w-full  ${isActive ? "bg-[#FAFAFA]" : ""}`}>

@@ -45,7 +45,7 @@ export const NameAndDescriptionField = ({ form, ...props }: DetailedHTMLProps<HT
       <div className="flex gap-2 w-full">
         <div className="flex flex-col gap-2 w-full">
           <div className="gap-2 flex items-center w-full">
-            <h2 className={`font-semibold text-xl ${isEditingName ? "hidden" : ""}`}>{currentName || "Name"}</h2>
+            <p className={`font-semibold text-xl ${isEditingName ? "hidden" : ""}`}>{currentName || "Name"}</p>
             <input
               type="text"
               id="name"

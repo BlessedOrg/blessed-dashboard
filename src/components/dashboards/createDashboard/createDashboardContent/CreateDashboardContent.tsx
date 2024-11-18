@@ -1,7 +1,8 @@
 import { createDashboardSidebarCategoriesAndFields } from "../createDashboardSidebarFields/createDashboardSidebarCategoriesAndFields";
-import { Card } from "../../../ui/card";
+import { Card, Input, Label } from "@/components/ui";
+import { FieldValues, UseFormReturn } from "react-hook-form";
 
-export const CreateDashboardContent = ({ selectedTab, form }) => {
+export const CreateDashboardContent = ({ selectedTab, form }: { selectedTab: string; form: UseFormReturn<FieldValues, any, undefined> }) => {
   const { register } = form;
   return (
     <div className="w-full flex flex-col gap-10 pb-10">
@@ -18,11 +19,11 @@ export const CreateDashboardContent = ({ selectedTab, form }) => {
             <Card key={field.id} className={`${selectedTab === tab.href ? "" : "!hidden"}`}>
               <div>
                 <div className="mb-2 block">
-                  <label htmlFor={field.id} color="gray">
+                  <Label htmlFor={field.id} color="gray">
                     {field.name}
-                  </label>
+                  </Label>
                 </div>
-                <input id={field.id} type={field.type} placeholder={field.placeholder} required={field.required} {...register(field.id)} />
+                <Input id={field.id} type={field.type} placeholder={field.placeholder} required={field.required} {...register(field.id)} />
               </div>
             </Card>
           ))

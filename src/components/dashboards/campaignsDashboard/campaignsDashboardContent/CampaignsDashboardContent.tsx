@@ -105,7 +105,7 @@ export const CampaignsDashboardContent = ({
   const allAudienceUsers = countAllAudienceUsers(currentCampaign);
   const allUniqueAudienceUsers = countAllUniqueAudienceUsers(currentCampaign);
 
-  const campaignDistribution = currentCampaign?.CampaignDistributions;
+  const campaignDistribution = currentCampaign?.CampaignDistribution;
   return (
     <div className="w-full pb-10">
       {!isLoading ? (
@@ -116,7 +116,7 @@ export const CampaignsDashboardContent = ({
                 variant="green"
                 size="xl"
                 onClick={onDistribute}
-                disabled={!!campaignDistribution || (!allAudienceUsers.count && !currentCampaign?.Tickets?.length)}
+                disabled={!!campaignDistribution || (!allAudienceUsers.count || !currentCampaign?.Tickets?.length)}
               >
                 Distribute
               </Button>

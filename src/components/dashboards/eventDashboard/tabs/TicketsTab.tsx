@@ -1,4 +1,4 @@
-import { Card } from "@/components/ui";
+import { Button, Card } from "@/components/ui";
 import { fetcherWithToken } from "@/requests/requests";
 import useSWR from "swr";
 import { apiUrl } from "@/variables/variables";
@@ -18,7 +18,7 @@ export const TicketsTab = ({ appId, eventId }: { appId: string; eventId: string 
           <p className="font-semibold">Manage your tickets</p>
           <p>Review, edit, organize your tickets with ease. Or create new ones.</p>
         </div>
-        {/*<Button variant="outline">Create ticket</Button>*/}
+        <Button variant="outline" disabled>Create ticket</Button>
       </Card>
 
       <div className="gap-4 flex flex-col">

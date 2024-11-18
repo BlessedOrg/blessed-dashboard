@@ -16,10 +16,10 @@ export const CreateDashboardSidebarFields = ({ selectedCategory, selectedTab }) 
               onClick={
                 selectedCategory !== category.id
                   ? () => {
-                      router.replace(
-                        `/create?category=${category.id}&tab=${category.tabs.find((tab) => tab.primary).href}`
-                      );
-                    }
+                    router.replace(
+                      `/create?category=${category.id}&tab=${category.tabs.find((tab) => tab.primary).href}`
+                    );
+                  }
                   : null
               }
             >
@@ -28,7 +28,7 @@ export const CreateDashboardSidebarFields = ({ selectedCategory, selectedTab }) 
                   <div className="flex gap-2 justify-between items-center">
                     <div className="flex gap-2 items-center">
                       <Image src={category.icon} alt="heart icon" width={24} height={24} />
-                      <h2 className="font-semibold">{category.name}</h2>
+                      <p className="font-semibold">{category.name}</p>
                     </div>
                     <span className="font-semibold text-xl">
                       {index + 1 + "/" + createDashboardSidebarCategoriesAndFields.length}
@@ -39,13 +39,13 @@ export const CreateDashboardSidebarFields = ({ selectedCategory, selectedTab }) 
                 <ul
                   className={`${selectedCategory === category.id ? "min-h-fit" : "max-h-0 overflow-hidden"}`}
                   style={{
-                    transition: "all 250ms",
+                    transition: "all 250ms"
                   }}
                 >
                   {category.tabs.map((tab) => (
                     <li
                       key={tab.href}
-                      className={`w-full font-semibold ${selectedTab === tab.href ? "bg-gray-500" : ""}`}
+                      className={`w-full font-semibold ${selectedTab === tab.href ? "bg-gray-200" : ""}`}
                     >
                       <Link
                         href={`/create?category=${category.id}&tab=${tab.href}`}
