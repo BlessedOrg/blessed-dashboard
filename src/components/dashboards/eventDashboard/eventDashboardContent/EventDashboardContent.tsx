@@ -1,9 +1,9 @@
 "use client";
 import { LoadingDashboardSkeleton } from "@/components/common/LoadingDashboardSkeleton";
-import { NameAndDescriptionTab } from "@/components/dashboards/eventDashboard/tabs/NameAndDescriptionTab";
 import { TicketsTab } from "@/components/dashboards/eventDashboard/tabs/TicketsTab";
 import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
+import { EventDetails } from "@/components/dashboards/eventDashboard/tabs/EventDetails";
 
 type TabId = keyof typeof TAB_PARAMS_MAP;
 
@@ -17,25 +17,28 @@ interface AppDashboardContentProps {
 }
 
 const TAB_PARAMS_MAP = {
-  "name-and-description": 0,
-  tickets: 1,
+  "event-details": 0,
+  tickets: 1
 } as const;
 
-const DEFAULT_TAB = "name-and-description";
+const DEFAULT_TAB = "event-details";
 
 export const EventDashboardContent = ({ currentTabIndex, onTabChange, eventData, isLoading, eventId, appId }: AppDashboardContentProps) => {
   const searchParams = useSearchParams();
   const currentTab = (searchParams.get("tab") || DEFAULT_TAB) as TabId;
+  const formattedDefaultValues = {
+    ...eventData,
+    eventLocation: eventData?.EventLocation,
+    startsAt: new Date(eventData?.startsAt),
+    endsAt: new Date(eventData?.endsAt),
+    logoUrl: !!eventData?.logoUrl ? eventData.logoUrl : "/img/placeholder_image.jpeg"
+  } as IEventDetails;
 
   const contentPerTab: Record<number, JSX.Element> = {
     0: (
-      <NameAndDescriptionTab
-        defaultValues={{ name: eventData?.name, description: eventData?.description, logo: eventData?.logoUrl }}
-        appId={appId}
-        eventId={eventId}
-      />
+      <EventDetails eventData={formattedDefaultValues} />
     ),
-    1: <TicketsTab appId={appId} eventId={eventId} />,
+    1: <TicketsTab appId={appId} eventId={eventId} />
   };
 
   useEffect(() => {

@@ -21,7 +21,7 @@ const ttBluescreens = localFont({
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${ttBluescreens.variable}`}>
-    <body className={inter.className}>
+    <body className={`${inter.className} bg-root-background`}>
     <RootProvider>{children}</RootProvider>
     </body>
     </html>

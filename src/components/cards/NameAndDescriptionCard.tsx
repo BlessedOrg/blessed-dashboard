@@ -4,13 +4,13 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { useForm } from "react-hook-form";
-import { Check, Pencil, Upload, X } from "lucide-react";
-import Image from "next/image";
-import { ChangeEvent, DragEvent, useRef, useState } from "react";
+import { UseFormReturn } from "react-hook-form";
+import { Check, Pencil, X } from "lucide-react";
+import { useState } from "react";
 import { toast } from "react-toastify";
 import { updateEvent } from "@/app/api/events";
 import { useRouter } from "next/navigation";
+import { ImageUploader } from "@/components/ui/image-uploader";
 
 interface EditableNameFieldProps {
   isEditing: boolean;
@@ -32,21 +32,32 @@ interface EditableDescriptionFieldProps {
 interface FormData {
   name: string;
   description: string;
-  logo?: File;
+  logo?: File | string;
 }
 
-interface AppData {
-  name?: string;
-  description?: string;
-  logo?: string;
-}
-
-interface NameAndDescriptionTabProps {
-  defaultValues?: AppData;
+interface BaseNameAndDescriptionTabProps {
   className?: string;
+  defaultValues?: {
+    name: string;
+    description: string;
+    logo: string;
+  };
+  form: UseFormReturn<{ name: string, description: string, logo: string }, any, undefined>;
+}
+
+interface WithSaveProps extends BaseNameAndDescriptionTabProps {
+  withSave: true;
   appId: string;
   eventId: string;
 }
+
+interface WithoutSaveProps extends BaseNameAndDescriptionTabProps {
+  withSave?: false;
+  appId?: string;
+  eventId?: string;
+}
+
+type NameAndDescriptionTabProps = WithSaveProps | WithoutSaveProps;
 
 const EditableNameField = ({
   isEditing,
@@ -56,7 +67,7 @@ const EditableNameField = ({
   onSave,
   onCancel,
   toggleEdit,
-  placeholder,
+  placeholder
 }: EditableNameFieldProps) => {
   return (
     <div className="flex items-center gap-2">
@@ -102,74 +113,14 @@ const EditableDescriptionField = ({ currentValue, editedValue, onEdit, placehold
   );
 };
 
-export const NameAndDescriptionTab = ({ defaultValues, className, eventId, appId }: NameAndDescriptionTabProps) => {
+export const NameAndDescriptionCard = ({ form, defaultValues, className, eventId, appId, withSave }: NameAndDescriptionTabProps) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isEditingName, setIsEditingName] = useState(false);
-  const [previewImage, setPreviewImage] = useState<string>(defaultValues?.logo || "/img/upload.svg");
-  const fileInputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
-  const { watch, setValue, handleSubmit } = useForm<FormData>({
-    defaultValues: {
-      name: defaultValues?.name || "",
-      description: defaultValues?.description || "",
-    },
-  });
+  const { watch, setValue, handleSubmit } = form;
 
   const currentName = watch("name");
   const currentDescription = watch("description");
-
-  const handleImageUpload = (file: File) => {
-    if (!file.type.startsWith("image/")) {
-      console.error("Invalid file type");
-      return;
-    }
-
-    try {
-      setValue("logo", file);
-
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        const result = e.target?.result;
-        if (typeof result === "string") {
-          setPreviewImage(result);
-        }
-      };
-
-      reader.onerror = (error) => {
-        console.error("Error reading file:", error);
-      };
-
-      reader.readAsDataURL(file);
-    } catch (error) {
-      console.error("Error handling image upload:", error);
-    }
-  };
-
-  const handleFileSelect = (event: ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      handleImageUpload(file);
-    }
-  };
-
-  const handleDropdownClick = () => {
-    fileInputRef.current?.click();
-  };
-
-  const handleDragOver = (e: DragEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-  };
-
-  const handleDrop = (e: DragEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-
-    const file = e.dataTransfer.files[0];
-    if (file) {
-      handleImageUpload(file);
-    }
-  };
 
   const onSubmit = async (data: FormData) => {
     setIsSubmitting(true);
@@ -182,11 +133,9 @@ export const NameAndDescriptionTab = ({ defaultValues, className, eventId, appId
       const payload = {
         name: data.name,
         description: data.description,
-        logoUrl: uploadedLogo,
-        appId,
-        eventId,
+        logoUrl: uploadedLogo
       };
-      const res = await updateEvent(payload);
+      const res = await updateEvent(appId, eventId, payload);
       if (!!res?.slug) {
         toast("Updated successfully", { type: "success" });
         if (res.slug !== eventId) {
@@ -228,42 +177,12 @@ export const NameAndDescriptionTab = ({ defaultValues, className, eventId, appId
             </div>
           </div>
 
-          <div className="flex flex-col items-center gap-2">
-            <input ref={fileInputRef} type="file" className="hidden" accept="image/*" onChange={handleFileSelect} />
-
-            <div
-              className="relative w-40 h-40 rounded-lg border-2 border-dashed border-gray-300 hover:border-gray-400 cursor-pointer transition-all duration-200 ease-in-out"
-              onClick={handleDropdownClick}
-              onDragOver={handleDragOver}
-              onDrop={handleDrop}
-            >
-              {previewImage && (
-                <div className="relative w-full h-full">
-                  <Image
-                    src={previewImage}
-                    alt="Upload preview"
-                    fill
-                    className="object-cover rounded-lg"
-                    onError={() => {
-                      console.error("Error loading image");
-                      setPreviewImage("/img/upload.svg");
-                    }}
-                  />
-                </div>
-              )}
-
-              <div className="absolute inset-0 bg-black/50 flex items-center justify-center rounded-lg opacity-0 hover:opacity-100 transition-opacity duration-200">
-                <Upload className="h-6 w-6 text-white" />
-              </div>
-            </div>
-
-            <span className="text-sm text-gray-500">Drag & drop or click to upload</span>
-          </div>
+          <ImageUploader setValue={setValue} defaultValue={defaultValues?.logo} />
         </div>
 
-        <Button type="submit" variant="green" className="w-fit" isLoading={isSubmitting}>
+        {withSave && <Button type="submit" variant="green" className="w-fit" isLoading={isSubmitting}>
           Save Changes
-        </Button>
+        </Button>}
       </form>
     </Card>
   );

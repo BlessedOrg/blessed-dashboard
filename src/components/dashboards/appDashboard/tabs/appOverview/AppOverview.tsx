@@ -1,5 +1,5 @@
 import { Button, Card } from "@/components/ui";
-import { CreateEventModal } from "@/components/modals/CreateEventModal";
+import { CreateEventButton } from "@/components/common/CreateEventButton";
 import useSWR from "swr";
 import { apiUrl } from "@/variables/variables";
 import { isArray } from "lodash-es";
@@ -18,9 +18,10 @@ export const AppOverview = ({ appId }) => {
           <h2 className="font-bold text-5xl uppercase">Start creating</h2>
           <p className="text-sm">Create and manage your event in just three steps.</p>
         </div>
-        <CreateEventModal appId={appId} />
+        <CreateEventButton appId={appId} />
       </Card>
-      <Card className="flex flex-col gap-4" title="Recent events" isContainer>
+      <div className="flex flex-col gap-4 mt-4">
+        <p className="font-semibold">Recent events</p>
         {isLoading && <LoadingDashboardSkeleton />}
         {events.slice(0, 3).map((event) => {
           return <EventCard event={event} key={event.id} appId={appId} />;
@@ -30,10 +31,10 @@ export const AppOverview = ({ appId }) => {
             <Button asChild variant="outline">
               <Link href={`/${appId}?tab=events`}>See more</Link>
             </Button>
-            <CreateEventModal appId={appId} label="Add new event" variant="green" />
+            <CreateEventButton appId={appId} label="Add new event" variant="green" />
           </div>
         )}
-      </Card>
+      </div>
     </div>
   );
 };

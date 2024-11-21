@@ -1,14 +1,14 @@
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { createDashboardSidebarCategoriesAndFields } from "./createDashboardSidebarCategoriesAndFields";
+import { usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
 
-export const CreateDashboardSidebarFields = ({ selectedCategory, selectedTab }) => {
+export const CreateEventDashboardSidebarFields = ({ selectedCategory, selectedTab, createViewItems }) => {
   const router = useRouter();
+  const pathname = usePathname();
   return (
     <div className={`xl:sticky xl:top-[6.25rem] xl:h-[calc(100vh-6.25rem)] xl:min-w-[20rem]`}>
       <div className="flex flex-col gap-4 w-full">
-        {createDashboardSidebarCategoriesAndFields.map((category, index) => {
+        {createViewItems.map((category, index) => {
           return (
             <div
               key={category.id}
@@ -17,7 +17,7 @@ export const CreateDashboardSidebarFields = ({ selectedCategory, selectedTab }) 
                 selectedCategory !== category.id
                   ? () => {
                     router.replace(
-                      `/create?category=${category.id}&tab=${category.tabs.find((tab) => tab.primary).href}`
+                      `${pathname}?category=${category.id}&tab=${category.tabs.find((tab) => tab.primary).href}`
                     );
                   }
                   : null
@@ -31,7 +31,7 @@ export const CreateDashboardSidebarFields = ({ selectedCategory, selectedTab }) 
                       <p className="font-semibold">{category.name}</p>
                     </div>
                     <span className="font-semibold text-xl">
-                      {index + 1 + "/" + createDashboardSidebarCategoriesAndFields.length}
+                      {createViewItems.length === 1 ? "" : index + 1 + "/" + createViewItems.length}
                     </span>
                   </div>
                   <p>{category.description}</p>
@@ -42,19 +42,21 @@ export const CreateDashboardSidebarFields = ({ selectedCategory, selectedTab }) 
                     transition: "all 250ms"
                   }}
                 >
-                  {category.tabs.map((tab) => (
-                    <li
-                      key={tab.href}
-                      className={`w-full font-semibold ${selectedTab === tab.href ? "bg-gray-200" : ""}`}
-                    >
-                      <Link
-                        href={`/create?category=${category.id}&tab=${tab.href}`}
-                        className="px-4 py-2 inline-block w-full"
+                  {category.tabs.map((tab) => {
+                    return (
+                      <li
+                        key={tab.href}
+                        className={`w-full font-semibold ${selectedTab === tab.href ? "bg-gray-200" : ""}`}
                       >
-                        {tab.name}
-                      </Link>
-                    </li>
-                  ))}
+                        <Link
+                          href={`${pathname}?category=${category.id}&tab=${tab.href}`}
+                          className="px-4 py-2 inline-block w-full"
+                        >
+                          {tab.name}
+                        </Link>
+                      </li>
+                    );
+                  })}
                 </ul>
               </div>
             </div>

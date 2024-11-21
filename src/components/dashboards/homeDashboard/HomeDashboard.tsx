@@ -19,6 +19,7 @@ export const HomeDashboard = () => {
         <DashboardContent currentTabIndex={currentTabIndex} onTabChange={onTabChange} />
       </Suspense>
       <DashboardSidebar />
+
     </main>
   );
 };

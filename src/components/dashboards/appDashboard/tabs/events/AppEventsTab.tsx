@@ -1,5 +1,5 @@
 import { LoadingDashboardSkeleton } from "@/components/common/LoadingDashboardSkeleton";
-import { CreateEventModal } from "@/components/modals/CreateEventModal";
+import { CreateEventButton } from "@/components/common/CreateEventButton";
 import useSWR from "swr";
 import { apiUrl } from "@/variables/variables";
 import { fetcherWithToken } from "@/requests/requests";
@@ -17,7 +17,7 @@ export const AppEventsTab = ({ appId }) => {
       })}
       {!isLoading && (
         <div className="flex gap-2 justify-center">
-          <CreateEventModal appId={appId} label="Add new event" variant="green" />
+          <CreateEventButton appId={appId} label="Add new event" variant="green" />
         </div>
       )}
     </div>

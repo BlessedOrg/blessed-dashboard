@@ -7,7 +7,7 @@ import { AvatarMenu } from "@/components/ui/avatar-menu";
 import { MobileNavigation } from "@/components/navigation/MobileNavigation";
 import { usePathname, useRouter } from "next/navigation";
 import { CreateAppModal } from "@/components/modals/CreateAppModal";
-import { CreateEventModal } from "@/components/modals/CreateEventModal";
+import { CreateEventButton } from "@/components/common/CreateEventButton";
 import { EventSelect } from "@/components/navigation/EventSelect";
 import { ChevronLeft } from "lucide-react";
 
@@ -74,21 +74,21 @@ export const Navigation = ({ appId, eventId }: NavigationProps) => {
       appNav: [
         { href: `/${appId}`, label: "App" },
         { href: `/${appId}/campaigns`, label: "Campaigns" },
-        { href: `/${appId}/audience`, label: "Audience" },
-      ],
+        { href: `/${appId}/audience`, label: "Audience" }
+      ]
     },
     rightSideCta: {
       main: <CreateAppModal label="Add new app" variant="green" />,
-      app: <CreateEventModal label="Add new event" variant="green" appId={appId} />,
-    },
+      app: <CreateEventButton label="Add new event" variant="green" appId={appId} />
+    }
   };
   const commonSettings = {
     campaign_and_audience: {
       showFullLogo: false,
       showMiddleNavigation: true,
       middleNavigationItems: navigationConfig.middleNavigationItems.appNav,
-      showRightSideCta: false,
-    },
+      showRightSideCta: false
+    }
   };
   const pathSettings: Record<string, PathSettings> = {
     [`/${appId}/${eventId}`]: {
@@ -98,30 +98,33 @@ export const Navigation = ({ appId, eventId }: NavigationProps) => {
       showMiddleNavigation: true,
       showRightSideCta: true,
       rightSideCta: navigationConfig.rightSideCta.app,
-      middleNavigationItems: navigationConfig.middleNavigationItems.appNav,
+      middleNavigationItems: navigationConfig.middleNavigationItems.appNav
     },
     [`/${appId}/audience`]: commonSettings.campaign_and_audience,
     [`/${appId}/campaigns`]: commonSettings.campaign_and_audience,
+    [`/${appId}/create-event`]: {
+      showFullLogo: true
+    },
     [`/${appId}`]: {
       showFullLogo: false,
       showAppSelect: true,
       showMiddleNavigation: true,
       middleNavigationItems: navigationConfig.middleNavigationItems.appNav,
       showRightSideCta: false,
-      rightSideCta: navigationConfig.rightSideCta.app,
+      rightSideCta: navigationConfig.rightSideCta.app
     },
     "/": {
       showFullLogo: true,
       showMiddleNavigation: false,
       showRightSideCta: true,
-      rightSideCta: navigationConfig.rightSideCta.main,
-    },
+      rightSideCta: navigationConfig.rightSideCta.main
+    }
   };
 
   const settings = pathSettings[pathname] ?? pathSettings["/"];
 
   return (
-    <nav className="flex justify-between w-full py-6 bg-background px-6 sticky top-0 left-0 right-0 z-20">
+    <nav className="flex justify-between w-full py-6 px-6 sticky top-0 left-0 right-0 z-20">
       <div className="flex gap-2">
         <Logo showFullLogo={settings.showFullLogo} />
         {settings.showArrowBack && (

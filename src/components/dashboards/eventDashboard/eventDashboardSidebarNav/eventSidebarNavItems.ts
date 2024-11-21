@@ -8,14 +8,14 @@ interface NavItem {
 export const eventSidebarNavItems = [
   {
     id: 0,
-    label: "Name and description",
-    href: "?tab=name-and-description",
+    label: "Event Details",
+    href: "?tab=event-details"
   },
   {
     id: 1,
     label: "Tickets",
-    href: "?tab=tickets",
-  },
+    href: "?tab=tickets"
+  }
   // {
   //   id: 2,
   //   label: "Templates",

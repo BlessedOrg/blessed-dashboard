@@ -9,14 +9,15 @@ const config: Config = {
       center: true,
       padding: "2rem",
       screens: {
-        "2xl": "1400px",
-      },
+        "2xl": "1400px"
+      }
     },
     extend: {
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
+        "root-background": "hsl(var(--root-background))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         green: {
@@ -29,7 +30,7 @@ const config: Config = {
           "600": "#05C667",
           "700": "#04954E",
           "800": "#037134",
-          "900": "#024D1A",
+          "900": "#024D1A"
         },
         yellow: {
           "50": "#FFFEF5",
@@ -41,61 +42,61 @@ const config: Config = {
           "600": "#CCB870",
           "700": "#998A54",
           "800": "#665C38",
-          "900": "#332E1C",
+          "900": "#332E1C"
         },
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
-          foreground: "hsl(var(--destructive-foreground))",
+          foreground: "hsl(var(--destructive-foreground))"
         },
         muted: {
           DEFAULT: "hsl(var(--muted))",
-          foreground: "hsl(var(--muted-foreground))",
+          foreground: "hsl(var(--muted-foreground))"
         },
         accent: {
           DEFAULT: "hsl(var(--accent))",
-          foreground: "hsl(var(--accent-foreground))",
+          foreground: "hsl(var(--accent-foreground))"
         },
         popover: {
           DEFAULT: "hsl(var(--popover))",
-          foreground: "hsl(var(--popover-foreground))",
+          foreground: "hsl(var(--popover-foreground))"
         },
         card: {
           DEFAULT: "hsl(var(--card))",
-          foreground: "hsl(var(--card-foreground))",
-        },
+          foreground: "hsl(var(--card-foreground))"
+        }
       },
       borderRadius: {
         lg: "`var(--radius)`",
         md: "`calc(var(--radius) - 2px)`",
-        sm: "calc(var(--radius) - 4px)",
+        sm: "calc(var(--radius) - 4px)"
       },
       fontFamily: {
-        ttBluescreens: ["var(--font-tt-bluescreens)"],
+        ttBluescreens: ["var(--font-tt-bluescreens)"]
       },
       keyframes: {
         "accordion-down": {
           from: {
-            height: "0",
+            height: "0"
           },
           to: {
-            height: "var(--radix-accordion-content-height)",
-          },
+            height: "var(--radix-accordion-content-height)"
+          }
         },
         "accordion-up": {
           from: {
-            height: "var(--radix-accordion-content-height)",
+            height: "var(--radix-accordion-content-height)"
           },
           to: {
-            height: "0",
-          },
-        },
+            height: "0"
+          }
+        }
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
-        "accordion-up": "accordion-up 0.2s ease-out",
-      },
-    },
+        "accordion-up": "accordion-up 0.2s ease-out"
+      }
+    }
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [require("tailwindcss-animate")]
 };
 export default config;
