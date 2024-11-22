@@ -95,8 +95,8 @@ export const AddressForm = ({ form }) => {
       <div className="flex gap-4" ref={countryRef}>
         <FormField
           label={"Country*"}
-          isInvalid={!!errors?.country}
-          errorMessage={errors?.country?.message}
+          isInvalid={!!errors?.eventLocation?.country}
+          errorMessage={errors?.eventLocation?.country?.message}
         >
           <Controller
             render={({ field }) => {
@@ -120,9 +120,9 @@ export const AddressForm = ({ form }) => {
         </FormField>
         <FormField
           label={`State${stateIsRequired ? "*" : ""}`}
-          isInvalid={!!errors?.stateCode}
+          isInvalid={!!errors?.eventLocation?.stateCode}
           isDisabled={!watchCountryCode}
-          errorMessage={errors?.stateCode?.message}
+          errorMessage={errors?.eventLocation?.stateCode?.message}
         >
           <Controller
             render={({ field }) => {
@@ -148,11 +148,11 @@ export const AddressForm = ({ form }) => {
 
       <FormField
         label={"City*"}
-        isInvalid={!!errors?.city}
+        isInvalid={!!errors?.eventLocation?.city}
         isDisabled={
           !watchCountryCode || (!watchStateCode && !!states.length)
         }
-        errorMessage={errors?.city?.message}
+        errorMessage={errors?.eventLocation?.city?.message}
       >
         {locationWithoutStatesAndCities ? (
           <div className="flex gap-1 items-center relative">
@@ -185,11 +185,11 @@ export const AddressForm = ({ form }) => {
         )}
       </FormField>
       <div className="grid gap-6 md:grid-cols-2">
-        <FormField label="Street 1nd line" id="eventLocation.street1stLine" register={register} placeholder="Address details" />
-        <FormField label="Street 2nd line" id="eventLocation.street2ndLine" placeholder="Enter additional address details" register={register} />
+        <FormField label="Street 1nd line" id="eventLocation.street1stLine" register={register} placeholder="Address details" errorMessage={errors?.eventLocation?.street1stLine?.message} isInvalid={!!errors?.eventLocation?.street1stLine} />
+        <FormField label="Street 2nd line" id="eventLocation.street2ndLine" placeholder="Enter additional address details" errorMessage={errors?.eventLocation?.street2ndLine?.message} register={register} isInvalid={!!errors?.eventLocation?.street2ndLine} />
       </div>
-      <FormField label="Postal Code" id="eventLocation.postalCode" placeholder="Postal Code e.g., 123321" register={register} errorMessage={errors?.postalCode?.message} isInvalid={!!errors?.postalCode} />
-      <FormField label="Location details (optional)" id="eventLocation.locationDetails" placeholder="Location details e.g., Conference House" register={register} errorMessage={errors?.postalCode?.message} />
+      <FormField label="Postal Code" id="eventLocation.postalCode" placeholder="Postal Code e.g., 123321" register={register} errorMessage={errors?.eventLocation?.postalCode?.message} isInvalid={!!errors?.eventLocation?.postalCode} />
+      <FormField label="Location details (optional)" id="eventLocation.locationDetails" placeholder="Location details e.g., Conference House" register={register} errorMessage={errors?.eventLocation?.locationDetails?.message} isInvalid={!!errors?.eventLocation?.locationDetails} />
     </div>
   );
 };

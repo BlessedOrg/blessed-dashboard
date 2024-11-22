@@ -1,6 +1,5 @@
-import { NameAndDescriptionCard } from "@/components/cards/NameAndDescriptionCard";
+import { NameAndDescriptionCard } from "@/components/dashboards/createEventDashboard/views/NameAndDescriptionCard";
 import { DateRangeAndVenue } from "@/components/dashboards/createEventDashboard/views/DateRangeAndVenue";
-import { addressSchema } from "@/components/dashboards/createEventDashboard/views/addressForm/addressSchema";
 import { EventPreview } from "@/components/dashboards/createEventDashboard/views/EventPreview";
 
 export const createEventFields = [
@@ -23,19 +22,28 @@ export const createEventFields = [
         href: "date-and-time",
         customFieldComponents: [DateRangeAndVenue],
         fields: [],
-        externalSchema: [addressSchema],
-        schemaFields: [{ id: "timezoneIdentifier", type: "text" }, { id: "startsAt", type: "date", defaultValue: new Date() }, { id: "endsAt", defaultValue: new Date(), type: "date" }]
-      },
-      {
-        name: "Ticket type",
-        href: "ticket-type",
-        fields: [
+        schemaFields: [
+          { id: "timezoneIdentifier", type: "text" },
+          { id: "startsAt", type: "date", defaultValue: new Date() },
+          { id: "endsAt", defaultValue: new Date(), type: "date" },
           {
-            id: "type",
-            name: "Ticket type",
-            type: "select"
-          }
-        ]
+            id: "eventLocation", type: "object", fields: [
+              { id: "country", type: "text", required: true },
+              { id: "city", type: "text", required: true },
+              { id: "postalCode", type: "text", required: false },
+              { id: "street1stLine", type: "text", required: false },
+              { id: "street2ndLine", type: "text", required: false },
+              { id: "locationDetails", type: "text", required: false },
+              { id: "countryCode", type: "text", required: false },
+              { id: "stateCode", type: "text", required: false },
+              { id: "continent", type: "text", required: false },
+              { id: "countryFlag", type: "text", required: false },
+              { id: "countryLatitude", type: "text", required: false },
+              { id: "countryLongitude", type: "text", required: false },
+              { id: "cityLatitude", type: "text", required: false },
+              { id: "cityLongitude", type: "text", required: false }
+            ]
+          }]
       }
     ]
   },
@@ -69,17 +77,6 @@ export const createEventFields = [
     description: "Publish and go live ASAP",
     icon: "/img/icons/rocket.svg",
     tabs: [
-      // {
-      //   name: "Publish date",
-      //   href: "publish-date",
-      //   fields: [],
-      //   primary: true
-      // },
-      // {
-      //   name: "API Endpoints",
-      //   href: "api-endpoints",
-      //   fields: []
-      // },
       {
         name: "Preview",
         href: "preview",
@@ -87,11 +84,6 @@ export const createEventFields = [
         customFieldComponents: [EventPreview],
         fields: []
       }
-      // {
-      //   name: "Distribution channels",
-      //   href: "distribution-channels",
-      //   fields: []
-      // }
     ]
   }
 ];

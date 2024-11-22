@@ -29,8 +29,8 @@ export const FormField = ({
   type = "text"
 }: FormFieldProps) => {
   return (
-    <div className="space-y-2 w-full ">
-      <Label htmlFor={id}>{label}</Label>
+    <div className="flex flex-col gap-2 w-full ">
+      <Label htmlFor={id} className="font-semibold">{label}</Label>
       {!children && <div className="flex gap-1 items-center relative">
         {!!Icon && <Icon className="absolute left-3 top-2.5 h-5 w-5 text-muted-foreground" />}
         <Input type={type} id={id} placeholder={placeholder || ""} {...register(id)} className={`${!!Icon ? "pl-10" : ""}`} />

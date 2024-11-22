@@ -17,7 +17,10 @@ export const CreateEvent = ({ params }) => {
       endsAt: new Date(),
       logoUrl: "/img/placeholder_image.jpeg",
       timezoneIdentifier: Intl.DateTimeFormat().resolvedOptions().timeZone
-    }
+    },
+    mode: "onChange",
+    criteriaMode: "all",
+    shouldFocusError: true
   });
   const {
     watch,

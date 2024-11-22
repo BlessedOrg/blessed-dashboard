@@ -11,6 +11,7 @@ import { toast } from "react-toastify";
 import { updateEvent } from "@/app/api/events";
 import { useRouter } from "next/navigation";
 import { ImageUploader } from "@/components/ui/image-uploader";
+import { FormField } from "@/components/common/FormFields";
 
 interface EditableNameFieldProps {
   isEditing: boolean;
@@ -21,6 +22,8 @@ interface EditableNameFieldProps {
   onCancel: () => void;
   toggleEdit: () => void;
   placeholder?: string;
+  isInvalid?: boolean;
+  errorMessage?: string;
 }
 
 interface EditableDescriptionFieldProps {
@@ -28,6 +31,8 @@ interface EditableDescriptionFieldProps {
   editedValue: string;
   onEdit: (value: string) => void;
   placeholder?: string;
+  isInvalid?: boolean;
+  errorMessage?: string;
 }
 interface FormData {
   name: string;
@@ -67,7 +72,9 @@ const EditableNameField = ({
   onSave,
   onCancel,
   toggleEdit,
-  placeholder
+  placeholder,
+  errorMessage,
+  isInvalid
 }: EditableNameFieldProps) => {
   return (
     <div className="flex items-center gap-2">
@@ -87,20 +94,23 @@ const EditableNameField = ({
           </Button>
         </>
       ) : (
-        <>
-          <span className="font-semibold">{currentValue || placeholder}</span>
-          <Button variant="ghost" size="icon" onClick={toggleEdit}>
-            <Pencil className="h-4 w-4" />
-          </Button>
-        </>
+        <div className="flex flex-col gap-2">
+          <div className="flex gap-2 items-center">
+            <span className="font-semibold">{currentValue || placeholder}</span>
+            <Button variant="ghost" size="icon" onClick={toggleEdit}>
+              <Pencil className="h-4 w-4" />
+            </Button>
+          </div>
+          {isInvalid && <p className="text-red-500 font-semibold">{errorMessage}</p>}
+        </div>
       )}
     </div>
   );
 };
 
-const EditableDescriptionField = ({ currentValue, editedValue, onEdit, placeholder }: EditableDescriptionFieldProps) => {
+const EditableDescriptionField = ({ currentValue, editedValue, onEdit, placeholder, isInvalid, errorMessage }: EditableDescriptionFieldProps) => {
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex flex-col gap-2">
       <Textarea
         value={editedValue || currentValue}
         onChange={(e) => {
@@ -109,6 +119,7 @@ const EditableDescriptionField = ({ currentValue, editedValue, onEdit, placehold
         placeholder={placeholder}
         className={"bg-transparent border-2 px-4 rounded-xl"}
       />
+      {isInvalid && <p className="text-red-500 font-semibold">{errorMessage}</p>}
     </div>
   );
 };
@@ -117,7 +128,7 @@ export const NameAndDescriptionCard = ({ form, defaultValues, className, eventId
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isEditingName, setIsEditingName] = useState(false);
   const router = useRouter();
-  const { watch, setValue, handleSubmit } = form;
+  const { watch, setValue, handleSubmit, formState: { errors } } = form;
 
   const currentName = watch("name");
   const currentDescription = watch("description");
@@ -153,21 +164,10 @@ export const NameAndDescriptionCard = ({ form, defaultValues, className, eventId
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         <div className="flex gap-6">
           <div className="flex-1 space-y-4">
-            <div className="space-y-2">
-              <EditableNameField
-                isEditing={isEditingName}
-                currentValue={currentName}
-                editedValue={currentName}
-                onEdit={(value) => setValue("name", value)}
-                onSave={() => setIsEditingName(false)}
-                onCancel={() => setIsEditingName(false)}
-                toggleEdit={() => setIsEditingName(true)}
-                placeholder="Enter name"
-              />
-            </div>
+            <FormField label="Event name" register={form.register} id="name" isInvalid={!!errors?.name} errorMessage={errors?.name?.message} placeholder="Enter event name" />
 
             <div className="space-y-2">
-              <h3 className="font-semibold text-md">Description</h3>
+              <h3 className="font-semibold text-sm">Description</h3>
               <EditableDescriptionField
                 currentValue={currentDescription}
                 editedValue={currentDescription}

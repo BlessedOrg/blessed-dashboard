@@ -18,7 +18,10 @@ export const EditEvent = ({ params, eventData }) => {
       logoUrl: "/img/placeholder_image.jpeg",
       timezoneIdentifier: Intl.DateTimeFormat().resolvedOptions().timeZone,
       ...eventData
-    }
+    },
+    mode: "onChange",
+    criteriaMode: "all",
+    shouldFocusError: true
   });
   const {
     watch,

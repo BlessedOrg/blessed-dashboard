@@ -2,7 +2,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
 
-export const CreateEventDashboardSidebarFields = ({ selectedCategory, selectedTab, createViewItems }) => {
+export const CreateEventDashboardSidebarFields = ({ selectedCategory, selectedTab, createViewItems, isProcessing }) => {
   const router = useRouter();
   const pathname = usePathname();
   return (
@@ -12,9 +12,9 @@ export const CreateEventDashboardSidebarFields = ({ selectedCategory, selectedTa
           return (
             <div
               key={category.id}
-              className={`bg-gradient-to-r ${category.id === selectedCategory ? "from-green-500 to-yellow-500" : "from-white to-yellow-500 cursor-pointer"} p-4`}
+              className={`${isProcessing ? "cursor-not-allowed" : ""} bg-gradient-to-r ${category.id === selectedCategory ? "from-green-500 to-yellow-500" : "from-white to-yellow-500 cursor-pointer"} p-4`}
               onClick={
-                selectedCategory !== category.id
+                selectedCategory !== category.id && !isProcessing
                   ? () => {
                     router.replace(
                       `${pathname}?category=${category.id}&tab=${category.tabs.find((tab) => tab.primary).href}`
@@ -23,7 +23,7 @@ export const CreateEventDashboardSidebarFields = ({ selectedCategory, selectedTa
                   : null
               }
             >
-              <div className="w-full h-full bg-white pb-2">
+              <div className={`${isProcessing ? "cursor-not-allowed" : ""} w-full h-full bg-white pb-2`}>
                 <div className="flex flex-col gap-2 p-4">
                   <div className="flex gap-2 justify-between items-center">
                     <div className="flex gap-2 items-center">
@@ -49,8 +49,16 @@ export const CreateEventDashboardSidebarFields = ({ selectedCategory, selectedTa
                         className={`w-full font-semibold ${selectedTab === tab.href ? "bg-gray-200" : ""}`}
                       >
                         <Link
-                          href={`${pathname}?category=${category.id}&tab=${tab.href}`}
-                          className="px-4 py-2 inline-block w-full"
+                          aria-disabled={isProcessing}
+                          href={isProcessing ? "#" : `${pathname}?category=${category.id}&tab=${tab.href}`}
+                          className={`px-4 py-2 inline-block w-full ${
+                            isProcessing ? "pointer-events-none cursor-not-allowed opacity-50" : ""
+                          }`}
+                          onClick={(e) => {
+                            if (isProcessing) {
+                              e.preventDefault();
+                            }
+                          }}
                         >
                           {tab.name}
                         </Link>

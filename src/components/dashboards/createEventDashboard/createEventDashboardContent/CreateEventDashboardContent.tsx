@@ -6,25 +6,25 @@ export const CreateEventDashboardContent = ({
   form,
   createViewItems,
   appId,
-  eventId
+  eventId,
+  toggleProcessingState,
+  isProcessing
 }: {
   selectedTab: string;
   form: UseFormReturn<FieldValues, any, undefined>,
   createViewItems: any;
   appId?: string;
   eventId?: string
+  toggleProcessingState: (v: boolean) => void;
+  isProcessing?: boolean
 }) => {
   const { register } = form;
   return (
     <div className="w-full flex flex-col gap-10 pb-10">
       {createViewItems.flatMap((category) =>
         category.tabs.map((tab) => {
-          if (selectedTab !== tab.href) {
-            return null;
-          }
-
           return (
-            <div key={tab.href}>
+            <div key={tab.href} className={`${selectedTab !== tab.href ? "hidden" : ""}`}>
               {tab?.customFieldComponents?.map((Component, index) => (
                 <Component
                   appId={appId}
@@ -32,10 +32,12 @@ export const CreateEventDashboardContent = ({
                   key={index}
                   form={form}
                   fields={tab.fields}
+                  toggleProcessingState={toggleProcessingState}
+                  isProcessing={isProcessing}
                 />
               ))}
               {tab.fields.map((field) => (
-                <Card key={field.id}>
+                <Card key={field.id} className={`${selectedTab !== tab.href ? "hidden" : ""}`}>
                   <div>
                     <div className="mb-2 block">
                       <Label htmlFor={field.id} color="gray">
