@@ -9,6 +9,7 @@ import { isArray } from "lodash-es";
 import { CampaignsDashboardContent } from "@/components/dashboards/campaignsDashboard/campaignsDashboardContent/CampaignsDashboardContent";
 import { Card } from "@/components/ui";
 import { CreateCampaignModal } from "@/components/dashboards/campaignsDashboard/campaignsDashboardSidebarNav/createCampaignModal/CreateCampaignModal";
+import { CardContent } from "@/components/ui/card";
 
 export const CampaignsDashboard = ({ appId }) => {
   const { data: campaignsData, isLoading, mutate } = useSWR(`${apiUrl}/private/apps/${appId}/campaigns`, fetcherWithToken);
@@ -35,9 +36,11 @@ export const CampaignsDashboard = ({ appId }) => {
         <CampaignsDashboardContent currentCampaign={currentCampaign} isLoading={isLoading} appId={appId} mutateCampaigns={mutate} />
       )}
       {!currentCampaign && (
-        <Card className="w-full flex h-fit items-center flex-col gap-2">
-          <p className="font-semibold text-2xl">Create new campaign</p>
-          <CreateCampaignModal appId={appId} onSuccess={mutate} mode="green" />
+        <Card className="w-full">
+          <CardContent className="flex items-center flex-col gap-2">
+            <p className="font-semibold text-2xl">Create new campaign</p>
+            <CreateCampaignModal appId={appId} onSuccess={mutate} mode="green" />
+          </CardContent>
         </Card>
       )}
       <DashboardSidebar />

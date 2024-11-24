@@ -35,9 +35,13 @@ declare global {
     id: string;
     name: string;
     slug: string;
+    address: string;
     Entrance?: IEntrance;
     Event?: IEvent;
     createdAt: Date;
+    ticketOwners: string[];
+    price: number;
+    ticketSupply: number;
   }
   interface IEntrance {
     id: string;

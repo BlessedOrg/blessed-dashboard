@@ -228,3 +228,37 @@
   top: 50%;
   transform: translateY(-50%);
 }
+
+/*custom style for react select*/
+.react-datepicker__input-container input {
+  @apply w-full rounded-md border border-gray-200 px-3 py-2;
+}
+
+/* Custom styles for react-select */
+.react-select .select__control {
+  @apply border-gray-200 rounded-md shadow-sm;
+}
+
+.react-select .select__control:hover {
+  @apply border-gray-300;
+}
+
+.react-select .select__control--is-focused {
+  @apply border-blue-500 ring-1 ring-blue-500;
+}
+
+.react-select .select__menu {
+  @apply bg-white border border-gray-200 rounded-md shadow-lg mt-1;
+}
+
+.react-select .select__option {
+  @apply px-3 py-2 hover:bg-blue-50 cursor-pointer;
+}
+
+.react-select .select__option--is-selected {
+  @apply bg-blue-500 text-white;
+}
+
+.react-select .select__option--is-focused {
+  @apply bg-blue-50;
+}

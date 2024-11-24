@@ -48,50 +48,6 @@ export const LocationSelect = ({
         value={value}
         options={options}
         defaultValue={value}
-        components={{
-          Control: CustomSelectControl,
-          MenuList: CustomMenuList,
-          Option: CustomOption
-        }}
-        styles={{
-          container: (base) => ({
-            ...base,
-            width: "100%",
-            height: "100%"
-          }),
-          control: () => ({
-            display: "flex",
-            width: "100%",
-            height: "100%"
-          }),
-          menu: (base) => ({
-            ...base,
-            minWidth: "256px",
-            borderRadius: "0.75rem",
-            overflow: "hidden",
-            left: "50%",
-            transform: "translateX(-50%)",
-            zIndex: 50,
-            boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
-            border: "1px solid rgba(0, 0, 0, 0.05)"
-          }),
-          option: (base, state) => ({
-            ...base,
-            backgroundColor: "transparent",
-            padding: 0,
-            margin: 0,
-            cursor: "pointer",
-            ":active": {
-              backgroundColor: "transparent"
-            },
-            ":hover": {
-              backgroundColor: "transparent"
-            }
-          }),
-          indicatorSeparator: () => ({
-            display: "none"
-          })
-        }}
         //@ts-ignore
         icon={icon}
         placeholder={placeholder}

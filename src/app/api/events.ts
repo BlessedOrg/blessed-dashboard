@@ -32,7 +32,9 @@ export async function createTicket(appId: string, eventId: string, data: {
   symbol: string;
   imageUrl?: string | null;
   initialSupply: number;
-  maxSupply: number
+  maxSupply: number;
+  transferable: boolean
+  whitelistOnly: boolean
 }) {
   const response = await fetcherWithToken(`${apiUrl}/private/tickets/${appId}/${eventId}`, {
     method: "POST",

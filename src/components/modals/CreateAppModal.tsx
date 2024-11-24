@@ -52,7 +52,9 @@ export const CreateAppModal = ({
       </DialogTrigger>
       <DialogContent className="max-w-[330px]">
         <DialogHeader>
-          <DialogTitle className="uppercase text-5xl text-center">Create your App</DialogTitle>
+          <DialogTitle asChild className="uppercase text-5xl text-center">
+            <h2>Create your App</h2>
+          </DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-4">

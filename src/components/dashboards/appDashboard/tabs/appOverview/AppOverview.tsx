@@ -7,18 +7,21 @@ import { fetcherWithToken } from "@/requests/requests";
 import { LoadingDashboardSkeleton } from "@/components/common/LoadingDashboardSkeleton";
 import Link from "next/link";
 import { EventCard } from "@/components/cards/EventCard";
+import { CardContent } from "@/components/ui/card";
 
 export const AppOverview = ({ appId }) => {
   const { data: eventsData, isLoading } = useSWR(`${apiUrl}/private/events/${appId}`, fetcherWithToken);
   const events = isArray(eventsData) ? eventsData : [];
   return (
     <div className="w-full flex-col flex gap-4">
-      <Card className="bg-primary flex flex-col gap-10 bg-gradient-to-r to-yellow-500 from-green-500">
-        <div>
-          <h2 className="font-bold text-5xl uppercase">Start creating</h2>
-          <p className="text-sm">Create and manage your event in just three steps.</p>
-        </div>
-        <CreateEventButton appId={appId} />
+      <Card className="bg-primary bg-gradient-to-r to-yellow-500 from-green-500" variant="rounded">
+        <CardContent className="flex flex-col gap-10 ">
+          <div>
+            <h2 className="font-bold text-5xl uppercase">Start creating</h2>
+            <p className="text-sm">Create and manage your event in just three steps.</p>
+          </div>
+          <CreateEventButton appId={appId} />
+        </CardContent>
       </Card>
       <div className="flex flex-col gap-4 mt-4">
         <p className="font-semibold">Recent events</p>

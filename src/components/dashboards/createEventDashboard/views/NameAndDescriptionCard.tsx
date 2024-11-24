@@ -177,7 +177,9 @@ export const NameAndDescriptionCard = ({ form, defaultValues, className, eventId
             </div>
           </div>
 
-          <ImageUploader setValue={setValue} defaultValue={defaultValues?.logo} />
+          <div className="h-full w-[40%] relative">
+            <ImageUploader setValue={setValue} defaultValue={defaultValues?.logo} />
+          </div>
         </div>
 
         {withSave && <Button type="submit" variant="green" className="w-fit" isLoading={isSubmitting}>

@@ -20,7 +20,7 @@ export function EventPreviewCard({ eventData }: { eventData: IEventDetails }) {
   };
 
   return (
-    <Card className="w-full overflow-hidden">
+    <Card className="w-full overflow-hidden border-none shadow-none">
       <CardHeader className="p-0">
         <div className="relative h-64">
           {eventData?.logoUrl && (
@@ -46,7 +46,7 @@ export function EventPreviewCard({ eventData }: { eventData: IEventDetails }) {
           </div>
         </div>
       </CardHeader>
-      <CardContent className="p-6">
+      <CardContent>
         {eventData?.description && (
           <p className="text-sm text-muted-foreground mb-6">{eventData?.description}</p>
         )}

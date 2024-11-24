@@ -6,12 +6,12 @@ import { useEffect } from "react";
 
 const paramsIndexPerId = {
   dashboard: 0,
-  apps: 1,
+  apps: 1
 };
 
 const contentPerTab = {
   0: <Dashboard />,
-  1: <AppsView />,
+  1: <AppsView />
 };
 
 export const DashboardContent = ({ currentTabIndex, onTabChange }) => {

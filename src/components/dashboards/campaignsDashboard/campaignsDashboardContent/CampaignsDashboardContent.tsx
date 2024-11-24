@@ -12,6 +12,7 @@ import { SelectEventTicketModal } from "@/components/modals/SelectEventTicketMod
 import React, { useState } from "react";
 import Image from "next/image";
 import { LoadingModal } from "@/components/ui/loading-modal";
+import { CardContent } from "@/components/ui/card";
 
 export const CampaignsDashboardContent = ({
   currentCampaign,
@@ -125,109 +126,115 @@ export const CampaignsDashboardContent = ({
               <Trash color="red" />
             </Button>
           </div>
-          <Card className="flex flex-col gap-2">
-            <TextEdit defaultValue={currentCampaign.name} handleSubmit={onCampaignNameChange} canEdit={!campaignDistribution} />
-            {!!campaignDistribution && (
-              <div className="bg-green-500 py-2 px-5 rounded-2xl">
-                <p className="font-semibold">
-                  Distributed to {allUniqueAudienceUsers.count} users at {new Date(campaignDistribution.createdAt).toLocaleDateString()}
-                </p>
-              </div>
-            )}
+          <Card>
+            <CardContent className="flex flex-col gap-2">
+              <TextEdit defaultValue={currentCampaign.name} handleSubmit={onCampaignNameChange} canEdit={!campaignDistribution} />
+              {!!campaignDistribution && (
+                <div className="bg-green-500 py-2 px-5 rounded-2xl">
+                  <p className="font-semibold">
+                    Distributed to {allUniqueAudienceUsers.count} users at {new Date(campaignDistribution.createdAt).toLocaleDateString()}
+                  </p>
+                </div>
+              )}
+            </CardContent>
           </Card>
           <Card>
-            <p className="font-semibold mb-2">{!!campaignDistribution ? "Selected audiences" : "Audience"}</p>
-            {!currentCampaign?.Audiences?.length && (
-              <p className="font-semibold text-lg text-gray-500 text-center py-5">No audiences, add one!</p>
-            )}
-            {(currentCampaign?.Audiences || [])
-              .filter((audience) => !!audience.AudienceUsers.length)
-              .map((audience) => {
-                return (
-                  <div className="flex flex-col gap-2" key={audience.id}>
-                    <div className="flex gap-2 w-full">
-                      <div className="w-full py-2 flex items-center gap-2 justify-between">
-                        <div>
-                          <p className="font-semibold">{audience.name}</p>
-                          <p>{audience.AudienceUsers.length} users</p>
-                        </div>
-                        <div className="flex gap-4">
-                          <AudiencesPreviewModal audience={audience} />
-                          {!campaignDistribution && (
-                            <button onClick={() => onAudienceDelete(audience.id)}>
-                              <Trash color="red" size={32} />
-                            </button>
-                          )}
+            <CardContent>
+              <p className="font-semibold mb-2">{!!campaignDistribution ? "Selected audiences" : "Audience"}</p>
+              {!currentCampaign?.Audiences?.length && (
+                <p className="font-semibold text-lg text-gray-500 text-center py-5">No audiences, add one!</p>
+              )}
+              {(currentCampaign?.Audiences || [])
+                .filter((audience) => !!audience.AudienceUsers.length)
+                .map((audience) => {
+                  return (
+                    <div className="flex flex-col gap-2" key={audience.id}>
+                      <div className="flex gap-2 w-full">
+                        <div className="w-full py-2 flex items-center gap-2 justify-between">
+                          <div>
+                            <p className="font-semibold">{audience.name}</p>
+                            <p>{audience.AudienceUsers.length} users</p>
+                          </div>
+                          <div className="flex gap-4">
+                            <AudiencesPreviewModal audience={audience} />
+                            {!campaignDistribution && (
+                              <button onClick={() => onAudienceDelete(audience.id)}>
+                                <Trash color="red" size={32} />
+                              </button>
+                            )}
+                          </div>
                         </div>
                       </div>
+                      <div className="h-[1px] bg-gray-400 w-full"></div>
                     </div>
-                    <div className="h-[1px] bg-gray-400 w-full"></div>
-                  </div>
-                );
-              })}
-            <div className="flex justify-between w-full mt-5">
-              <div className="flex flex-col gap-2">
-                <div className="flex gap-2 items-center">
+                  );
+                })}
+              <div className="flex justify-between w-full mt-5">
+                <div className="flex flex-col gap-2">
+                  <div className="flex gap-2 items-center">
                   <span>
                     <span className="font-semibold">Total</span>: {allAudienceUsers.count} users
                   </span>
-                  <AudiencesPreviewModal audience={allAudienceUsers.users} />
-                </div>
-                <div className="flex gap-2 items-center">
+                    <AudiencesPreviewModal audience={allAudienceUsers.users} />
+                  </div>
+                  <div className="flex gap-2 items-center">
                   <span>
                     <span className="font-semibold">Unique</span>: {allUniqueAudienceUsers.count} users
                   </span>
-                  <AudiencesPreviewModal audience={allUniqueAudienceUsers.users} />
+                    <AudiencesPreviewModal audience={allUniqueAudienceUsers.users} />
+                  </div>
                 </div>
+                {!campaignDistribution && (
+                  <SelectAudienceModal
+                    appId={appId}
+                    campaignId={currentCampaign.id}
+                    defaultValues={(currentCampaign?.Audiences || []).map((i) => i.id)}
+                    mutateCampaigns={mutateCampaigns}
+                  />
+                )}
               </div>
-              {!campaignDistribution && (
-                <SelectAudienceModal
-                  appId={appId}
-                  campaignId={currentCampaign.id}
-                  defaultValues={(currentCampaign?.Audiences || []).map((i) => i.id)}
-                  mutateCampaigns={mutateCampaigns}
-                />
-              )}
-            </div>
+            </CardContent>
           </Card>
-          <Card className="flex-col flex gap-4">
-            <p className="font-semibold">{!!campaignDistribution ? "Distributed tickets" : "Choose tickets to airdrop to your audience"}</p>
-            {currentCampaign?.Tickets?.map((selectedEvent) => {
-              return (
-                <div className="flex flex-col gap-4" key={selectedEvent.id}>
-                  <div className="flex gap-2">
-                    <div className="w-full p-4 bg-gray-200 flex items-center rounded-2xl gap-4">
-                      <Image
-                        src={selectedEvent.Event.logoUrl || "/img/placeholder_image.jpeg"}
-                        width={50}
-                        height={50}
-                        alt={selectedEvent.Event.name}
-                      />
-                      <div className="flex flex-col">
-                        <span className="font-semibold uppercase text-sm text-gray-500">{selectedEvent.Event.name}</span>
-                        <p className="font-bold text-lg">{selectedEvent.name}</p>
+          <Card>
+            <CardContent className="flex-col flex gap-4">
+              <p className="font-semibold">{!!campaignDistribution ? "Distributed tickets" : "Choose tickets to airdrop to your audience"}</p>
+              {currentCampaign?.Tickets?.map((selectedEvent) => {
+                return (
+                  <div className="flex flex-col gap-4" key={selectedEvent.id}>
+                    <div className="flex gap-2">
+                      <div className="w-full p-4 bg-gray-200 flex items-center rounded-2xl gap-4">
+                        <Image
+                          src={selectedEvent.Event.logoUrl || "/img/placeholder_image.jpeg"}
+                          width={50}
+                          height={50}
+                          alt={selectedEvent.Event.name}
+                        />
+                        <div className="flex flex-col">
+                          <span className="font-semibold uppercase text-sm text-gray-500">{selectedEvent.Event.name}</span>
+                          <p className="font-bold text-lg">{selectedEvent.name}</p>
+                        </div>
                       </div>
+                      {!campaignDistribution && (
+                        <button onClick={() => onTicketDelete(selectedEvent.id)}>
+                          <Trash size={32} color="red" />
+                        </button>
+                      )}
                     </div>
-                    {!campaignDistribution && (
-                      <button onClick={() => onTicketDelete(selectedEvent.id)}>
-                        <Trash size={32} color="red" />
-                      </button>
-                    )}
                   </div>
-                </div>
-              );
-            })}
-            {!campaignDistribution && (
-              <>
-                <div className="h-[1px] bg-gray-400 w-full"></div>
-                <div className="flex gap-2">
-                  <div className="w-full bg-gray-200 py-6 px-2 flex items-center justify-center rounded-2xl">
-                    <span className="font-semibold">Add ticket</span>
+                );
+              })}
+              {!campaignDistribution && (
+                <>
+                  <div className="h-[1px] bg-gray-400 w-full"></div>
+                  <div className="flex gap-2">
+                    <div className="w-full bg-gray-200 py-6 px-2 flex items-center justify-center rounded-2xl">
+                      <span className="font-semibold">Add ticket</span>
+                    </div>
+                    <SelectEventTicketModal defaultTickets={currentCampaign?.Tickets?.map((i) => i.id)} handleEvents={handleEvents} />
                   </div>
-                  <SelectEventTicketModal defaultTickets={currentCampaign?.Tickets?.map((i) => i.id)} handleEvents={handleEvents} />
-                </div>
-              </>
-            )}
+                </>
+              )}
+            </CardContent>
           </Card>
         </div>
       ) : (

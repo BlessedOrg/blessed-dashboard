@@ -59,6 +59,6 @@ export const EventPreview = ({ form, appId, eventId, isProcessing, toggleProcess
 
   return <Card className="p-0 flex flex-col gap-2 w-full pb-6">
     <EventPreviewCard eventData={values} />
-    <Button variant="green" className="self-center" isLoading={isProcessing} onClick={!!Object?.keys(errors)?.length ? showErrors : isEditView ? handleSubmit(onEventUpdate) : handleSubmit(onEventPublish)}>{isEditView ? "Update" : "Publish"} Event</Button>
+    <Button variant="green" className="self-center mt-4" isLoading={isProcessing} onClick={!!Object?.keys(errors)?.length ? showErrors : isEditView ? handleSubmit(onEventUpdate) : handleSubmit(onEventPublish)}>{isEditView ? "Update" : "Publish"} Event</Button>
   </Card>;
 };
