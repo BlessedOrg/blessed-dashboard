@@ -14,16 +14,17 @@ export const AppsView = () => {
     isLoading
   } = useUserContext();
   return (
-    <div className="flex flex-col gap-5 w-full">
+    <div className="flex flex-col gap-4 w-full">
       {(isAppsLoading || isLoading) && <LoadingDashboardSkeleton />}
       {!apps.length && !isAppsLoading && !isLoading && (
         <Card className="py-10">
           <p className="font-semibold text-lg text-gray-500 text-center">No apps yet</p>
         </Card>
       )}
+      {!!apps?.length && <p className="font-semibold">My apps</p>}
       {apps.map((app, index) => {
         return (
-          <Card key={app.name + index} className="relative" title="My apps" variant="rounded">
+          <Card key={app.name + index} className="relative" variant="rounded">
             <CardContent className="flex gap-4 justify-between items-center ">
               <Link href={`/${app.slug}`} className="absolute w-full h-full" />
               <div className="flex gap-4 w-full">
@@ -54,10 +55,10 @@ export const AppsView = () => {
           </Card>
         );
       })}
-      <div className="flex gap-4 justify-center">
+      {!!apps?.length && <div className="flex gap-4 justify-center">
         <Button variant="outline">See more</Button>
         <CreateAppModal variant="yellow" label="Add new app" />
-      </div>
+      </div>}
     </div>
   );
 };
