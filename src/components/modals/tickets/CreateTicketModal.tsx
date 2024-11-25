@@ -27,6 +27,7 @@ const formSchema = z.object({
   price: z.coerce
     .number()
     .min(0, "Price must be greater than or equal to 0"),
+  symbol: z.string().min(1, "Symbol is required"),
   imageUrl: z.string().url("Please enter a valid URL").optional(),
   logoFile: z.any().optional()
 }).refine(
@@ -56,7 +57,8 @@ export function CreateTicketModal({ appId, eventId, mutateTickets }: CreateTicke
       imageUrl: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=2940",
       initialSupply: 100,
       maxSupply: 100,
-      price: 0
+      price: 0,
+      symbol: "TIC"
     }
   });
 
@@ -69,11 +71,14 @@ export function CreateTicketModal({ appId, eventId, mutateTickets }: CreateTicke
         await mutateTickets();
         toast("Successfully created ticket!", { type: "success" });
         setIsOpen(false);
+      } else {
+        toast(res?.message || "Something went wrong!", { type: "error" });
       }
     } catch (e) {
       console.log(e);
       toast(e?.message || "Something went wrong!", { type: "error" });
     }
+    setIsLoading(false);
   };
 
   return (
