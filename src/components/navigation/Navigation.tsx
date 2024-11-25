@@ -10,6 +10,7 @@ import { CreateAppModal } from "@/components/modals/CreateAppModal";
 import { CreateEventButton } from "@/components/common/CreateEventButton";
 import { EventSelect } from "@/components/navigation/EventSelect";
 import { ChevronLeft } from "lucide-react";
+import { useUserContext } from "@/store/UserContext";
 
 interface NavigationProps {
   appId?: string;
@@ -68,6 +69,8 @@ const RightSideMenu = ({ showRightSideCta, rightSideCta }: Pick<PathSettings, "s
 export const Navigation = ({ appId, eventId }: NavigationProps) => {
   const pathname = usePathname();
   const router = useRouter();
+  const { appsData } = useUserContext();
+  const currentApp = appsData?.apps?.find((app) => app.slug === appId);
 
   const navigationConfig = {
     middleNavigationItems: {
@@ -128,12 +131,13 @@ export const Navigation = ({ appId, eventId }: NavigationProps) => {
       <div className="flex gap-2">
         <Logo showFullLogo={settings.showFullLogo} />
         {settings.showArrowBack && (
-          <Button
-            className="bg-white w-[3.25rem] h-[3.25rem] rounded-full flex items-center justify-center p-0"
-            onClick={() => router.back()}
+          <Link
+            className="bg-white h-[3.25rem] rounded-full flex items-center justify-center px-4"
+            href={`/${appId}`}
           >
             <ChevronLeft color="#000" />
-          </Button>
+            <p className="font-semibold">{currentApp?.name}</p>
+          </Link>
         )}
         {settings.showAppSelect && <AppSelect currentAppId={appId} />}
         {settings.showEventSelect && <EventSelect appId={appId} currentEventSlug={eventId} />}
