@@ -9,7 +9,7 @@ import { Button, Card } from "@/components/ui";
 import { CardContent } from "@/components/ui/card";
 import Link from "next/link";
 
-export const AppEventsTab = ({ appId, items }) => {
+export const AppEventsTab = ({ appId, items = 0 }) => {
   const { data: eventsData, isLoading } = useSWR(`${apiUrl}/private/events/${appId}`, fetcherWithToken);
   const events = isArray(eventsData) ? eventsData : [];
   return (
