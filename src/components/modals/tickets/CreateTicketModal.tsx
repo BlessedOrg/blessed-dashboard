@@ -14,6 +14,7 @@ import { createTicket } from "@/app/api/events";
 import { toast } from "react-toastify";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ImageUploader } from "@/components/ui/image-uploader";
+import { fileToBase64 } from "@/utils/fileToBase64";
 
 const formSchema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -55,18 +56,31 @@ export function CreateTicketModal({ appId, eventId, mutateTickets }: CreateTicke
     defaultValues: {
       name: "Amazing Event 2024",
       imageUrl: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=2940",
-      initialSupply: 100,
-      maxSupply: 100,
+      initialSupply: 10,
+      maxSupply: 1000,
       price: 0,
-      symbol: "TIC"
+      symbol: "VIP"
     }
   });
 
+  const onImageTabChange = (value: string) => {
+    setImageTab(value);
+    form.setValue("imageUrl", "");
+  };
+
   const onSubmit = async (data: any) => {
-    const { logoFile, ...rest } = data;
+    const { logoFile, imageUrl, ...rest } = data;
+    let uploadedImage = null;
+    if (logoFile instanceof File) {
+      const base64Image = await fileToBase64(logoFile);
+      uploadedImage = base64Image.replace(/^data:image\/[a-zA-Z]+;base64,/, "");
+    }
+    if (!!imageUrl) {
+      uploadedImage = await getBase64FromUrl(imageUrl);
+    }
     setIsLoading(true);
     try {
-      const res = await createTicket(appId, eventId, { ...rest, transferable: true, whitelistOnly: false });
+      const res = await createTicket(appId, eventId, { ...rest, imageUrl: uploadedImage, transferable: true, whitelistOnly: false });
       if (res?.success) {
         await mutateTickets();
         toast("Successfully created ticket!", { type: "success" });
@@ -79,6 +93,22 @@ export function CreateTicketModal({ appId, eventId, mutateTickets }: CreateTicke
       toast(e?.message || "Something went wrong!", { type: "error" });
     }
     setIsLoading(false);
+  };
+
+  const getBase64FromUrl = async (url) => {
+    const response = await fetch(url);
+
+    if (!response.ok) {
+      return null;
+    }
+
+    const blob = await response.blob();
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader() as any;
+      reader.onloadend = () => resolve(reader.result.replace(/^data:.+;base64,/, ""));
+      reader.onerror = (error) => reject(error);
+      reader.readAsDataURL(blob);
+    });
   };
 
   return (
@@ -118,7 +148,7 @@ export function CreateTicketModal({ appId, eventId, mutateTickets }: CreateTicke
 
             <div className="space-y-4">
               <Label>Ticket Image</Label>
-              <Tabs value={imageTab} onValueChange={setImageTab}>
+              <Tabs value={imageTab} onValueChange={onImageTabChange}>
                 <TabsList className="grid w-full grid-cols-2">
                   <TabsTrigger value="upload">Upload Image</TabsTrigger>
                   <TabsTrigger value="url">Image URL</TabsTrigger>

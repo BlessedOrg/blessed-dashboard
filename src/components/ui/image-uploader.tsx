@@ -25,6 +25,14 @@ export const ImageUploader = ({
   const handleImageUpload = (file: File) => {
     if (!file.type.startsWith("image/")) {
       console.error("Invalid file type");
+      alert("Invalid file type. Please upload an image file.");
+      return;
+    }
+    const maxMb = 5;
+    const maxFileSize = maxMb * 1024 * 1024;
+    if (file.size > maxFileSize) {
+      console.error("File size exceeds the limit of 5 MB.");
+      alert("File size exceeds the limit of 5 MB.");
       return;
     }
 

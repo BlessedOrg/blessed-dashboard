@@ -42,6 +42,7 @@ declare global {
     ticketOwners: string[];
     price: number;
     ticketSupply: number;
+    maxSupply: number;
   }
   interface IEntrance {
     id: string;

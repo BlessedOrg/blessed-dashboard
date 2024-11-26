@@ -21,7 +21,7 @@ export function TicketPreview({
   initialCapacity = 100,
   maxCapacity = 1000
 }: TicketPreviewProps) {
-  const previewImage = imageUrl?.includes("https://") ? imageUrl : "/img/placeholder_image.jpeg";
+  const previewImage = imageUrl?.includes("https://") || imageUrl?.includes("data:image") ? imageUrl : "/img/placeholder_image.jpeg";
   return (
     <Card className="overflow-hidden bg-white">
       <div className="aspect-video relative overflow-hidden">

@@ -1,6 +1,6 @@
 "use client";
 import { LoadingDashboardSkeleton } from "@/components/common/LoadingDashboardSkeleton";
-import { TicketsTab } from "@/components/dashboards/eventDashboard/tabs/TicketsTab";
+import { TicketsTab } from "@/components/dashboards/eventDashboard/tabs/tickets/TicketsTab";
 import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import { EventDetails } from "@/components/dashboards/eventDashboard/tabs/EventDetails";
