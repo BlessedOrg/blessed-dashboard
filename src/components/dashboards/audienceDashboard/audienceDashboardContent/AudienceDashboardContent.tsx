@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 import { updateAudience } from "@/app/api/audience";
 import { fetcherWithToken } from "@/requests/requests";
 import { apiUrl } from "@/variables/variables";
+import { CardContent } from "@/components/ui/card";
 
 export const AudienceDashboardContent = ({
   appId,
@@ -81,7 +82,9 @@ export const AudienceDashboardContent = ({
             </Button>
           </div>
           <Card>
-            <TextEdit defaultValue={currentAudience.name} handleSubmit={onAudienceNameChange} />
+            <CardContent>
+              <TextEdit defaultValue={currentAudience.name} handleSubmit={onAudienceNameChange} />
+            </CardContent>
           </Card>
           {isDraft && (
             <div className="bg-yellow-500 px-5 py-2 rounded-3xl flex flex-col gap-4">
@@ -89,32 +92,36 @@ export const AudienceDashboardContent = ({
             </div>
           )}
           {!isDraft && (
-            <Card className="flex gap-2 items-center justify-between font-semibold">
-              <p>Total audience</p>
-              <p>{currentAudience?.AudienceUsers?.length || 0} users</p>
+            <Card>
+              <CardContent className="flex gap-2 items-center justify-between font-semibold">
+                <p>Total audience</p>
+                <p>{currentAudience?.AudienceUsers?.length || 0} users</p>
+              </CardContent>
             </Card>
           )}
           {isDraft && <CreateAudiencesView isLoading={isLoading} handleEligibleUsersChange={handleEligibleUsersChange} />}
           {!isDraft && (
-            <Card className="flex flex-col gap-4">
-              <p className="font-semibold">Audience users</p>
+            <Card>
+              <CardContent className="flex flex-col gap-4">
+                <p className="font-semibold">Audience users</p>
 
-              <div className="flex flex-col gap-2">
-                {users.map((user) => {
-                  return (
-                    <div key={user.id} className="flex gap-2 items-center border-2 p-2 rounded-xl">
-                      {!!user?.externalWalletAddress ? (
-                        <p>External wallet address: {user.externalWalletAddress}</p>
-                      ) : (
-                        <div className="flex flex-col gap-1">
-                          <p>{user.User.email}</p>
-                          <p>{user.User.walletAddress}</p>
-                        </div>
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
+                <div className="flex flex-col gap-2">
+                  {users.map((user) => {
+                    return (
+                      <div key={user.id} className="flex gap-2 items-center border-2 p-2 rounded-xl">
+                        {!!user?.externalWalletAddress ? (
+                          <p>External wallet address: {user.externalWalletAddress}</p>
+                        ) : (
+                          <div className="flex flex-col gap-1">
+                            <p>{user.User.email}</p>
+                            <p>{user.User.walletAddress}</p>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              </CardContent>
             </Card>
           )}
         </div>

@@ -12,7 +12,7 @@ export const HomeDashboardSidebarNav = ({ currentTabIndex, className }: { curren
               <Link
                 href={nav.href}
                 className={`rounded-full px-5 py-2 font-semibold hover:bg-gray-300 ${
-                  isActive ? "bg-background" : ""
+                  isActive ? "bg-root-background" : ""
                 } w-full text-left my-1 block`}
               >
                 {nav.label}

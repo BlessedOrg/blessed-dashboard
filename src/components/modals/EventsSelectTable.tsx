@@ -1,14 +1,4 @@
-import {
-  ColumnDef,
-  flexRender,
-  getCoreRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  PaginationState,
-  SortingState,
-  useReactTable,
-  VisibilityState,
-} from "@tanstack/react-table";
+import { ColumnDef, flexRender, getCoreRowModel, getPaginationRowModel, getSortedRowModel, PaginationState, SortingState, useReactTable, VisibilityState } from "@tanstack/react-table";
 import { Button, Checkbox, DialogClose, DropdownMenu, DropdownMenuContent, DropdownMenuTrigger, Input, Table } from "@/components/ui";
 import { ArrowUpDown, ChevronDown } from "lucide-react";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
@@ -43,7 +33,7 @@ const columns: ColumnDef<IFlattenedData>[] = [
       <Checkbox checked={row.getIsSelected()} onCheckedChange={(value) => row.toggleSelected(!!value)} aria-label="Select row" />
     ),
     enableSorting: false,
-    enableHiding: false,
+    enableHiding: false
   },
   {
     accessorKey: "eventName",
@@ -64,20 +54,20 @@ const columns: ColumnDef<IFlattenedData>[] = [
         />
         <span>{row.getValue("eventName")}</span>
       </div>
-    ),
+    )
   },
   {
     accessorKey: "ticketName",
     header: "Ticket Name",
-    cell: ({ row }) => <div>{row.getValue("ticketName")}</div>,
-  },
+    cell: ({ row }) => <div>{row.getValue("ticketName")}</div>
+  }
 ];
 
 export function EventSelectTable({
   myEvents: myEventsData,
   publicEvents: publicEventsData,
   onSaveEvents,
-  defaultTickets,
+  defaultTickets
 }: {
   myEvents: IEvent[];
   publicEvents: IEvent[];
@@ -92,7 +82,7 @@ export function EventSelectTable({
   const [globalFilter, setGlobalFilter] = useState("");
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
-    pageSize: 4,
+    pageSize: 4
   });
 
   const processedEvents = useMemo(() => {
@@ -109,13 +99,13 @@ export function EventSelectTable({
           createdAt: new Date(ticket?.createdAt)?.toLocaleDateString(),
           logoUrl: event.logoUrl,
           type: "holders",
-          Entrance: ticket?.Entrance,
+          Entrance: ticket?.Entrance
         }))
       );
 
     return {
       myEvents: processEvents(myEventsData),
-      publicEvents: processEvents(publicEventsData),
+      publicEvents: processEvents(publicEventsData)
     };
   }, [myEventsData, publicEventsData]);
 
@@ -168,11 +158,11 @@ export function EventSelectTable({
       sorting,
       columnVisibility,
       rowSelection,
-      pagination,
+      pagination
     },
     initialState: {
-      rowSelection: {},
-    },
+      rowSelection: {}
+    }
   });
 
   const selectedEvents = useMemo(() => {
@@ -191,7 +181,7 @@ export function EventSelectTable({
         />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="ml-auto">
+            <Button variant="outline" className="ml-auto" size="lg">
               Events <ChevronDown className="ml-2 h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>

@@ -2,7 +2,6 @@
 import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import { LoadingDashboardSkeleton } from "@/components/common/LoadingDashboardSkeleton";
-import { Card } from "@/components/ui";
 import { ApiKeyTab } from "@/components/dashboards/appDashboard/tabs/ApiKeyTab";
 import { AppOverview } from "@/components/dashboards/appDashboard/tabs/appOverview/AppOverview";
 import { AppEventsTab } from "@/components/dashboards/appDashboard/tabs/events/AppEventsTab";
@@ -20,7 +19,7 @@ interface AppDashboardContentProps {
 const TAB_PARAMS_MAP = {
   overview: 0,
   events: 1,
-  "api-key": 4,
+  "api-key": 3
 } as const;
 
 const DEFAULT_TAB = "overview";
@@ -32,9 +31,7 @@ export const AppDashboardContent = ({ currentTabIndex, onTabChange, appData, isL
   const contentPerTab: Record<number, JSX.Element> = {
     0: <AppOverview appId={appData?.slug} />,
     1: <AppEventsTab appId={appData?.slug} />,
-    2: <Card className="w-full h-fit" />,
-    3: <Card className="w-full h-fit" />,
-    4: <ApiKeyTab appId={appData?.slug} apiTokens={appData?.ApiTokens} />,
+    3: <ApiKeyTab appId={appData?.slug} apiTokens={appData?.ApiTokens} />
   };
 
   useEffect(() => {

@@ -5,20 +5,40 @@ interface IProps {
   name: string;
   description?: string;
   logoUrl?: string;
-  app: string;
+  timezoneIdentifier?: string;
+  startsAt?: Date;
+  endsAt?: Date;
+  eventLocation?: any;
 }
-export async function createEvent({ name, description, logoUrl, app }: IProps) {
-  const response = await fetcherWithToken(`${apiUrl}/private/events/${app}`, {
+export async function createEvent(appId: string, data: IProps) {
+  const response = await fetcherWithToken(`${apiUrl}/private/events/${appId}`, {
     method: "POST",
-    body: JSON.stringify({ name, description, logoUrl }),
+    body: JSON.stringify(data)
   });
   return response;
 }
 
-export async function updateEvent({ name, description, logoUrl, appId, eventId }) {
+export async function updateEvent(appId, eventId, data: IProps) {
   const response = await fetcherWithToken(`${apiUrl}/private/events/${appId}/${eventId}`, {
     method: "PATCH",
-    body: JSON.stringify({ name, description, logoUrl }),
+    body: JSON.stringify(data)
+  });
+  return response;
+}
+
+export async function createTicket(appId: string, eventId: string, data: {
+  name: string;
+  price: number;
+  symbol: string;
+  imageUrl?: string | null;
+  initialSupply: number;
+  maxSupply: number;
+  transferable: boolean
+  whitelistOnly: boolean
+}) {
+  const response = await fetcherWithToken(`${apiUrl}/private/tickets/${appId}/${eventId}`, {
+    method: "POST",
+    body: JSON.stringify(data)
   });
   return response;
 }

@@ -8,7 +8,7 @@ import { EventSelectTable } from "@/components/modals/EventsSelectTable";
 
 export const SelectEventTicketModal = ({
   defaultTickets,
-  handleEvents,
+  handleEvents
 }: {
   defaultTickets: string[];
   handleEvents: (data: { eventId: string; ticketId: string }[]) => void;
@@ -30,7 +30,9 @@ export const SelectEventTicketModal = ({
       </DialogTrigger>
       <DialogContent className="w-full max-w-[35rem]">
         <DialogHeader>
-          <DialogTitle className="uppercase text-5xl text-center">Select tickets</DialogTitle>
+          <DialogTitle asChild className="uppercase text-5xl text-center">
+            <h2>Select tickets</h2>
+          </DialogTitle>
         </DialogHeader>
         <div className="h-[1px] bg-gray-400 w-full"></div>
         <EventSelectTable

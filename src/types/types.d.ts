@@ -12,7 +12,7 @@ declare global {
     slug: string;
     Audiences: IAudience[];
     Tickets?: ITicket[];
-    CampaignDistributions: ICampaignDistribution;
+    CampaignDistribution: ICampaignDistribution;
     appId: string;
     createdAt: Date;
     updatedAt: Date | null;
@@ -35,9 +35,14 @@ declare global {
     id: string;
     name: string;
     slug: string;
+    address: string;
     Entrance?: IEntrance;
     Event?: IEvent;
     createdAt: Date;
+    ticketOwners: string[];
+    price: number;
+    ticketSupply: number;
+    maxSupply: number;
   }
   interface IEntrance {
     id: string;
@@ -54,6 +59,10 @@ declare global {
     description: string;
     logoUrl: string;
     Tickets: ITicket[];
+    startsAt: Date;
+    endsAt: Date;
+    EventLocation: IEventLocation;
+    timezoneIdentifier: string;
     createdAt: Date;
   }
 
@@ -95,5 +104,33 @@ declare global {
     createdAt: string;
     updatedAt: string;
     ApiTokens: any[];
+  }
+
+  //events
+  interface IEventLocation {
+    city: string;
+    continent?: string;
+    country?: string;
+    cityLatitude?: string;
+    cityLongitude?: string;
+    countryFlag?: string;
+    countryLatitude?: string;
+    countryLongitude?: string;
+    countryCode?: string;
+    locationDetails?: string;
+    postalCode?: string;
+    stateCode?: string;
+    street1stLine?: string;
+    street2ndLine?: string;
+  }
+
+  interface IEventDetails {
+    eventLocation: IEventLocation;
+    name: string;
+    description?: string;
+    timezoneIdentifier: string;
+    endsAt: Date;
+    startsAt: Date;
+    logoUrl?: string;
   }
 }

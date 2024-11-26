@@ -11,22 +11,23 @@ import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/comp
 
 const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters").max(50, "Name must be less than 50 characters"),
-  description: z.string().optional(),
+  description: z.string().optional()
 });
 export const CreateAppModal = ({
   variant = "outline",
-  label = "Create app",
+  label = "Create app"
 }: {
   variant?: "green" | "yellow" | "outline";
   label?: string;
 }) => {
   const {
-    appsData: { mutate },
+    appsData: { mutate }
   } = useUserContext();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
+    defaultValues: { name: "", description: "" }
   });
 
   async function onSubmit(values) {
@@ -51,7 +52,9 @@ export const CreateAppModal = ({
       </DialogTrigger>
       <DialogContent className="max-w-[330px]">
         <DialogHeader>
-          <DialogTitle className="uppercase text-5xl text-center">Create your App</DialogTitle>
+          <DialogTitle asChild className="uppercase text-5xl text-center">
+            <h2>Create your App</h2>
+          </DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-4">
