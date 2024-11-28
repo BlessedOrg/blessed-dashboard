@@ -4,6 +4,7 @@ import { Button, Card } from "@/components/ui";
 import { usePathname, useRouter } from "next/navigation";
 import { createEvent, updateEvent } from "@/app/api/events";
 import { toast } from "react-toastify";
+import { uploadBrowserFilesToS3 } from "@/utils/uploadImagesToS3";
 
 export const EventPreview = ({ form, appId, eventId, isProcessing, toggleProcessingState }: { form: UseFormReturn<FieldValues, any, undefined>, appId: string, eventId: string, toggleProcessingState: (bool: boolean) => void, isProcessing: boolean }) => {
   const values = form.watch() as IEventDetails;
@@ -20,11 +21,20 @@ export const EventPreview = ({ form, appId, eventId, isProcessing, toggleProcess
     toast(`Fields: ${keys?.map((i: string) => ` ${i.toUpperCase()}`)} - are missing!`, { type: "error" });
   };
   const onEventPublish = async (data) => {
+    const { logoFile } = values as any;
     toggleProcessingState(true);
+
+    let imageUrl = values?.logoUrl.includes("https://") ? values.logoUrl : null;
     try {
+      if (logoFile instanceof File) {
+        const uploadedFile = await uploadBrowserFilesToS3([logoFile]);
+        if (uploadedFile?.[0]?.uploadedFileUrl) {
+          imageUrl = uploadedFile[0].uploadedFileUrl;
+        }
+      }
       const payload = {
-        ...values,
-        logoUrl: values?.logoUrl.includes("https://") ? values.logoUrl : null
+        ...data,
+        logoUrl: imageUrl
       };
       const res = await createEvent(appId, payload);
       if (res?.slug) {
@@ -39,11 +49,20 @@ export const EventPreview = ({ form, appId, eventId, isProcessing, toggleProcess
   };
 
   const onEventUpdate = async (data) => {
+    const { logoFile } = values as any;
     toggleProcessingState(true);
+
+    let imageUrl = values?.logoUrl.includes("https://") ? values.logoUrl : null;
     try {
+      if (logoFile instanceof File) {
+        const uploadedFile = await uploadBrowserFilesToS3([logoFile]);
+        if (uploadedFile?.[0]?.uploadedFileUrl) {
+          imageUrl = uploadedFile[0].uploadedFileUrl;
+        }
+      }
       const payload = {
-        ...values,
-        logoUrl: values?.logoUrl.includes("https://") ? values.logoUrl : null
+        ...data,
+        logoUrl: imageUrl
       };
       const res = await updateEvent(appId, eventId, payload);
       if (res?.slug) {

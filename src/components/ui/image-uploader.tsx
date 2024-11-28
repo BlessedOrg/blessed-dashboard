@@ -22,7 +22,7 @@ export const ImageUploader = ({
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleImageUpload = (file: File) => {
+  const handleImageUpload = async (file: File) => {
     if (!file.type.startsWith("image/")) {
       console.error("Invalid file type");
       alert("Invalid file type. Please upload an image file.");
@@ -38,7 +38,6 @@ export const ImageUploader = ({
 
     try {
       setValue("logoFile", file);
-
       const reader = new FileReader();
       reader.onload = (e) => {
         const result = e.target?.result;

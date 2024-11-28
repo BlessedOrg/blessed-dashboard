@@ -12,6 +12,7 @@ import { updateEvent } from "@/app/api/events";
 import { useRouter } from "next/navigation";
 import { ImageUploader } from "@/components/ui/image-uploader";
 import { FormField } from "@/components/common/FormFields";
+import { uploadBrowserFilesToS3 } from "@/utils/uploadImagesToS3";
 
 interface EditableNameFieldProps {
   isEditing: boolean;
@@ -124,7 +125,7 @@ const EditableDescriptionField = ({ currentValue, editedValue, onEdit, placehold
   );
 };
 
-export const NameAndDescriptionCard = ({ form, defaultValues, className, eventId, appId, withSave }: NameAndDescriptionTabProps) => {
+export const NameAndDescriptionCard = ({ form, defaultValues, className, eventId, appId, withSave = false }: NameAndDescriptionTabProps) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isEditingName, setIsEditingName] = useState(false);
   const router = useRouter();
@@ -137,10 +138,11 @@ export const NameAndDescriptionCard = ({ form, defaultValues, className, eventId
     setIsSubmitting(true);
     try {
       let uploadedLogo: string | null = defaultValues?.logo || null;
-      // if (data.logo instanceof File) {
-      //   const uploadedFile = await uploadBrowserFilesToS3([data.logo]);
-      //   uploadedLogo = uploadedFile?.[0]?.uploadedFileUrl;
-      // }
+      if (data.logo instanceof File) {
+        const uploadedFile = await uploadBrowserFilesToS3([data.logo]);
+        console.log(uploadedFile);
+        uploadedLogo = uploadedFile?.[0]?.uploadedFileUrl;
+      }
       const payload = {
         name: data.name,
         description: data.description,
