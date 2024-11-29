@@ -38,7 +38,7 @@ export function BouncersManagementView({ appId, eventId, bouncers, mutateEventDa
           <CardContent className="p-6">
             <div className="flex items-center gap-3 mb-2">
               <Shield className="w-6 h-6 text-indigo-600" />
-              <h1 className="text-4xl font-bold text-gray-900">Event Bouncers</h1>
+              <h3 className="text-2xl font-bold text-gray-900">Event Bouncers</h3>
             </div>
             <p className="text-gray-600">
               Manage access control for your event by adding and managing bouncers
