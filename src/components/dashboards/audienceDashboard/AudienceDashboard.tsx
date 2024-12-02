@@ -9,7 +9,7 @@ import { AudienceDashboardSidebarNav } from "@/components/dashboards/audienceDas
 import { AudienceDashboardContent } from "@/components/dashboards/audienceDashboard/audienceDashboardContent/AudienceDashboardContent";
 import { Card } from "@/components/ui";
 import { CreateAudienceModal } from "@/components/dashboards/audienceDashboard/audienceDashboardSidebarNav/createAudienceModal/CreateAudienceModal";
-import { CardContent } from "@/components/ui/card";
+import { PersonStanding } from "lucide-react";
 
 export const AudienceDashboard = ({ appId }) => {
   const { data: audienceData, isLoading, mutate } = useSWR(`${apiUrl}/private/apps/${appId}/audiences`, fetcherWithToken);
@@ -36,11 +36,11 @@ export const AudienceDashboard = ({ appId }) => {
         <AudienceDashboardContent currentAudience={currentAudience} isLoading={isLoading} appId={appId} mutateAudience={mutate} />
       )}
       {!currentAudience && (
-        <Card className="w-full">
-          <CardContent className="flex items-center flex-col gap-2">
-            <p className="font-semibold text-2xl">Create new audience</p>
-            <CreateAudienceModal appId={appId} onSuccess={mutate} mode="green" />
-          </CardContent>
+        <Card className="p-8 text-center text-gray-500 w-full">
+          <PersonStanding className="w-12 h-12 mx-auto mb-4 opacity-50" />
+          <p className="text-lg font-medium">No audiences available yet</p>
+          <p className="text-sm mb-4">Create your first audience to get started</p>
+          <CreateAudienceModal appId={appId} onSuccess={mutate} mode="green" />
         </Card>
       )}
       <DashboardSidebar />

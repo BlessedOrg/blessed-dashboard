@@ -13,6 +13,11 @@ export const eventSidebarNavItems = [
   },
   {
     id: 1,
+    label: "Event Management",
+    href: "?tab=event-management"
+  },
+  {
+    id: 2,
     label: "Tickets",
     href: "?tab=tickets"
   }

@@ -28,7 +28,7 @@ const formSchema = z.object({
   price: z.coerce
     .number()
     .min(0, "Price must be greater than or equal to 0"),
-  symbol: z.string().min(1, "Symbol is required"),
+  symbol: z.string().min(3, "Symbol is required").max(6, "Symbol must be less than 6 characters"),
   imageUrl: z.string().url("Please enter a valid URL").optional(),
   logoFile: z.any().optional()
 }).refine(
@@ -54,7 +54,7 @@ export function CreateTicketModal({ appId, eventId, mutateTickets }: CreateTicke
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "Amazing Event 2024",
+      name: "VIP Ticket",
       imageUrl: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=2940",
       initialSupply: 10,
       maxSupply: 1000,
@@ -123,16 +123,33 @@ export function CreateTicketModal({ appId, eventId, mutateTickets }: CreateTicke
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="name">Ticket Name</Label>
-              <Input
-                id="name"
-                {...form.register("name")}
-                placeholder="e.g., VIP Access Pass"
-              />
+            <div className="flex flex-col gap-2">
+              <div className="flex gap-4 items-center">
+                <div className="space-y-2 w-full">
+                  <Label htmlFor="name">Ticket Name</Label>
+                  <Input
+                    id="name"
+                    {...form.register("name")}
+                    placeholder="e.g., VIP Access Pass"
+                  />
+                </div>
+                <div className="space-y-2 w-[25%]">
+                  <Label htmlFor="symbol">Symbol</Label>
+                  <Input
+                    id="symbol"
+                    {...form.register("symbol")}
+                    placeholder="e.g., VIP"
+                  />
+                </div>
+              </div>
               {form.formState.errors.name && (
                 <p className="text-sm text-red-500">
                   {form.formState.errors.name.message}
+                </p>
+              )}
+              {form.formState.errors.symbol && (
+                <p className="text-sm text-red-500">
+                  {form.formState.errors.symbol.message}
                 </p>
               )}
             </div>
@@ -251,6 +268,7 @@ export function CreateTicketModal({ appId, eventId, mutateTickets }: CreateTicke
               imageUrl={form.watch("imageUrl")}
               initialCapacity={form.watch("initialSupply")}
               maxCapacity={form.watch("maxSupply")}
+              symbol={form.watch("symbol")}
             />
           </div>
         </div>

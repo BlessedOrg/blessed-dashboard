@@ -4,6 +4,7 @@ import { TicketsTab } from "@/components/dashboards/eventDashboard/tabs/tickets/
 import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import { EventDetails } from "@/components/dashboards/eventDashboard/tabs/EventDetails";
+import { EventManagementTab } from "@/components/dashboards/eventDashboard/tabs/eventManagement/EventManagementTab";
 
 type TabId = keyof typeof TAB_PARAMS_MAP;
 
@@ -14,16 +15,18 @@ interface AppDashboardContentProps {
   appId: string;
   eventId: string;
   isLoading: boolean;
+  mutateEventData: () => void;
 }
 
 const TAB_PARAMS_MAP = {
   "event-details": 0,
-  tickets: 1
+  "event-management": 1,
+  tickets: 2
 } as const;
 
 const DEFAULT_TAB = "event-details";
 
-export const EventDashboardContent = ({ currentTabIndex, onTabChange, eventData, isLoading, eventId, appId }: AppDashboardContentProps) => {
+export const EventDashboardContent = ({ currentTabIndex, mutateEventData, onTabChange, eventData, isLoading, eventId, appId }: AppDashboardContentProps) => {
   const searchParams = useSearchParams();
   const currentTab = (searchParams.get("tab") || DEFAULT_TAB) as TabId;
   const formattedDefaultValues = {
@@ -38,7 +41,8 @@ export const EventDashboardContent = ({ currentTabIndex, onTabChange, eventData,
     0: (
       <EventDetails eventData={formattedDefaultValues} />
     ),
-    1: <TicketsTab appId={appId} eventId={eventId} />
+    1: <EventManagementTab isLoading={isLoading} appId={appId} eventId={eventId} eventData={formattedDefaultValues} mutateEventData={mutateEventData} />,
+    2: <TicketsTab appId={appId} eventId={eventId} />
   };
 
   useEffect(() => {

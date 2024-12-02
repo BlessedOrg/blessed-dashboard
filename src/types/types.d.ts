@@ -132,5 +132,17 @@ declare global {
     endsAt: Date;
     startsAt: Date;
     logoUrl?: string;
+    EventBouncers?: IEventBouncer[];
+  }
+  interface IEventBouncer {
+    id: string;
+    User: {
+      id: string
+      email: string
+    },
+    eventId: string;
+    createdAt: Date;
+    updatedAt: Date | null;
+    deletedAt: Date | null;
   }
 }

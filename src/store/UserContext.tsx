@@ -39,11 +39,11 @@ const defaultState = {
     mutate: async () => {
       return 0;
     },
-    isAppsLoading: false,
+    isAppsLoading: false
   },
   mutate: async () => {
     return 0;
-  },
+  }
 } as UserHook;
 
 const UserContext = createContext<UserHook | undefined>(undefined);
@@ -57,11 +57,12 @@ const UserContextProvider = ({ children }: IProps) => {
     data: userDataResponse,
     mutate,
     isLoading: isUserDataLoading,
+    error
   } = useSWR(accessTokenExists ? `${apiUrl}/private/developers/me` : null, fetcherWithToken);
   const {
     data: appsDataResponse,
     mutate: mutateApps,
-    isLoading: isAppsLoading,
+    isLoading: isAppsLoading
   } = useSWR(isLoggedIn ? `${apiUrl}/private/apps` : null, fetcherWithToken);
 
   const isLoading = !accessTokenExists ? true : isUserDataLoading;
@@ -80,14 +81,14 @@ const UserContextProvider = ({ children }: IProps) => {
     }
   }, [accessTokenExists]);
   useEffect(() => {
-    if (!accessTokenExists || (!!accessTokenExists && !isLoading && !!userDataResponse?.error)) {
+    if (!accessTokenExists || (!!accessTokenExists && !isLoading && (!!userDataResponse?.error || !!error))) {
       window.location.replace(landingPageUrl + "?logout=true");
     }
   }, [userDataResponse, isLoading, accessTokenExists]);
 
   const onLogout = async () => {
     const res = await fetcherWithToken(`${apiUrl}/private/developers/logout`, {
-      method: "POST",
+      method: "POST"
     });
     if (!!res?.message) {
       setUserData(defaultState);
@@ -104,10 +105,10 @@ const UserContextProvider = ({ children }: IProps) => {
     appsData: {
       isAppsLoading,
       mutate: mutateApps,
-      apps: [],
+      apps: []
     },
     isLoggedIn,
-    onLogout,
+    onLogout
   };
   return (
     <UserContext.Provider
@@ -115,17 +116,17 @@ const UserContextProvider = ({ children }: IProps) => {
         !isLoggedIn
           ? unloggedValues
           : {
-              ...userData,
-              mutate,
-              isLoading,
-              isLoggedIn,
-              appsData: {
-                apps: isArray(appsDataResponse) ? appsDataResponse : [],
-                mutate: mutateApps,
-                isAppsLoading,
-              },
-              onLogout,
-            }
+            ...userData,
+            mutate,
+            isLoading,
+            isLoggedIn,
+            appsData: {
+              apps: isArray(appsDataResponse) ? appsDataResponse : [],
+              mutate: mutateApps,
+              isAppsLoading
+            },
+            onLogout
+          }
       }
     >
       {isLoading && <FixedLoading />}

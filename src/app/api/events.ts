@@ -18,6 +18,14 @@ export async function createEvent(appId: string, data: IProps) {
   return response;
 }
 
+export async function createEventBouncer(appId: string, eventId: string, data: { email: string }) {
+  const response = await fetcherWithToken(`${apiUrl}/private/events/${appId}/${eventId}/bouncer`, {
+    method: "POST",
+    body: JSON.stringify(data)
+  });
+  return response;
+}
+
 export async function updateEvent(appId, eventId, data: IProps) {
   const response = await fetcherWithToken(`${apiUrl}/private/events/${appId}/${eventId}`, {
     method: "PATCH",

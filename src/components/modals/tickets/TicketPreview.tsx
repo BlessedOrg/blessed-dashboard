@@ -11,6 +11,7 @@ interface TicketPreviewProps {
   imageUrl?: string;
   initialCapacity: number;
   maxCapacity: number;
+  symbol: string;
 }
 
 export function TicketPreview({
@@ -19,7 +20,8 @@ export function TicketPreview({
   price = 0,
   imageUrl = "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7",
   initialCapacity = 100,
-  maxCapacity = 1000
+  maxCapacity = 1000,
+  symbol
 }: TicketPreviewProps) {
   const previewImage = imageUrl?.includes("https://") || imageUrl?.includes("data:image") ? imageUrl : "/img/placeholder_image.jpeg";
   return (
@@ -32,7 +34,11 @@ export function TicketPreview({
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
         <div className="absolute bottom-4 left-4 right-4">
-          <h3 className="text-xl font-bold text-white mb-2">{name}</h3>
+          <div className="flex gap-2 items-center mb-2">
+            <h3 className="text-xl font-bold text-white">{name}</h3> <Badge className="text-xs bg-white">
+            {symbol}
+          </Badge>
+          </div>
           {description && (
             <p className="text-sm text-gray-200 line-clamp-2">{description}</p>
           )}

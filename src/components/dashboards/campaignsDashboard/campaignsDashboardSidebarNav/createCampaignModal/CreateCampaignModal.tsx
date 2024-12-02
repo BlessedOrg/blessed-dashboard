@@ -43,7 +43,7 @@ export const CreateCampaignModal = ({
   return (
     <Dialog open={isOpen}>
       <DialogTrigger asChild onClick={() => setIsOpen((prev) => !prev)}>
-        <Button variant={mode} className="w-full">
+        <Button variant={mode} className="w-full text-black">
           Add new campaign
         </Button>
       </DialogTrigger>

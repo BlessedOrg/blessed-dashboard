@@ -27,6 +27,7 @@ export const EventDashboard = ({ appId, eventId }) => {
           eventData={eventData}
           eventId={eventId}
           appId={appId}
+          mutateEventData={mutate}
         />
       </Suspense>
       <DashboardSidebar />

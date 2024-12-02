@@ -8,6 +8,7 @@ import { Ticket, Users } from "lucide-react";
 import { CreateTicketModal } from "@/components/modals/tickets/CreateTicketModal";
 import { LoadingCards } from "@/components/common/LoadingCards";
 import { TicketCard } from "@/components/dashboards/eventDashboard/tabs/tickets/TicketCard";
+import { ViewEnterAnimation } from "@/components/ui/view-enter-animation";
 
 export const TicketsTab = ({ appId, eventId }: { appId: string; eventId: string }) => {
   const {
@@ -24,62 +25,66 @@ export const TicketsTab = ({ appId, eventId }: { appId: string; eventId: string 
   const allOwnersCount = ticketsData?.reduce((acc, ticket) => acc + ticket.ticketOwners.length, 0) || 0;
   return (
     <div className="w-full space-y-6 pb-10">
-      <Card className="bg-gradient-to-r from-blue-50 to-indigo-50 border-none">
-        <CardContent className="flex flex-col md:flex-row gap-6 justify-between items-center p-6">
-          <div className="space-y-2">
-            <h3 className="text-2xl font-bold text-gray-900">
-              <Ticket className="inline-block w-6 h-6 mr-2 mb-1" />
-              Ticket Management
-            </h3>
-            <p className="text-gray-600 max-w-xl">
-              Review, edit, and organize your tickets with ease. Monitor sales, track availability,
-              and manage your event's ticketing strategy all in one place.
-            </p>
-          </div>
-          <CreateTicketModal appId={appId} eventId={eventId} mutateTickets={mutate} />
-        </CardContent>
-      </Card>
+      <ViewEnterAnimation>
+        <Card className="bg-gradient-to-r from-blue-50 to-indigo-50 border-none">
+          <CardContent className="flex flex-col md:flex-row gap-6 justify-between items-center p-6">
+            <div className="space-y-2">
+              <h3 className="text-2xl font-bold text-gray-900">
+                <Ticket className="inline-block w-6 h-6 mr-2 mb-1" />
+                Ticket Management
+              </h3>
+              <p className="text-gray-600 max-w-xl">
+                Review, edit, and organize your tickets with ease. Monitor sales, track availability,
+                and manage your event's ticketing strategy all in one place.
+              </p>
+            </div>
+            <CreateTicketModal appId={appId} eventId={eventId} mutateTickets={mutate} />
+          </CardContent>
+        </Card>
+      </ViewEnterAnimation>
 
       <div className="grid gap-6">
         {ticketsLoading && <LoadingCards items={3} />}
         {!ticketsLoading && (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <Card>
-              <CardContent className="p-4">
-                <div className="flex items-center gap-2">
-                  <Ticket className="w-5 h-5 text-blue-500" />
-                  <div>
-                    <p className="text-sm text-gray-500">Available Tickets</p>
-                    <p className="text-xl font-semibold">{allTicketsCount}</p>
+          <ViewEnterAnimation duration={0.7}>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <Card>
+                <CardContent className="p-4">
+                  <div className="flex items-center gap-2">
+                    <Ticket className="w-5 h-5 text-blue-500" />
+                    <div>
+                      <p className="text-sm text-gray-500">Available Tickets</p>
+                      <p className="text-xl font-semibold">{allTicketsCount}</p>
+                    </div>
                   </div>
-                </div>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardContent className="p-4">
-                <div className="flex items-center gap-2">
-                  <Users className="w-5 h-5 text-green-500" />
-                  <div>
-                    <p className="text-sm text-gray-500">Total Owners</p>
-                    <p className="text-xl font-semibold">{allOwnersCount}</p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardContent className="p-4">
+                  <div className="flex items-center gap-2">
+                    <Users className="w-5 h-5 text-green-500" />
+                    <div>
+                      <p className="text-sm text-gray-500">Total Owners</p>
+                      <p className="text-xl font-semibold">{allOwnersCount}</p>
+                    </div>
                   </div>
-                </div>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardContent className="p-4">
-                <div className="flex items-center gap-2">
-                  <Ticket className="w-5 h-5 text-purple-500" />
-                  <div>
-                    <p className="text-sm text-gray-500">Max Capacity</p>
-                    <p className="text-xl font-semibold">{maxCapacityCount}</p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardContent className="p-4">
+                  <div className="flex items-center gap-2">
+                    <Ticket className="w-5 h-5 text-purple-500" />
+                    <div>
+                      <p className="text-sm text-gray-500">Max Capacity</p>
+                      <p className="text-xl font-semibold">{maxCapacityCount}</p>
+                    </div>
                   </div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
+                </CardContent>
+              </Card>
+            </div>
+          </ViewEnterAnimation>
         )}
-        {ticketsData?.map((ticket) => (<TicketCard key={ticket.id} ticket={ticket} appId={appId} eventId={eventId} />))}
+        {ticketsData?.map((ticket) => (<ViewEnterAnimation key={ticket.id} duration={0.7}><TicketCard ticket={ticket} appId={appId} eventId={eventId} /></ViewEnterAnimation>))}
 
         {ticketsData?.length === 0 && (
           <Card className="p-8 text-center text-gray-500">
