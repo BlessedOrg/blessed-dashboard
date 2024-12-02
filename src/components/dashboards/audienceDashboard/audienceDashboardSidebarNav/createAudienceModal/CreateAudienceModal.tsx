@@ -50,7 +50,7 @@ export const CreateAudienceModal = ({
       </DialogTrigger>
       <DialogContent className="max-w-[330px]" customCloseHandler={() => setIsOpen(false)}>
         <DialogHeader>
-          <DialogTitle className="uppercase text-5xl text-center">Create new Audience</DialogTitle>
+          <DialogTitle asChild className="uppercase text-5xl text-center"><h2>Create new Audience</h2></DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-4">
