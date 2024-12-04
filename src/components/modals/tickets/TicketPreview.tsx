@@ -77,7 +77,7 @@ export function TicketPreview({
         <div className="mt-4 pt-4 border-t">
           <div className="flex justify-between items-center">
             <Badge variant="outline" className="text-xs">
-              {maxCapacity - initialCapacity} more can be minted
+              {maxCapacity - initialCapacity} more can be distributed
             </Badge>
             <Badge
               variant="secondary"

@@ -1,10 +1,10 @@
 "use client";
 import { LoadingDashboardSkeleton } from "@/components/common/LoadingDashboardSkeleton";
+import { EventDetails } from "@/components/dashboards/eventDashboard/tabs/EventDetails";
+import { EventManagementTab } from "@/components/dashboards/eventDashboard/tabs/eventManagement/EventManagementTab";
 import { TicketsTab } from "@/components/dashboards/eventDashboard/tabs/tickets/TicketsTab";
 import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
-import { EventDetails } from "@/components/dashboards/eventDashboard/tabs/EventDetails";
-import { EventManagementTab } from "@/components/dashboards/eventDashboard/tabs/eventManagement/EventManagementTab";
 
 type TabId = keyof typeof TAB_PARAMS_MAP;
 
@@ -13,7 +13,7 @@ interface AppDashboardContentProps {
   onTabChange: (index: number) => void;
   eventData?: IEvent;
   appId: string;
-  eventId: string;
+  eventId: string; 
   isLoading: boolean;
   mutateEventData: () => void;
 }

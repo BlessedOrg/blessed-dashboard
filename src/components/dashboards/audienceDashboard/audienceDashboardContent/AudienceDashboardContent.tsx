@@ -3,13 +3,13 @@ import { LoadingDashboardSkeleton } from "@/components/common/LoadingDashboardSk
 import { Button, Card } from "@/components/ui";
 import { Trash } from "lucide-react";
 import React, { useState } from "react";
-import { CreateAudiencesView } from "@/components/dashboards/audienceDashboard/audienceDashboardContent/createAudiencesView/CreateAudiencesView";
 import { TextEdit } from "@/components/ui/text-edit";
 import { toast } from "react-toastify";
 import { updateAudience } from "@/app/api/audience";
 import { fetcherWithToken } from "@/requests/requests";
 import { apiUrl } from "@/variables/variables";
 import { CardContent } from "@/components/ui/card";
+import { AudienceManagementView } from "@/components/dashboards/audienceDashboard/audienceDashboardContent/test/audience/AudienceManagementView";
 
 export const AudienceDashboardContent = ({
   appId,
@@ -99,7 +99,7 @@ export const AudienceDashboardContent = ({
               </CardContent>
             </Card>
           )}
-          {isDraft && <CreateAudiencesView isLoading={isLoading} handleEligibleUsersChange={handleEligibleUsersChange} />}
+          {isDraft && <AudienceManagementView appId={appId} />}
           {!isDraft && (
             <Card>
               <CardContent className="flex flex-col gap-4">

@@ -31,6 +31,13 @@ declare global {
     updatedAt: Date | null;
   }
 
+  interface IEntrance {
+    id: string;
+    name: string;
+    slug: string;
+    createdAt: Date;
+  }
+
   interface ITicket {
     id: string;
     name: string;
@@ -39,16 +46,16 @@ declare global {
     Entrance?: IEntrance;
     Event?: IEvent;
     createdAt: Date;
+    metadataPayload?: {
+      metadataImageUrl?: string;
+      name: string;
+      symbol: string;
+      description: string;
+    };
     ticketOwners: string[];
     price: number;
     ticketSupply: number;
     maxSupply: number;
-  }
-  interface IEntrance {
-    id: string;
-    name: string;
-    slug: string;
-    createdAt: Date;
   }
 
   interface IEvent {
@@ -64,6 +71,23 @@ declare global {
     EventLocation: IEventLocation;
     timezoneIdentifier: string;
     createdAt: Date;
+  }
+
+  interface IEventLocation {
+    city: string;
+    continent?: string;
+    country?: string;
+    cityLatitude?: string;
+    cityLongitude?: string;
+    countryFlag?: string;
+    countryLatitude?: string;
+    countryLongitude?: string;
+    countryCode?: string;
+    locationDetails?: string;
+    postalCode?: string;
+    stateCode?: string;
+    street1stLine?: string;
+    street2ndLine?: string;
   }
 
   interface ISelectedEvent {
@@ -104,24 +128,6 @@ declare global {
     createdAt: string;
     updatedAt: string;
     ApiTokens: any[];
-  }
-
-  //events
-  interface IEventLocation {
-    city: string;
-    continent?: string;
-    country?: string;
-    cityLatitude?: string;
-    cityLongitude?: string;
-    countryFlag?: string;
-    countryLatitude?: string;
-    countryLongitude?: string;
-    countryCode?: string;
-    locationDetails?: string;
-    postalCode?: string;
-    stateCode?: string;
-    street1stLine?: string;
-    street2ndLine?: string;
   }
 
   interface IEventDetails {
