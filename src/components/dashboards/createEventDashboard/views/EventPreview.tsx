@@ -39,7 +39,7 @@ export const EventPreview = ({ form, appId, eventId, isProcessing, toggleProcess
       const res = await createEvent(appId, payload);
       if (res?.event?.slug) {
         toast("Event created successfully!", { type: "success" });
-        router.push(`/${appId}/${res.slug}`);
+        router.push(`/${appId}/${res.event.slug}`);
       }
     } catch (e) {
       toast(e?.message || "Something went wrong!", { type: "error" });
