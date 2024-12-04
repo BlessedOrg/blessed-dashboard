@@ -71,6 +71,7 @@ declare global {
     EventLocation: IEventLocation;
     timezoneIdentifier: string;
     createdAt: Date;
+    isPublic?: boolean;
   }
 
   interface IEventLocation {

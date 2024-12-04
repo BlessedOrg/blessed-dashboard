@@ -3,11 +3,11 @@
 import { Card } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
-import { Calendar, MapPin, Ticket as TicketIcon } from "lucide-react";
+import { Calendar, MapPin } from "lucide-react";
 import Image from "next/image";
 import { format } from "date-fns";
 import { motion } from "framer-motion";
-import { formatLocation, getTicketImage, TicketRequirement } from "./types";
+import { formatLocation, getTicketImage, TicketRequirement } from "../../types";
 
 interface TicketRequirementCardProps {
   ticket: ITicket;
@@ -44,8 +44,8 @@ export function TicketRequirementCard({
               <div>
                 <div className="flex items-center gap-2">
                   <h3 className="font-medium text-lg">{ticket.name}</h3>
-                  <Badge variant="secondary" className="shrink-0">
-                    ${ticket.price}
+                  <Badge variant="outline" className="shrink-0">
+                    {ticket.metadataPayload.symbol}
                   </Badge>
                 </div>
                 <p className="text-sm text-gray-500 mt-1">
@@ -62,10 +62,6 @@ export function TicketRequirementCard({
               <span className="flex items-center gap-1">
                 <MapPin className="w-4 h-4" />
                 {formatLocation(event.EventLocation)}
-              </span>
-              <span className="flex items-center gap-1">
-                <TicketIcon className="w-4 h-4" />
-                {ticket.ticketSupply} available
               </span>
             </div>
 

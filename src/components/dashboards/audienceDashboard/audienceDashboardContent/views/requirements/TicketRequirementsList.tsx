@@ -2,7 +2,7 @@
 
 import { AnimatePresence } from "framer-motion";
 import { TicketRequirementCard } from "./TicketRequirementCard";
-import { SelectedTicket, TicketRequirement } from "./types";
+import { SelectedTicket, TicketRequirement } from "../../types";
 
 interface TicketRequirementsListProps {
   tickets: Array<ITicket & { event: IEvent }>;

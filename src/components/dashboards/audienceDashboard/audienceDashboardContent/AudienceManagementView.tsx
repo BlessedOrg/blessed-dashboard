@@ -4,25 +4,32 @@ import { useEffect, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Users } from "lucide-react";
 import { motion } from "framer-motion";
-import { SelectTicketsModal } from "./SelectTicketsModal";
-import { EligibleUsersList } from "./EligibleUsersList";
-import { TicketRequirementsList } from "./TicketRequirementsList";
+import { SelectTicketsModal } from "@/components/modals/selectTickets/SelectTicketsModal";
+import { EligibleUsersList } from "./views/EligibleUsersList";
+import { TicketRequirementsList } from "./views/requirements/TicketRequirementsList";
 import { SelectedTicket, TicketRequirement } from "./types";
 import { fetcherWithToken } from "@/requests/requests";
 import { apiUrl } from "@/variables/variables";
 import { toast } from "react-toastify";
 import useSWR from "swr";
-import { isArray } from "lodash-es";
+import { isArray, uniqBy } from "lodash-es";
+import { AudienceNameEdit } from "@/components/dashboards/audienceDashboard/audienceDashboardContent/views/AudienceNameEdit";
+import { createAudience } from "@/app/api/audience";
+import { Button } from "@/components/ui";
 
 interface AudienceManagementViewProps {
   appId: string;
+  mutate: any;
+  onTabChange: (index: string) => void;
 }
 
-export function AudienceManagementView({ appId }: AudienceManagementViewProps) {
+export function AudienceManagementView({ appId, mutate, onTabChange }: AudienceManagementViewProps) {
   const { data: publicEvents, isLoading: publicEventsLoading } = useSWR<IEvent[]>(`${apiUrl}/events/public`, fetcherWithToken);
   const { data: myEvents, isLoading: myEventsLoading } = useSWR<IEvent[]>(`${apiUrl}/private/events`, fetcherWithToken);
   const isLoading = publicEventsLoading || myEventsLoading;
+  const [audienceName, setAudienceName] = useState("My audience 1");
   const [isFetching, setIsFetching] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
   const [selectedTickets, setSelectedTickets] = useState<SelectedTicket[]>([]);
   const [eligibleUsers, setEligibleUsers] = useState([]);
 
@@ -63,6 +70,26 @@ export function AudienceManagementView({ appId }: AudienceManagementViewProps) {
     setIsFetching(false);
   };
 
+  const onSaveHandler = async () => {
+    setIsSaving(true);
+    try {
+      const pyaload = {
+        userIds: eligibleUsers?.filter(i => !!i?.id)?.map((i) => i.id),
+        externalAddresses: eligibleUsers?.filter(i => i?.external)?.map((i) => i.walletAddress)
+      };
+      const response = await createAudience({ name: audienceName, appId, data: pyaload });
+
+      if (response?.id) {
+        await mutate();
+        toast(response?.message, { type: "success" });
+        onTabChange(response.slug);
+      }
+    } catch (e) {
+      toast(e?.message || "Something went wrong", { type: "error" });
+    }
+    setIsSaving(false);
+  };
+
   useEffect(() => {
     if (!!selectedTickets.length) {
       getEligibleAudiences();
@@ -71,8 +98,12 @@ export function AudienceManagementView({ appId }: AudienceManagementViewProps) {
     }
   }, [selectedTickets]);
 
+  const uniqueTickets = uniqBy(allTickets, "id");
+  const handleAudienceNameChange = (name: string) => {
+    setAudienceName(name);
+  };
   return (
-    <div className="container mx-auto py-8 px-4 max-w-5xl">
+    <div className="container mx-auto px-4 max-w-5xl">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -90,7 +121,10 @@ export function AudienceManagementView({ appId }: AudienceManagementViewProps) {
           </CardContent>
         </Card>
       </motion.div>
-
+      <div className="w-full flex justify-between gap-4 items-center mb-6">
+        <AudienceNameEdit currentName={audienceName} onAudienceNameChange={handleAudienceNameChange} />
+        <Button variant="green" onClick={onSaveHandler} isLoading={isSaving} disabled={!eligibleUsers?.length}>Create Audience</Button>
+      </div>
       <div className="space-y-6">
         <Card>
           <CardContent className="p-6">
@@ -105,7 +139,7 @@ export function AudienceManagementView({ appId }: AudienceManagementViewProps) {
 
             {selectedTickets.length > 0 ? (
               <TicketRequirementsList
-                tickets={allTickets}
+                tickets={uniqueTickets}
                 selectedTickets={selectedTickets}
                 onRequirementChange={handleRequirementChange}
               />
@@ -120,7 +154,6 @@ export function AudienceManagementView({ appId }: AudienceManagementViewProps) {
 
         <Card>
           <CardContent className="p-6">
-            <h2 className="text-lg font-semibold mb-6">Eligible Users</h2>
             <EligibleUsersList users={eligibleUsers} isLoading={isFetching} />
           </CardContent>
         </Card>

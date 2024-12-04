@@ -4,7 +4,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Badge } from "@/components/ui/badge";
 import { ExternalLink, Mail, Wallet } from "lucide-react";
 import { motion } from "framer-motion";
-import { EligibleUser } from "@/components/dashboards/audienceDashboard/audienceDashboardContent/test/audience/types";
+import { EligibleUser } from "@/components/dashboards/audienceDashboard/audienceDashboardContent/types";
 import { shortenWalletAddress } from "@/utils/shortenWalletAddress";
 
 interface EligibleUsersListProps {

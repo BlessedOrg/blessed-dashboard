@@ -3,15 +3,15 @@
 import { useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Settings2, Plus, Trash2, Calendar, MapPin, Ticket } from "lucide-react";
+import { Calendar, MapPin, Plus, Settings2, Ticket, Trash2 } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Badge } from "@/components/ui/badge";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import { format } from "date-fns";
-import { TicketRequirement, formatLocation, getTicketImage } from "./types";
+import { formatLocation, getTicketImage, TicketRequirement } from "../../types";
 
 interface TicketRequirementsModalProps {
   appId: string;
@@ -56,7 +56,7 @@ export function TicketRequirementsModal({
 
   return (
     <>
-      <Button 
+      <Button
         onClick={() => setIsOpen(true)}
         variant="outline"
         className="gap-2"
@@ -95,7 +95,7 @@ export function TicketRequirementsModal({
                             className="object-cover"
                           />
                         </div>
-                        
+
                         <div className="flex-1 min-w-0">
                           <div className="flex items-start justify-between gap-4">
                             <div>
@@ -115,10 +115,10 @@ export function TicketRequirementsModal({
                               <Trash2 className="w-4 h-4 text-red-500" />
                             </Button>
                           </div>
-                          
+
                           <Select
                             value={requirement}
-                            onValueChange={(value: TicketRequirement) => 
+                            onValueChange={(value: TicketRequirement) =>
                               handleRequirementChange(ticketId, value)
                             }
                           >
