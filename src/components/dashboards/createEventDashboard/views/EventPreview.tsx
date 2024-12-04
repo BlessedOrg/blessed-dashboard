@@ -37,7 +37,7 @@ export const EventPreview = ({ form, appId, eventId, isProcessing, toggleProcess
         logoUrl: imageUrl
       };
       const res = await createEvent(appId, payload);
-      if (res?.slug) {
+      if (res?.event?.slug) {
         toast("Event created successfully!", { type: "success" });
         router.push(`/${appId}/${res.slug}`);
       }
