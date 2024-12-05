@@ -84,7 +84,7 @@ export const TicketsTab = ({ appId, eventId }: { appId: string; eventId: string 
             </div>
           </ViewEnterAnimation>
         )}
-        {ticketsData?.map((ticket) => (<ViewEnterAnimation key={ticket.id} duration={0.7}><TicketCard ticket={ticket} appId={appId} eventId={eventId} /></ViewEnterAnimation>))}
+        {ticketsData?.map((ticket) => (<ViewEnterAnimation key={ticket.id} duration={0.7}><TicketCard ticket={ticket} appId={appId} eventId={eventId} mutate={mutate} /></ViewEnterAnimation>))}
 
         {ticketsData?.length === 0 && (
           <Card className="p-8 text-center text-gray-500">

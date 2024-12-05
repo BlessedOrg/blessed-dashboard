@@ -38,7 +38,7 @@ export function AudienceManagementView({ appId, mutate, onTabChange }: AudienceM
       ticket.ticketId === ticketId ? { ...ticket, requirement } : ticket
     ));
   };
-  const eventsWithTickets = isArray(myEvents) && isArray(publicEvents) ? [...myEvents, ...publicEvents.map(i => ({ ...i, isPublic: true }))] : [];
+  const eventsWithTickets = (isArray(myEvents) && isArray(publicEvents) ? [...myEvents, ...publicEvents.map(i => ({ ...i, isPublic: true }))] : []).filter(event => !!event.Tickets.length);
   const allTickets = eventsWithTickets.flatMap(event =>
     event.Tickets.map(ticket => ({
       ...ticket,

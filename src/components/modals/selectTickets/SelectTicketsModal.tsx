@@ -97,7 +97,7 @@ export function SelectTicketsModal({
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogContent className="sm:max-w-2xl">
           <DialogHeader>
-            <DialogTitle className="text-2xl">Select Tickets</DialogTitle>
+            <DialogTitle className="text-5xl">Select Tickets</DialogTitle>
           </DialogHeader>
 
           <div className="space-y-4">

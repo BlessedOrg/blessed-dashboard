@@ -13,12 +13,14 @@ interface TicketCardProps {
   ticket: any;
   eventId: string;
   appId: string;
+  mutate: any;
 }
 
 export function TicketCard({
   ticket,
   appId,
-  eventId
+  eventId,
+  mutate
 }: TicketCardProps) {
   return (
     <Card className="group shadow-lg">
@@ -68,6 +70,7 @@ export function TicketCard({
                       eventId={eventId}
                       ticketName={ticket.name}
                       maxAmount={ticket.ticketSupply}
+                      mutate={mutate}
                     />
                   </DropdownMenuItem>
                 </DropdownMenuContent>

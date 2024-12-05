@@ -41,6 +41,7 @@ interface SendTicketModalProps {
   ticketName: string;
   maxAmount: number;
   ticketId: string;
+  mutate: any;
 }
 
 export function SendTicketModal({
@@ -48,7 +49,8 @@ export function SendTicketModal({
   eventId,
   ticketName,
   maxAmount,
-  ticketId
+  ticketId,
+  mutate
 }: SendTicketModalProps) {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -86,6 +88,7 @@ export function SendTicketModal({
         await onSendTicketToExternalWalletAddress(data.wallet, ticketId, data.amount);
       }
       setIsSuccess(true);
+      await mutate();
       setTimeout(() => {
         setIsSending(false);
         setIsSuccess(false);
