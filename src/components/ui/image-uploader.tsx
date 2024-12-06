@@ -2,8 +2,10 @@
 
 import { ChangeEvent, DragEvent, useRef, useState } from "react";
 import Image from "next/image";
-import { ImageIcon, Upload, X } from "lucide-react";
+import { Crop, ImageIcon, Upload, X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { ImageCropModal } from "@/components/ui/image-crop-modal";
 
 interface ImageUploaderProps {
   setValue: (name: string, value: any) => void;
@@ -20,6 +22,8 @@ export const ImageUploader = ({
 }: ImageUploaderProps) => {
   const [previewImage, setPreviewImage] = useState<string>(defaultValue || "/img/placeholder_image.jpeg");
   const [isDragging, setIsDragging] = useState(false);
+  const [showCropModal, setShowCropModal] = useState(false);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleImageUpload = async (file: File) => {
@@ -28,6 +32,7 @@ export const ImageUploader = ({
       alert("Invalid file type. Please upload an image file.");
       return;
     }
+
     const maxMb = 5;
     const maxFileSize = maxMb * 1024 * 1024;
     if (file.size > maxFileSize) {
@@ -37,12 +42,12 @@ export const ImageUploader = ({
     }
 
     try {
-      setValue("logoFile", file);
+      setSelectedFile(file);
       const reader = new FileReader();
       reader.onload = (e) => {
         const result = e.target?.result;
         if (typeof result === "string") {
-          setValue(name, result);
+          setShowCropModal(true);
           setPreviewImage(result);
         }
       };
@@ -55,6 +60,12 @@ export const ImageUploader = ({
     } catch (error) {
       console.error("Error handling image upload:", error);
     }
+  };
+
+  const handleCropComplete = (croppedImage: string) => {
+    setValue(name, croppedImage);
+    setPreviewImage(croppedImage);
+    setValue("logoFile", selectedFile);
   };
 
   const handleFileSelect = (event: ChangeEvent<HTMLInputElement>) => {
@@ -96,6 +107,7 @@ export const ImageUploader = ({
     setPreviewImage("");
     setValue(name, "");
     setValue("logoFile", null);
+    setSelectedFile(null);
   };
 
   return (
@@ -140,12 +152,27 @@ export const ImageUploader = ({
                 <span className="text-white text-sm">Change image</span>
               </div>
             </div>
-            <button
-              onClick={handleRemoveImage}
-              className="absolute top-2 right-2 p-1 bg-black/50 rounded-full hover:bg-black/70 transition-colors"
-            >
-              <X className="h-4 w-4 text-white" />
-            </button>
+            <div className="absolute top-2 right-2 flex gap-2">
+              <Button
+                size="icon"
+                variant="secondary"
+                className="bg-black/50 hover:bg-black/70"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setShowCropModal(true);
+                }}
+              >
+                <Crop className="h-4 w-4 text-white" />
+              </Button>
+              <Button
+                size="icon"
+                variant="secondary"
+                className="bg-black/50 hover:bg-black/70"
+                onClick={handleRemoveImage}
+              >
+                <X className="h-4 w-4 text-white" />
+              </Button>
+            </div>
           </>
         ) : (
           <div className="absolute inset-0 flex flex-col items-center justify-center gap-2">
@@ -166,6 +193,13 @@ export const ImageUploader = ({
       {isDragging && (
         <div className="absolute inset-0 bg-blue-500/10 rounded-lg border-2 border-blue-500 pointer-events-none" />
       )}
+
+      <ImageCropModal
+        isOpen={showCropModal}
+        onClose={() => setShowCropModal(false)}
+        imageUrl={previewImage}
+        onCropComplete={handleCropComplete}
+      />
     </div>
   );
 };
