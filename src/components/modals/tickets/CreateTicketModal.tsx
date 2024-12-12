@@ -15,6 +15,7 @@ import { toast } from "react-toastify";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ImageUploader } from "@/components/ui/image-uploader";
 import { fileToBase64 } from "@/utils/fileToBase64";
+import { resizeImageIfNeeded } from "@/utils/resizeImageIfNeeded";
 
 const formSchema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -103,11 +104,13 @@ export function CreateTicketModal({ appId, eventId, mutateTickets }: CreateTicke
     }
 
     const blob = await response.blob();
+    const resizedBlob = await resizeImageIfNeeded(blob, 300 * 1024);
+
     return new Promise((resolve, reject) => {
       const reader = new FileReader() as any;
       reader.onloadend = () => resolve(reader.result.replace(/^data:.+;base64,/, ""));
       reader.onerror = (error) => reject(error);
-      reader.readAsDataURL(blob);
+      reader.readAsDataURL(resizedBlob);
     });
   };
 

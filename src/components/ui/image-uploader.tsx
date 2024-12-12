@@ -6,6 +6,7 @@ import { Crop, ImageIcon, Upload, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { ImageCropModal } from "@/components/ui/image-crop-modal";
+import { resizeImageIfNeeded } from "@/utils/resizeImageIfNeeded";
 
 interface ImageUploaderProps {
   setValue: (name: string, value: any) => void;
@@ -26,8 +27,8 @@ export const ImageUploader = ({
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleImageUpload = async (file: File) => {
-    if (!file.type.startsWith("image/")) {
+  const handleImageUpload = async (fileImage: File) => {
+    if (!fileImage.type.startsWith("image/")) {
       console.error("Invalid file type");
       alert("Invalid file type. Please upload an image file.");
       return;
@@ -35,11 +36,14 @@ export const ImageUploader = ({
 
     const maxMb = 5;
     const maxFileSize = maxMb * 1024 * 1024;
-    if (file.size > maxFileSize) {
+    if (fileImage.size > maxFileSize) {
       console.error("File size exceeds the limit of 5 MB.");
       alert("File size exceeds the limit of 5 MB.");
       return;
     }
+
+    const resizedBlob = await resizeImageIfNeeded(fileImage, 500 * 1024);
+    const file = new File([resizedBlob], fileImage.name, { type: resizedBlob.type });
 
     try {
       setSelectedFile(file);
