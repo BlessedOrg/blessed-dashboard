@@ -12,6 +12,8 @@ interface IProps {
 }
 interface UserHook {
   walletAddress: string | null;
+  createdAt: string;
+  avatarUrl: string;
   email: string | null;
   isLoading: boolean;
   id: string | null;
@@ -27,7 +29,9 @@ interface UserHook {
   onLogout: () => Promise<void>;
 }
 const defaultState = {
+  createdAt: null,
   walletAddress: null,
+  avatarUrl: null,
   isLoading: false,
   email: null,
   id: null,

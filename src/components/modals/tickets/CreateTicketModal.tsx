@@ -14,7 +14,7 @@ import { createTicket } from "@/app/api/events";
 import { toast } from "react-toastify";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ImageUploader } from "@/components/ui/image-uploader";
-import { fileToBase64 } from "@/utils/fileToBase64";
+import { fileToBase64 } from "@/utils/files";
 import { resizeImageIfNeeded } from "@/utils/resizeImageIfNeeded";
 
 const formSchema = z.object({

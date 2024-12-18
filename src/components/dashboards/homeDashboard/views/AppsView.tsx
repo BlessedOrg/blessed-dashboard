@@ -1,18 +1,19 @@
 "use client";
 import { Card, CardContent } from "../../../ui/card";
-import Image from "next/image";
 import { CreateAppModal } from "@/components/modals/CreateAppModal";
 import { Button } from "@/components/ui/button";
 import { useUserContext } from "@/store/UserContext";
 import { LoadingDashboardSkeleton } from "@/components/common/LoadingDashboardSkeleton";
 import { ChevronRight } from "lucide-react";
 import Link from "next/link";
+import { getAppGradient } from "@/utils/colorGenerate";
 
 export const AppsView = () => {
   const {
     appsData: { isAppsLoading, apps },
     isLoading
   } = useUserContext();
+
   return (
     <div className="flex flex-col gap-4 w-full">
       {(isAppsLoading || isLoading) && <LoadingDashboardSkeleton />}
@@ -28,19 +29,7 @@ export const AppsView = () => {
             <CardContent className="flex gap-4 justify-between items-center ">
               <Link href={`/${app.slug}`} className="absolute w-full h-full" />
               <div className="flex gap-4 w-full">
-                {!!app.imageUrl ? (
-                  <Image
-                    src={app.imageUrl}
-                    alt=""
-                    width={175}
-                    height={99}
-                    className="rounded-2xl w-full max-w-[175px] h-[100px] object-cover"
-                  />
-                ) : (
-                  <div className="flex items-center justify-center bg-gradient-to-r from-[#FFFACD] to-[#EFEFEF] rounded-2xl w-full max-w-[175px] h-[100px]">
-                    <Image src={"/img/icons/party-popper.svg"} width={80} height={80} alt="" />
-                  </div>
-                )}
+                <div className={`w-[100px] h-[100px] rounded-[1rem]`} style={getAppGradient(app.colors)}></div>
 
                 <div className="flex flex-col gap-1">
                   <div>

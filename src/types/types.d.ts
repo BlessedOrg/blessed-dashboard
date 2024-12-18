@@ -128,6 +128,7 @@ declare global {
     developerId: string;
     createdAt: string;
     updatedAt: string;
+    colors: { color1: string, color2: string };
     ApiTokens: any[];
   }
 
