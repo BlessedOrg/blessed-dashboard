@@ -5,18 +5,26 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { AlertTriangle } from "lucide-react";
 import { DeleteAccountModal } from "../modals/DeleteAccountModal";
+import { fetcherWithToken } from "@/requests/requests";
+import { apiUrl } from "@/variables/variables";
+import { toast } from "react-toastify";
 
 export function DeleteAccountSection() {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   const handleDeleteAccount = async () => {
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      console.log("Account deleted");
+      const data = await fetcherWithToken(`${apiUrl}/private/developers/account`, {
+        method: "DELETE"
+      });
+      if (data?.deleted) {
+        toast("Account deleted, you will be redirected", { type: "success" });
+        window.location.reload();
+      }
       setShowDeleteModal(false);
     } catch (error) {
       console.error("Error deleting account:", error);
+      toast(error?.message || "Error deleting account", { type: "error" });
     }
   };
 
@@ -37,7 +45,7 @@ export function DeleteAccountSection() {
                 Permanently delete your account and all associated data
               </p>
             </div>
-            <Button 
+            <Button
               variant="destructive"
               onClick={() => setShowDeleteModal(true)}
             >
@@ -47,7 +55,7 @@ export function DeleteAccountSection() {
         </CardContent>
       </Card>
 
-      <DeleteAccountModal 
+      <DeleteAccountModal
         isOpen={showDeleteModal}
         onClose={() => setShowDeleteModal(false)}
         onConfirm={handleDeleteAccount}

@@ -73,7 +73,7 @@ export function AnalyticsFilters({ filtersData, onChange }: AnalyticsFiltersProp
     <Card>
       <CardContent className="p-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="space-y-2">
+          <div className="space-y-2 w-full">
             <Label>Filter by</Label>
             <FilterSelect
               options={availableParams.map(p => ({
