@@ -107,6 +107,23 @@ export const CampaignsDashboardContent = ({
   const allUniqueAudienceUsers = countAllUniqueAudienceUsers(currentCampaign);
 
   const campaignDistribution = currentCampaign?.CampaignDistribution;
+
+  const onSubmit = async (selectedAudience, audiencesToRemove) => {
+    try {
+      const res = await updateCampaignAudiences({
+        appId,
+        id: currentCampaign.id,
+        audiences: selectedAudience.filter((i) => !(currentCampaign?.Audiences || []).map((i) => i.id).includes(i)),
+        audiencesToRemove
+      });
+      if (res?.id) {
+        await mutateCampaigns();
+        toast("Successfully updated", { type: "success" });
+      }
+    } catch (e) {
+      toast(e?.message || "Something went wrong", { type: "error" });
+    }
+  };
   return (
     <div className="w-full pb-10">
       {!isLoading ? (
@@ -187,9 +204,8 @@ export const CampaignsDashboardContent = ({
                 {!campaignDistribution && (
                   <SelectAudienceModal
                     appId={appId}
-                    campaignId={currentCampaign.id}
+                    onHandleSubmit={onSubmit}
                     defaultValues={(currentCampaign?.Audiences || []).map((i) => i.id)}
-                    mutateCampaigns={mutateCampaigns}
                   />
                 )}
               </div>

@@ -89,6 +89,7 @@ export function SelectTicketsModal({
         onClick={() => setIsOpen(true)}
         variant="outline"
         className="gap-2"
+        size="sm"
       >
         <Settings2 className="w-4 h-4" />
         Select Tickets

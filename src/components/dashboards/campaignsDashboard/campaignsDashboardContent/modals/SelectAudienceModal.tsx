@@ -7,7 +7,6 @@ import { apiUrl } from "@/variables/variables";
 import { fetcherWithToken } from "@/requests/requests";
 import { isArray } from "lodash-es";
 import { LoadingDashboardSkeleton } from "@/components/common/LoadingDashboardSkeleton";
-import { updateCampaignAudiences } from "@/app/api/campaigns";
 import { toast } from "react-toastify";
 import Link from "next/link";
 
@@ -15,14 +14,12 @@ export const SelectAudienceModal = ({
   appId,
   defaultValues,
   customTriggerButton,
-  campaignId,
-  mutateCampaigns
+  onHandleSubmit
 }: {
   appId: string;
   customTriggerButton?: React.ReactNode;
   defaultValues: string[];
-  campaignId: string;
-  mutateCampaigns: any;
+  onHandleSubmit: (selected, toDelete) => any
 }) => {
   const { data: audienceData, isLoading } = useSWR(`${apiUrl}/private/apps/${appId}/audiences`, fetcherWithToken);
   const audiences = (isArray(audienceData) ? audienceData : []) as IAudience[];
@@ -52,17 +49,8 @@ export const SelectAudienceModal = ({
   };
   const onSubmit = async () => {
     try {
-      const res = await updateCampaignAudiences({
-        appId,
-        id: campaignId,
-        audiences: selectedAudience.filter((i) => !defaultValues.includes(i)),
-        audiencesToRemove
-      });
-      if (res?.id) {
-        await mutateCampaigns();
-        toast("Successfully updated", { type: "success" });
-        setIsOpen(false);
-      }
+      await onHandleSubmit(selectedAudience, audiencesToRemove);
+      setIsOpen(false);
     } catch (e) {
       toast(e?.message || "Something went wrong", { type: "error" });
     }
