@@ -37,7 +37,7 @@ export const CreateAppModal = ({
 
       if (res?.id) {
         mutate();
-        router.push(`/${res.id}?tab=api-key`);
+        router.push(`/${res.slug}`);
       }
     } catch (e) {
       console.log(e);

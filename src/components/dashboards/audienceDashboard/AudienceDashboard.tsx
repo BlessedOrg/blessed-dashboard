@@ -7,7 +7,7 @@ import { apiUrl } from "@/variables/variables";
 import { isArray } from "lodash-es";
 import { AudienceDashboardSidebarNav } from "@/components/dashboards/audienceDashboard/AudienceDashboardSidebarNav";
 import { AudienceManagementView } from "@/components/dashboards/audienceDashboard/audienceDashboardContent/AudienceManagementView";
-import { AudiencePreview } from "@/components/dashboards/audienceDashboard/audienceDashboardContent/views/AudiencePreview";
+import { AudiencePreview } from "@/components/dashboards/audienceDashboard/audienceDashboardContent/views/audiences/AudiencePreview";
 import { Card } from "@/components/ui";
 
 export const AudienceDashboard = ({ appId }) => {
@@ -34,7 +34,7 @@ export const AudienceDashboard = ({ appId }) => {
 };
 
 const AudienceViewPerTab = ({ tab, audiences, appId, mutate, onTabChange }) => {
-  if (tab === "create") return <AudienceManagementView appId={appId} mutate={mutate} onTabChange={onTabChange} />;
+  if (tab === "create") return <AudienceManagementView appId={appId} mutate={mutate} onTabChange={onTabChange} allAudiences={audiences} />;
 
   const audience = audiences.find(audience => audience.id === tab);
   if (!audience) return <div className="w-full">
@@ -42,5 +42,5 @@ const AudienceViewPerTab = ({ tab, audiences, appId, mutate, onTabChange }) => {
       <p className="font-semibold text-center">Audience you are looking for is not exist</p>
     </Card>
   </div>;
-  return <AudiencePreview audience={audience} />;
+  return <AudiencePreview audience={audience} mutate={mutate} onTabChange={onTabChange} />;
 };

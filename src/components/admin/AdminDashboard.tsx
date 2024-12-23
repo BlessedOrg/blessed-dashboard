@@ -1,6 +1,6 @@
 "use client";
 import { motion } from "framer-motion";
-import { Card } from "@/components/ui";
+import { Badge, Card } from "@/components/ui";
 import { CostOverview } from "@/components/analytics/CostOverview";
 import { CostByOperator } from "@/components/analytics/CostByOperator";
 import { TransactionsByMethod } from "@/components/analytics/TransactionsByMethod";
@@ -26,7 +26,11 @@ export const AdminDashboard = () => {
       transition={{ duration: 0.5 }}
       className="space-y-6"
     >
-      <h1 className="text-3xl font-bold">Analytics Dashboard</h1>
+      <div className="flex gap-4 items-center">
+        <h1 className="text-3xl font-bold">Analytics Dashboard</h1>
+        {filterData?.isAdmin && <Badge variant="outline" className="bg-yellow-300">ADMIN</Badge>}
+      </div>
+
       {!filtersLoading && <AnalyticsFilters filtersData={filterData} onChange={(a) => setSelectedParam(a)} />}
       <Card className="p-6 lg:col-span-2">
         <h2 className="text-lg font-semibold mb-4">Cost Overview</h2>
