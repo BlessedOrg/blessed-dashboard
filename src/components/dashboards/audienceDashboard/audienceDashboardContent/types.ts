@@ -14,7 +14,10 @@ export interface TicketWithRequirement extends ITicket {
 
 // Helper functions
 export const formatLocation = (location: IEventLocation): string => {
-  const parts = [location.city];
+  if (!location?.city && !location?.country) {
+    return "";
+  }
+  const parts = [location?.city || ""];
   if (location.country) parts.push(location.country);
   return parts.join(", ");
 };
