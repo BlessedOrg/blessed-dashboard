@@ -1,9 +1,9 @@
 "use client";
-import { useUserContext } from "@/store/UserContext";
+import { DashboardSidebar } from "@/components/common/DashboardSidebar";
+import { LoadingDashboardSkeleton } from "@/components/common/LoadingDashboardSkeleton";
 import { CreateEventDashboardSidebarFields } from "@/components/dashboards/createEventDashboard/createDashboardSidebarFields/CreateEventDashboardSidebarFields";
 import { CreateEventDashboardContent } from "@/components/dashboards/createEventDashboard/createEventDashboardContent/CreateEventDashboardContent";
-import { LoadingDashboardSkeleton } from "@/components/common/LoadingDashboardSkeleton";
-import { DashboardSidebar } from "@/components/common/DashboardSidebar";
+import { useUserContext } from "@/store/UserContext";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 
@@ -30,7 +30,7 @@ export const CreateEventDashboard = ({ createViewItems, form, defaultCategory, d
       <CreateEventDashboardSidebarFields isProcessing={isProcessing} selectedCategory={selectedCategory} selectedTab={selectedTab} createViewItems={createViewItems} />
       {!isLoading && <CreateEventDashboardContent isProcessing={isProcessing} form={form} selectedTab={selectedTab} createViewItems={createViewItems} eventId={eventId} appId={appId} toggleProcessingState={toggleProcessingState} />}
       {isLoading && <LoadingDashboardSkeleton />}
-      <DashboardSidebar />
+      <DashboardSidebar appSlug={appId} eventSlug={eventId}/>
     </main>
   );
 };

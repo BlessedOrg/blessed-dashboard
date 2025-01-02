@@ -1,12 +1,12 @@
 "use client";
-import { DashboardSidebar } from "../../common/DashboardSidebar";
-import { AppDashboardSidebarNav } from "./appDashboardSidebarNav/AppDashboardSidebarNav";
-import { Suspense, useState } from "react";
-import { LoadingDashboardSkeleton } from "../../common/LoadingDashboardSkeleton";
-import { AppDashboardContent } from "./appDashboardContent/AppDashboardContent";
-import useSWR from "swr";
 import { fetcherWithToken } from "@/requests/requests";
 import { apiUrl } from "@/variables/variables";
+import { Suspense, useState } from "react";
+import useSWR from "swr";
+import { DashboardSidebar } from "../../common/DashboardSidebar";
+import { LoadingDashboardSkeleton } from "../../common/LoadingDashboardSkeleton";
+import { AppDashboardContent } from "./appDashboardContent/AppDashboardContent";
+import { AppDashboardSidebarNav } from "./appDashboardSidebarNav/AppDashboardSidebarNav";
 
 export const AppDashboard = ({ appId }) => {
   const { data: appData, isLoading } = useSWR(`${apiUrl}/private/apps/${appId}`, fetcherWithToken);
@@ -27,7 +27,7 @@ export const AppDashboard = ({ appId }) => {
           appId={appId}
         />
       </Suspense>
-      <DashboardSidebar />
+      <DashboardSidebar appSlug={appData?.slug} />
     </main>
   );
 };

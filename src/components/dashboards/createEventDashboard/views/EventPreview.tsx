@@ -1,10 +1,10 @@
-import { FieldValues, UseFormReturn } from "react-hook-form";
+import { createEvent, updateEvent } from "@/app/api/events";
 import { EventPreviewCard } from "@/components/cards/EventPreviewCard";
 import { Button, Card } from "@/components/ui";
-import { usePathname, useRouter } from "next/navigation";
-import { createEvent, updateEvent } from "@/app/api/events";
-import { toast } from "react-toastify";
 import { uploadBrowserFilesToS3 } from "@/utils/uploadImagesToS3";
+import { usePathname, useRouter } from "next/navigation";
+import { FieldValues, UseFormReturn } from "react-hook-form";
+import { toast } from "react-toastify";
 
 export const EventPreview = ({ form, appId, eventId, isProcessing, toggleProcessingState }: { form: UseFormReturn<FieldValues, any, undefined>, appId: string, eventId: string, toggleProcessingState: (bool: boolean) => void, isProcessing: boolean }) => {
   const values = form.watch() as IEventDetails;
@@ -15,6 +15,7 @@ export const EventPreview = ({ form, appId, eventId, isProcessing, toggleProcess
 
   const showErrors = () => {
     const keys: string[] = Object.keys(errors);
+		console.log("Form errors", errors)
     if (keys?.includes("eventLocation")) {
       keys.push(...Object.keys(errors.eventLocation));
     }

@@ -1,14 +1,15 @@
 "use client";
+import { CreateEventDashboard } from "@/components/dashboards/createEventDashboard/CreateEventDashboard";
 import { createEventFields } from "@/components/dashboards/createEventDashboard/createOrEditEvent/createEventFields";
-import { useForm } from "react-hook-form";
+import { generateEventSchema } from "@/components/dashboards/createEventDashboard/generateEventSchema";
+import { Navigation } from "@/components/navigation/Navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
-import { Navigation } from "@/components/navigation/Navigation";
-import { CreateEventDashboard } from "@/components/dashboards/createEventDashboard/CreateEventDashboard";
-import { generateEventSchema } from "@/components/dashboards/createEventDashboard/generateEventSchema";
+import { useForm } from "react-hook-form";
 
-const createEventSchema = generateEventSchema(createEventFields);
-
+const eventFields = createEventFields(false);
+const createEventSchema = generateEventSchema(eventFields);
+console.log(eventFields)
 export const CreateEvent = ({ params }) => {
   const form = useForm({
     resolver: zodResolver(createEventSchema),
@@ -35,7 +36,7 @@ export const CreateEvent = ({ params }) => {
   return (
     <div className="flex w-full flex-col ">
       <Navigation appId={params.id} />
-      <CreateEventDashboard defaultCategory="setup" form={form} defaultTab="name-and-description" createViewItems={createEventFields} appId={params.id} />
+      <CreateEventDashboard defaultCategory="setup" form={form} defaultTab="name-and-description" createViewItems={eventFields} appId={params.id} />
     </div>
   );
 };

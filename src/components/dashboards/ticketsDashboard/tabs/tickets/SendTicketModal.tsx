@@ -1,25 +1,25 @@
 "use client";
 
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { sendTicketToEmail, sendTicketToExternalWallet } from "@/app/api/tickets";
 import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { CheckCircle2, Loader2, Mail, Send, Wallet2 } from "lucide-react";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { AnimatePresence, motion } from "framer-motion";
+import { CheckCircle2, Loader2, Mail, Send, Wallet2 } from "lucide-react";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-import { sendTicketToEmail, sendTicketToExternalWallet } from "@/app/api/tickets";
+import * as z from "zod";
 
 const sendTicketSchema = z
   .object({
     type: z.enum(["email", "wallet"]),
     email: z.string().email("Invalid email address").optional(),
     wallet: z.string().min(42, "Invalid wallet address").optional(),
-    amount: z.number().min(1, "Amount must be at least 1")
+    amount: z.number().min(1, "Amount must be at least 1"),
   })
   .refine(
     (data) => {
@@ -29,7 +29,7 @@ const sendTicketSchema = z
     },
     {
       message: "Please provide either an email or wallet address",
-      path: ["type"]
+      path: ["type"],
     }
   );
 
@@ -42,6 +42,9 @@ interface SendTicketModalProps {
   maxAmount: number;
   ticketId: string;
   mutate: any;
+  closeDropdown: () => void;
+  isOpen: boolean;
+  setIsOpen: (open: boolean) => void;
 }
 
 export function SendTicketModal({
@@ -50,10 +53,11 @@ export function SendTicketModal({
   ticketName,
   maxAmount,
   ticketId,
-  mutate
+  mutate,
+  closeDropdown,
+  isOpen,
+  setIsOpen,
 }: SendTicketModalProps) {
-  const [isOpen, setIsOpen] = useState(false);
-
   const [tab, setTab] = useState<"email" | "wallet">("email");
   const [isSending, setIsSending] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -65,13 +69,13 @@ export function SendTicketModal({
     setValue,
     formState: { errors },
     clearErrors,
-    reset
+    reset,
   } = useForm<SendTicketFormData>({
     resolver: zodResolver(sendTicketSchema),
     defaultValues: {
       type: "email",
-      amount: 1
-    }
+      amount: 1,
+    },
   });
   const onClose = () => {
     setIsSending(false);
@@ -106,7 +110,7 @@ export function SendTicketModal({
       eventId,
       ticketId,
       walletAddress,
-      amount
+      amount,
     };
     return sendTicketToExternalWallet(payload);
   };
@@ -117,7 +121,7 @@ export function SendTicketModal({
       eventId,
       ticketId,
       email,
-      amount
+      amount,
     };
     return sendTicketToEmail(payload);
   };
@@ -136,12 +140,6 @@ export function SendTicketModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => setIsOpen(open)}>
-      <DialogTrigger asChild>
-        <Button size="sm" onClick={() => setIsOpen(true)}>
-          <Send className="mr-2 h-4 w-4" />
-          Send Ticket
-        </Button>
-      </DialogTrigger>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>Send {ticketName}</DialogTitle>
@@ -163,14 +161,14 @@ export function SendTicketModal({
                   animate={{
                     scale: 1,
                     opacity: 1,
-                    transition: { type: "spring", stiffness: 200, damping: 15 }
+                    transition: { type: "spring", stiffness: 200, damping: 15 },
                   }}
                 >
                   <motion.div
                     initial={{ scale: 0 }}
                     animate={{
                       scale: 1,
-                      transition: { delay: 0.2, type: "spring", stiffness: 200 }
+                      transition: { delay: 0.2, type: "spring", stiffness: 200 },
                     }}
                   >
                     <CheckCircle2 className="w-16 h-16" />
@@ -180,7 +178,7 @@ export function SendTicketModal({
                     animate={{
                       opacity: 1,
                       y: 0,
-                      transition: { delay: 0.3 }
+                      transition: { delay: 0.3 },
                     }}
                     className="mt-4 text-center font-medium"
                   >
@@ -188,20 +186,16 @@ export function SendTicketModal({
                   </motion.p>
                 </motion.div>
               ) : (
-                <motion.div
-                  className="flex flex-col items-center"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                >
+                <motion.div className="flex flex-col items-center" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                   <motion.div
                     animate={{
                       scale: [1, 1.1, 1],
-                      opacity: [1, 0.8, 1]
+                      opacity: [1, 0.8, 1],
                     }}
                     transition={{
                       duration: 2,
                       repeat: Infinity,
-                      ease: "easeInOut"
+                      ease: "easeInOut",
                     }}
                   >
                     <Loader2 className="w-16 h-16 text-blue-500 animate-spin" />
@@ -211,7 +205,7 @@ export function SendTicketModal({
                     animate={{
                       opacity: 1,
                       y: 0,
-                      transition: { delay: 0.2 }
+                      transition: { delay: 0.2 },
                     }}
                     className="mt-4 text-center font-medium"
                   >
@@ -250,9 +244,7 @@ export function SendTicketModal({
                       {...register("email")}
                       className={errors.email ? "border-red-500" : ""}
                     />
-                    {errors.email && (
-                      <p className="text-sm text-red-500">{errors.email.message}</p>
-                    )}
+                    {errors.email && <p className="text-sm text-red-500">{errors.email.message}</p>}
                   </div>
                 </TabsContent>
 
@@ -264,9 +256,7 @@ export function SendTicketModal({
                       {...register("wallet")}
                       className={errors.wallet ? "border-red-500" : ""}
                     />
-                    {errors.wallet && (
-                      <p className="text-sm text-red-500">{errors.wallet.message}</p>
-                    )}
+                    {errors.wallet && <p className="text-sm text-red-500">{errors.wallet.message}</p>}
                   </div>
                 </TabsContent>
               </Tabs>
@@ -288,10 +278,7 @@ export function SendTicketModal({
               </div>
 
               <div className="flex justify-end">
-                <Button
-                  type="submit"
-                  variant="green"
-                >
+                <Button type="submit" variant="green">
                   <Send className="w-4 h-4 mr-2" />
                   Send Ticket
                 </Button>

@@ -4,36 +4,24 @@ interface NavItem {
   href?: string;
   target?: string;
   divider?: boolean;
-	deepLink?: boolean;
 }
-export const eventSidebarNavItems = [
+export const ticketsSidebarNavItems = [
   {
     id: 0,
-    label: "Event Details",
-    href: "?tab=event-details"
-  },
-  {
-    id: 1,
-    label: "Event Management",
-    href: "?tab=event-management"
-  },
-  {
-    id: 2,
     label: "Tickets",
-    href: "tickets",
-		deepLink: true
+    href: "?tab=tickets"
   },
 	{
-    id: 3,
+		id: 1,
     divider: true,
   },
   {
-    id: 4,
+    id: 2,
     label: "Analytics",
     href: "?tab=analytics",
   },
   {
-    id: 5,
+    id: 3,
     label: "Revenue Distribution",
     href: "?tab=revenue-distribution",
   },

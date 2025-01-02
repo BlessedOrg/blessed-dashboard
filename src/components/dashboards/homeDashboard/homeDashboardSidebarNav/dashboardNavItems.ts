@@ -1,7 +1,7 @@
 export const dashboardNavItems = [
   {
     id: 0,
-    label: "Go to dashboard",
+    label: "Dashboard",
     href: "?tab=dashboard"
   },
   {
@@ -12,6 +12,6 @@ export const dashboardNavItems = [
   {
     id: 2,
     label: "Analytics",
-    href: "/analytics"
+    href: "?tab=analytics"
   }
 ];
