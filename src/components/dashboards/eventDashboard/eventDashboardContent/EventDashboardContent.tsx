@@ -1,8 +1,9 @@
 "use client";
+import { AdminDashboard } from '@/components/admin/AdminDashboard';
 import { LoadingDashboardSkeleton } from "@/components/common/LoadingDashboardSkeleton";
 import { EventDetails } from "@/components/dashboards/eventDashboard/tabs/EventDetails";
 import { EventManagementTab } from "@/components/dashboards/eventDashboard/tabs/eventManagement/EventManagementTab";
-import { TicketsTab } from "@/components/dashboards/eventDashboard/tabs/tickets/TicketsTab";
+import { RevenueDistributionView } from '@/components/revenue/RevenueDistributionView';
 import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 
@@ -21,7 +22,8 @@ interface AppDashboardContentProps {
 const TAB_PARAMS_MAP = {
   "event-details": 0,
   "event-management": 1,
-  tickets: 2
+  analytics: 4,
+  "revenue-distribution": 5
 } as const;
 
 const DEFAULT_TAB = "event-details";
@@ -42,11 +44,13 @@ export const EventDashboardContent = ({ currentTabIndex, mutateEventData, onTabC
       <EventDetails eventData={formattedDefaultValues} />
     ),
     1: <EventManagementTab isLoading={isLoading} appId={appId} eventId={eventId} eventData={formattedDefaultValues} mutateEventData={mutateEventData} />,
-    2: <TicketsTab appId={appId} eventId={eventId} />
+    4: <AdminDashboard hardcodedParam={`?getBy=event&eventId=${eventData?.id}`} />,
+    5: <RevenueDistributionView appId={appId} eventId={eventId} isStateManaged={false} />
   };
 
   useEffect(() => {
     const activeTabIndex = TAB_PARAMS_MAP[currentTab];
+		console.log(TAB_PARAMS_MAP, currentTab)
     onTabChange(activeTabIndex);
   }, [currentTab, onTabChange]);
 

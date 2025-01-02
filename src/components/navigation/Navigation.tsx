@@ -1,16 +1,16 @@
 "use client";
-import Link from "next/link";
-import Image from "next/image";
+import { CreateEventButton } from "@/components/common/CreateEventButton";
+import { CreateAppModal } from "@/components/modals/CreateAppModal";
 import { AppSelect } from "@/components/navigation/AppSelect";
+import { EventSelect } from "@/components/navigation/EventSelect";
+import { MobileNavigation } from "@/components/navigation/MobileNavigation";
 import { Button } from "@/components/ui";
 import { AvatarMenu } from "@/components/ui/avatar-menu";
-import { MobileNavigation } from "@/components/navigation/MobileNavigation";
-import { usePathname, useRouter } from "next/navigation";
-import { CreateAppModal } from "@/components/modals/CreateAppModal";
-import { CreateEventButton } from "@/components/common/CreateEventButton";
-import { EventSelect } from "@/components/navigation/EventSelect";
-import { ChevronLeft } from "lucide-react";
 import { useUserContext } from "@/store/UserContext";
+import { ChevronLeft } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 
 interface NavigationProps {
   appId?: string;
@@ -72,6 +72,18 @@ export const Navigation = ({ appId, eventId }: NavigationProps) => {
   const { appsData } = useUserContext();
   const currentApp = appsData?.apps?.find((app) => app.slug === appId);
 
+  const getPreviousPath = (currentPath: string) => {
+    const pathParts = currentPath.split('/').filter(Boolean);
+    pathParts.pop(); // Remove the last segment
+    return `/${pathParts.join('/')}`;
+  };
+
+	const handleBackClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    const previousPath = getPreviousPath(pathname);
+    router.push(previousPath);
+  };
+
   const navigationConfig = {
     middleNavigationItems: {
       appNav: [
@@ -108,7 +120,35 @@ export const Navigation = ({ appId, eventId }: NavigationProps) => {
     [`/${appId}/create-event`]: {
       showFullLogo: true
     },
-    [`/${appId}`]: {
+		[`/${appId}/create-event`]: {
+      showFullLogo: false,
+      showAppSelect: true,
+      showMiddleNavigation: true,
+      middleNavigationItems: navigationConfig.middleNavigationItems.appNav,
+      showRightSideCta: false,
+      rightSideCta: navigationConfig.rightSideCta.app
+    },
+		[`/${appId}/${eventId}/edit`]: {
+      showFullLogo: false,
+      showAppSelect: false,
+      showMiddleNavigation: true,
+      showEventSelect: true,
+			showArrowBack: true,
+      middleNavigationItems: navigationConfig.middleNavigationItems.appNav,
+      showRightSideCta: false,
+      rightSideCta: navigationConfig.rightSideCta.app
+    },
+		[`/${appId}/${eventId}/tickets`]: {
+      showFullLogo: false,
+      showAppSelect: false,
+      showMiddleNavigation: true,
+      showEventSelect: true,
+			showArrowBack: true,
+      middleNavigationItems: navigationConfig.middleNavigationItems.appNav,
+      showRightSideCta: false,
+      rightSideCta: navigationConfig.rightSideCta.app
+    },
+		[`/${appId}`]: {
       showFullLogo: false,
       showAppSelect: true,
       showMiddleNavigation: true,
@@ -130,14 +170,13 @@ export const Navigation = ({ appId, eventId }: NavigationProps) => {
     <nav className="flex justify-between w-full py-6 px-6 sticky top-0 left-0 right-0 z-20 bg-root-background">
       <div className="flex gap-2">
         <Logo showFullLogo={settings.showFullLogo} />
-        {settings.showArrowBack && (
-          <Link
+				{settings.showArrowBack && (
+          <button
+            onClick={handleBackClick}
             className="bg-white h-[3.25rem] rounded-full flex items-center justify-center px-4"
-            href={`/${appId}`}
           >
             <ChevronLeft color="#000" />
-            <p className="font-semibold">{currentApp?.name}</p>
-          </Link>
+          </button>
         )}
         {settings.showAppSelect && <AppSelect currentAppId={appId} />}
         {settings.showEventSelect && <EventSelect appId={appId} currentEventSlug={eventId} />}

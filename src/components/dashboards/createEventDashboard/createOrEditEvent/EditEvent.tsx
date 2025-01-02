@@ -1,13 +1,14 @@
 "use client";
-import { generateEventSchema } from "@/components/dashboards/createEventDashboard/generateEventSchema";
+import { CreateEventDashboard } from "@/components/dashboards/createEventDashboard/CreateEventDashboard";
 import { createEventFields } from "@/components/dashboards/createEventDashboard/createOrEditEvent/createEventFields";
-import { useForm } from "react-hook-form";
+import { generateEventSchema } from "@/components/dashboards/createEventDashboard/generateEventSchema";
+import { Navigation } from "@/components/navigation/Navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
-import { Navigation } from "@/components/navigation/Navigation";
-import { CreateEventDashboard } from "@/components/dashboards/createEventDashboard/CreateEventDashboard";
+import { useForm } from "react-hook-form";
 
-const createEventSchema = generateEventSchema(createEventFields);
+const eventFields = createEventFields(true);
+const createEventSchema = generateEventSchema(eventFields);
 
 export const EditEvent = ({ params, eventData }) => {
   const form = useForm({
@@ -17,7 +18,8 @@ export const EditEvent = ({ params, eventData }) => {
       endsAt: new Date(),
       logoUrl: "/img/placeholder_image.jpeg",
       timezoneIdentifier: Intl.DateTimeFormat().resolvedOptions().timeZone,
-      ...eventData
+      ...eventData,
+      description: eventData?.description || "",
     },
     mode: "onChange",
     criteriaMode: "all",
@@ -35,8 +37,8 @@ export const EditEvent = ({ params, eventData }) => {
   }, [currentData]);
   return (
     <div className="flex w-full flex-col ">
-      <Navigation appId={params.id} />
-      <CreateEventDashboard defaultCategory="setup" form={form} defaultTab="name-and-description" createViewItems={createEventFields} eventId={params.eventId} appId={params.id} />
+      <Navigation appId={params.id} eventId={params.eventId} />
+      <CreateEventDashboard defaultCategory="setup" form={form} defaultTab="name-and-description" createViewItems={eventFields} eventId={params.eventId} appId={params.id} />
     </div>
   );
 };

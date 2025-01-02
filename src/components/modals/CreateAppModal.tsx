@@ -1,13 +1,13 @@
 "use client";
-import z from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
 import { createApplication } from "@/app/api/applications";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { useUserContext } from "@/store/UserContext";
 import { Button, Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, Form, Input, Textarea } from "@/components/ui";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { useUserContext } from "@/store/UserContext";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import z from "zod";
 
 const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters").max(50, "Name must be less than 50 characters"),
@@ -65,7 +65,7 @@ export const CreateAppModal = ({
                 <FormItem>
                   <FormLabel>App name</FormLabel>
                   <FormControl>
-                    <Input placeholder="Modular summit" {...field} />
+                    <Input placeholder="" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -81,7 +81,7 @@ export const CreateAppModal = ({
                   </FormLabel>
                   <FormControl>
                     <Textarea
-                      placeholder="Welcome to Summer Pulse Festival 2024, a three-day immersive music and arts extravaganza set in beautiful open fields."
+                      placeholder=""
                       {...field}
                     />
                   </FormControl>

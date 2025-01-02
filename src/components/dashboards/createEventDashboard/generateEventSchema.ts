@@ -1,6 +1,7 @@
 import z from "zod";
 
-export function generateEventSchema(categories) {
+export function generateEventSchema(generatedCategories) {
+  const categories = generatedCategories.filter((category) => category !== null);
   const fieldSchemas = {};
 
   function generateFieldSchema(field) {
@@ -18,9 +19,12 @@ export function generateEventSchema(categories) {
       case "number":
         fieldSchema = z.number();
         break;
+      case "array":
+        fieldSchema = z.array(innerSchema(field.fields));
+        break;
       case "object":
         const nestedSchemas = {};
-        field.fields?.forEach(nestedField => {
+        field.fields?.forEach((nestedField) => {
           nestedSchemas[nestedField.id] = generateFieldSchema(nestedField);
         });
         fieldSchema = z.object(nestedSchemas);
@@ -42,7 +46,7 @@ export function generateEventSchema(categories) {
           break;
         case "object":
           const nestedSchemas = {};
-          field.fields?.forEach(nestedField => {
+          field.fields?.forEach((nestedField) => {
             nestedSchemas[nestedField.id] = generateFieldSchema(nestedField);
           });
           fieldSchema = z.object(nestedSchemas);
@@ -59,13 +63,13 @@ export function generateEventSchema(categories) {
     return fieldSchema;
   }
 
-  categories.forEach(category => {
-    category.tabs.forEach(tab => {
-      tab.fields?.forEach(field => {
+  categories.forEach((category) => {
+    category.tabs.forEach((tab) => {
+      tab.fields?.forEach((field) => {
         fieldSchemas[field.id] = generateFieldSchema(field);
       });
 
-      tab.schemaFields?.forEach(field => {
+      tab.schemaFields?.forEach((field) => {
         fieldSchemas[field.id] = generateFieldSchema(field);
       });
     });
@@ -73,3 +77,12 @@ export function generateEventSchema(categories) {
 
   return z.object(fieldSchemas);
 }
+
+const innerSchema = (fields) => z.object(
+	fields.reduce((acc: any, field: any) => {
+		acc[field.id] = field.type === 'number' 
+			? z.number() 
+			: z.string();
+		return acc;
+	}, {})
+);

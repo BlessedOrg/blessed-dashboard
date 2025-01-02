@@ -1,10 +1,12 @@
 "use client";
-import { useSearchParams } from "next/navigation";
-import { useEffect } from "react";
+import { AdminDashboard } from '@/components/admin/AdminDashboard';
 import { LoadingDashboardSkeleton } from "@/components/common/LoadingDashboardSkeleton";
 import { ApiKeyTab } from "@/components/dashboards/appDashboard/tabs/ApiKeyTab";
 import { AppOverview } from "@/components/dashboards/appDashboard/tabs/appOverview/AppOverview";
 import { AppEventsTab } from "@/components/dashboards/appDashboard/tabs/events/AppEventsTab";
+import { RevenueDistributionView } from '@/components/revenue/RevenueDistributionView';
+import { useSearchParams } from "next/navigation";
+import { useEffect } from "react";
 
 type TabId = keyof typeof TAB_PARAMS_MAP;
 
@@ -19,7 +21,9 @@ interface AppDashboardContentProps {
 const TAB_PARAMS_MAP = {
   overview: 0,
   events: 1,
-  "api-key": 3
+	revenue: 2,
+	analytics: 3,
+  "api-key": 5
 } as const;
 
 const DEFAULT_TAB = "overview";
@@ -31,7 +35,9 @@ export const AppDashboardContent = ({ currentTabIndex, onTabChange, appData, isL
   const contentPerTab: Record<number, JSX.Element> = {
     0: <AppOverview appId={appData?.slug} />,
     1: <AppEventsTab appId={appData?.slug} />,
-    3: <ApiKeyTab appId={appData?.slug} apiTokens={appData?.ApiTokens} />
+		2: <RevenueDistributionView appId={appData?.id} isStateManaged={false}/>,
+		3: <AdminDashboard hardcodedParam={`?getBy=app&appId=${appData?.id}`} />,
+    5: <ApiKeyTab appId={appData?.slug} apiTokens={appData?.ApiTokens} />
   };
 
   useEffect(() => {

@@ -1,24 +1,14 @@
 "use client";
 
-import { Card, CardContent } from "@/components/ui/card";
-import { fetcherWithToken } from "@/requests/requests";
-import { apiUrl } from "@/variables/variables";
-import useSWR from "swr";
-import { Ticket, Users } from "lucide-react";
-import { CreateTicketModal } from "@/components/modals/tickets/CreateTicketModal";
 import { LoadingCards } from "@/components/common/LoadingCards";
-import { TicketCard } from "@/components/dashboards/eventDashboard/tabs/tickets/TicketCard";
+import { CreateTicketModal } from "@/components/modals/tickets/CreateTicketModal";
+import { Card, CardContent } from "@/components/ui/card";
 import { ViewEnterAnimation } from "@/components/ui/view-enter-animation";
+import { Ticket, Users } from "lucide-react";
+import { TicketCard } from "./TicketCard";
 
-export const TicketsTab = ({ appId, eventId }: { appId: string; eventId: string }) => {
-  const {
-    data: ticketsData,
-    isLoading: ticketsLoading,
-    mutate
-  } = useSWR<ITicket[]>(
-    `${apiUrl}/private/tickets/${appId}/${eventId}`,
-    fetcherWithToken
-  );
+export const TicketsTab = ({ appId, eventId, ticketsData, ticketsLoading, mutate }: { appId: string; eventId: string, ticketsData: ITicket[], ticketsLoading: boolean, mutate: () => void }) => {
+
 
   const allTicketsCount = ticketsData?.reduce((acc, ticket) => acc + ticket.ticketSupply, 0) || 0;
   const maxCapacityCount = ticketsData?.reduce((acc, ticket) => acc + ticket.maxSupply, 0) || 0;
@@ -34,8 +24,8 @@ export const TicketsTab = ({ appId, eventId }: { appId: string; eventId: string 
                 Ticket Management
               </h3>
               <p className="text-gray-600 max-w-xl">
-                Review, edit, and organize your tickets with ease. Monitor sales, track availability,
-                and manage your event's ticketing strategy all in one place.
+                Review, edit, and organize your tickets with ease. Monitor sales, track availability, and manage your event's ticketing
+                strategy all in one place.
               </p>
             </div>
             <CreateTicketModal appId={appId} eventId={eventId} mutateTickets={mutate} />
@@ -84,7 +74,11 @@ export const TicketsTab = ({ appId, eventId }: { appId: string; eventId: string 
             </div>
           </ViewEnterAnimation>
         )}
-        {ticketsData?.map((ticket) => (<ViewEnterAnimation key={ticket.id} duration={0.7}><TicketCard ticket={ticket} appId={appId} eventId={eventId} mutate={mutate} /></ViewEnterAnimation>))}
+        {ticketsData?.map((ticket) => (
+          <ViewEnterAnimation key={ticket.id} duration={0.7}>
+            <TicketCard ticket={ticket} appId={appId} eventId={eventId} mutate={mutate} />
+          </ViewEnterAnimation>
+        ))}
 
         {ticketsData?.length === 0 && (
           <Card className="p-8 text-center text-gray-500">

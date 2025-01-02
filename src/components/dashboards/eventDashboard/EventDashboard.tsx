@@ -1,12 +1,12 @@
 "use client";
-import { DashboardSidebar } from "../../common/DashboardSidebar";
-import { Suspense, useState } from "react";
-import useSWR from "swr";
-import { fetcherWithToken } from "@/requests/requests";
-import { apiUrl } from "@/variables/variables";
-import { EventDashboardSidebarNav } from "@/components/dashboards/eventDashboard/eventDashboardSidebarNav/EventDashboardSidebarNav";
 import { LoadingDashboardSkeleton } from "@/components/common/LoadingDashboardSkeleton";
 import { EventDashboardContent } from "@/components/dashboards/eventDashboard/eventDashboardContent/EventDashboardContent";
+import { EventDashboardSidebarNav } from "@/components/dashboards/eventDashboard/eventDashboardSidebarNav/EventDashboardSidebarNav";
+import { fetcherWithToken } from "@/requests/requests";
+import { apiUrl } from "@/variables/variables";
+import { Suspense, useState } from "react";
+import useSWR from "swr";
+import { DashboardSidebar } from "../../common/DashboardSidebar";
 
 export const EventDashboard = ({ appId, eventId }) => {
   const { data: eventData, isLoading, mutate } = useSWR(`${apiUrl}/private/events/${appId}/${eventId}`, fetcherWithToken);
@@ -30,7 +30,7 @@ export const EventDashboard = ({ appId, eventId }) => {
           mutateEventData={mutate}
         />
       </Suspense>
-      <DashboardSidebar />
+      <DashboardSidebar appSlug={appId} eventSlug={eventData?.slug}/>
     </main>
   );
 };

@@ -18,17 +18,22 @@ export const appDashboardSidebarNavItems = [
     label: "Events",
     href: "?tab=events",
   },
-  // {
-  //   id: 2,
-  //   label: "Templates",
-  //   href: "?tab=templates",
-  // },
   {
-    id: 3,
-    divider: true,
+    id: 2,
+    label: "Revenue distribution",
+    href: "?tab=revenue",
   },
   {
-    id: 4,
+    id: 3,
+    label: "Analytics",
+    href: "?tab=analytics",
+  },
+	{
+		id: 4,
+		divider: true,
+	},
+  {
+    id: 5,
     label: "API key",
     href: "?tab=api-key",
   },
