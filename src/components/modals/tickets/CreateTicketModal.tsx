@@ -1,21 +1,21 @@
 "use client";
 
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
-import { Loader2, Upload } from "lucide-react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { createTicket } from "@/app/api/events";
+import { TicketPreview } from "@/components/modals/tickets/TicketPreview";
 import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { ImageUploader } from "@/components/ui/image-uploader";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { TicketPreview } from "@/components/modals/tickets/TicketPreview";
-import { createTicket } from "@/app/api/events";
-import { toast } from "react-toastify";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ImageUploader } from "@/components/ui/image-uploader";
 import { fileToBase64 } from "@/utils/files";
 import { resizeImageIfNeeded } from "@/utils/resizeImageIfNeeded";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader2, Upload } from "lucide-react";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
+import * as z from "zod";
 
 const formSchema = z.object({
   name: z.string().min(1, "Name is required"),

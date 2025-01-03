@@ -1,9 +1,9 @@
 "use client";
+import { DashboardSidebar } from '@/components/common/globalSidebar/DashboardSidebar';
 import { fetcherWithToken } from "@/requests/requests";
 import { apiUrl } from "@/variables/variables";
 import { Suspense, useState } from "react";
 import useSWR from "swr";
-import { DashboardSidebar } from "../../common/DashboardSidebar";
 import { LoadingDashboardSkeleton } from "../../common/LoadingDashboardSkeleton";
 import { AppDashboardContent } from "./appDashboardContent/AppDashboardContent";
 import { AppDashboardSidebarNav } from "./appDashboardSidebarNav/AppDashboardSidebarNav";

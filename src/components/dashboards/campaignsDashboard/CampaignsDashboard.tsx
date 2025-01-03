@@ -1,15 +1,15 @@
 "use client";
-import { DashboardSidebar } from "../../common/DashboardSidebar";
+import { DashboardSidebar } from '@/components/common/globalSidebar/DashboardSidebar';
+import { CampaignsDashboardContent } from "@/components/dashboards/campaignsDashboard/campaignsDashboardContent/CampaignsDashboardContent";
 import { CampaignsDashboardSidebarNav } from "@/components/dashboards/campaignsDashboard/campaignsDashboardSidebarNav/CampaignsDashboardSidebarNav";
-import { useState } from "react";
-import useSWR from "swr";
+import { CreateCampaignModal } from "@/components/dashboards/campaignsDashboard/campaignsDashboardSidebarNav/createCampaignModal/CreateCampaignModal";
+import { Card } from "@/components/ui";
 import { fetcherWithToken } from "@/requests/requests";
 import { apiUrl } from "@/variables/variables";
 import { isArray } from "lodash-es";
-import { CampaignsDashboardContent } from "@/components/dashboards/campaignsDashboard/campaignsDashboardContent/CampaignsDashboardContent";
-import { Card } from "@/components/ui";
-import { CreateCampaignModal } from "@/components/dashboards/campaignsDashboard/campaignsDashboardSidebarNav/createCampaignModal/CreateCampaignModal";
 import { LandPlot } from "lucide-react";
+import { useState } from "react";
+import useSWR from "swr";
 
 export const CampaignsDashboard = ({ appId }) => {
   const { data: campaignsData, isLoading, mutate } = useSWR(`${apiUrl}/private/apps/${appId}/campaigns`, fetcherWithToken);
@@ -43,7 +43,7 @@ export const CampaignsDashboard = ({ appId }) => {
           <CreateCampaignModal appId={appId} onSuccess={mutate} mode="green" />
         </Card>
       )}
-      <DashboardSidebar />
+      <DashboardSidebar appSlug={appId} />
     </main>
   );
 };

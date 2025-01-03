@@ -14,7 +14,7 @@ export const eventSidebarNavItems = [
   },
   {
     id: 1,
-    label: "Event Management",
+    label: "Entrance Management",
     href: "?tab=event-management"
   },
   {

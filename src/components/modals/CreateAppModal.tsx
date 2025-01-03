@@ -7,6 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from 'react-toastify';
 import z from "zod";
 
 const formSchema = z.object({
@@ -41,6 +42,7 @@ export const CreateAppModal = ({
       }
     } catch (e) {
       console.log(e);
+			toast.error(e?.message || "Error creating app", {type: "error"});
     }
     setIsLoading(false);
   }

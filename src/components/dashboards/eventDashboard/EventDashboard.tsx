@@ -1,4 +1,5 @@
 "use client";
+import { DashboardSidebar } from '@/components/common/globalSidebar/DashboardSidebar';
 import { LoadingDashboardSkeleton } from "@/components/common/LoadingDashboardSkeleton";
 import { EventDashboardContent } from "@/components/dashboards/eventDashboard/eventDashboardContent/EventDashboardContent";
 import { EventDashboardSidebarNav } from "@/components/dashboards/eventDashboard/eventDashboardSidebarNav/EventDashboardSidebarNav";
@@ -6,7 +7,6 @@ import { fetcherWithToken } from "@/requests/requests";
 import { apiUrl } from "@/variables/variables";
 import { Suspense, useState } from "react";
 import useSWR from "swr";
-import { DashboardSidebar } from "../../common/DashboardSidebar";
 
 export const EventDashboard = ({ appId, eventId }) => {
   const { data: eventData, isLoading, mutate } = useSWR(`${apiUrl}/private/events/${appId}/${eventId}`, fetcherWithToken);

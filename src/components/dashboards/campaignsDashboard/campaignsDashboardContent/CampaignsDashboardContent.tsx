@@ -1,18 +1,18 @@
 "use client";
-import { LoadingDashboardSkeleton } from "@/components/common/LoadingDashboardSkeleton";
-import { Button, Card } from "@/components/ui";
-import { Trash } from "lucide-react";
 import { deleteCampaign, distributeCampaign, updateCampaignAudiences, updateCampaignName, updateCampaignTickets } from "@/app/api/campaigns";
-import { toast } from "react-toastify";
-import { SelectAudienceModal } from "@/components/dashboards/campaignsDashboard/campaignsDashboardContent/modals/SelectAudienceModal";
-import { countAllAudienceUsers, countAllUniqueAudienceUsers } from "@/utils/countAllCampaignUsers";
+import { LoadingDashboardSkeleton } from "@/components/common/LoadingDashboardSkeleton";
 import { AudiencesPreviewModal } from "@/components/dashboards/campaignsDashboard/campaignsDashboardContent/modals/AudiencesPreviewModal";
-import { TextEdit } from "@/components/ui/text-edit";
+import { SelectAudienceModal } from "@/components/dashboards/campaignsDashboard/campaignsDashboardContent/modals/SelectAudienceModal";
 import { SelectEventTicketModal } from "@/components/modals/SelectEventTicketModal";
-import React, { useState } from "react";
-import Image from "next/image";
-import { LoadingModal } from "@/components/ui/loading-modal";
+import { Button, Card } from "@/components/ui";
 import { CardContent } from "@/components/ui/card";
+import { LoadingModal } from "@/components/ui/loading-modal";
+import { TextEdit } from "@/components/ui/text-edit";
+import { countAllAudienceUsers, countAllUniqueAudienceUsers } from "@/utils/countAllCampaignUsers";
+import { Trash } from "lucide-react";
+import Image from "next/image";
+import { useState } from "react";
+import { toast } from "react-toastify";
 
 export const CampaignsDashboardContent = ({
   currentCampaign,
@@ -136,7 +136,7 @@ export const CampaignsDashboardContent = ({
                 onClick={onDistribute}
                 disabled={!!campaignDistribution || (!allAudienceUsers.count || !currentCampaign?.Tickets?.length)}
               >
-                Distribute
+                Send campaign perks
               </Button>
             </div>
             <Button onClick={onCampaignDelete} size="xl">
@@ -149,7 +149,7 @@ export const CampaignsDashboardContent = ({
               {!!campaignDistribution && (
                 <div className="bg-green-500 py-2 px-5 rounded-2xl">
                   <p className="font-semibold">
-                    Distributed to {allUniqueAudienceUsers.count} users at {new Date(campaignDistribution.createdAt).toLocaleDateString()}
+                    Sent to {allUniqueAudienceUsers.count} users at {new Date(campaignDistribution.createdAt).toLocaleDateString()}
                   </p>
                 </div>
               )}

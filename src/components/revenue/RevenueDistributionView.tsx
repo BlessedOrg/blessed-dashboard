@@ -153,8 +153,8 @@ export function RevenueDistributionView({
                   </div>
                   <p className="text-gray-600">Manage revenue sharing and distributions among team members</p>
                   {!!tickets?.length && (
-                    <Select value={selectedTicketId} onValueChange={setSelectedTicketId} disabled={false}>
-                      <SelectTrigger className="w-full">
+                    <Select value={selectedTicketId} onValueChange={setSelectedTicketId} disabled={false} >
+                      <SelectTrigger className="w-fit min-w-[200px] mt-4">
                         <SelectValue placeholder="Select a ticket" />
                       </SelectTrigger>
                       <SelectContent>

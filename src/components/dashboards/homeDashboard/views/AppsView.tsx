@@ -1,12 +1,12 @@
 "use client";
-import { Card, CardContent } from "../../../ui/card";
+import { LoadingDashboardSkeleton } from "@/components/common/LoadingDashboardSkeleton";
 import { CreateAppModal } from "@/components/modals/CreateAppModal";
 import { Button } from "@/components/ui/button";
 import { useUserContext } from "@/store/UserContext";
-import { LoadingDashboardSkeleton } from "@/components/common/LoadingDashboardSkeleton";
+import { getAppGradient } from "@/utils/colorGenerate";
 import { ChevronRight } from "lucide-react";
 import Link from "next/link";
-import { getAppGradient } from "@/utils/colorGenerate";
+import { Card, CardContent } from "../../../ui/card";
 
 export const AppsView = () => {
   const {
@@ -46,7 +46,7 @@ export const AppsView = () => {
       })}
       {!!apps?.length && <div className="flex gap-4 justify-center">
         <Button variant="outline">See more</Button>
-        <CreateAppModal variant="yellow" label="Add new app" />
+        <CreateAppModal variant="yellow" label="Create new app" />
       </div>}
     </div>
   );

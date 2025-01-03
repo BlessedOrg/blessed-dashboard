@@ -1,14 +1,14 @@
 "use client";
-import { DashboardSidebar } from "../../common/DashboardSidebar";
-import { useState } from "react";
-import useSWR from "swr";
-import { fetcherWithToken } from "@/requests/requests";
-import { apiUrl } from "@/variables/variables";
-import { isArray } from "lodash-es";
+import { DashboardSidebar } from '@/components/common/globalSidebar/DashboardSidebar';
 import { AudienceDashboardSidebarNav } from "@/components/dashboards/audienceDashboard/AudienceDashboardSidebarNav";
 import { AudienceManagementView } from "@/components/dashboards/audienceDashboard/audienceDashboardContent/AudienceManagementView";
 import { AudiencePreview } from "@/components/dashboards/audienceDashboard/audienceDashboardContent/views/audiences/AudiencePreview";
 import { Card } from "@/components/ui";
+import { fetcherWithToken } from "@/requests/requests";
+import { apiUrl } from "@/variables/variables";
+import { isArray } from "lodash-es";
+import { useState } from "react";
+import useSWR from "swr";
 
 export const AudienceDashboard = ({ appId }) => {
   const { data: audienceData, isLoading, mutate } = useSWR(`${apiUrl}/private/apps/${appId}/audiences`, fetcherWithToken);
@@ -28,7 +28,7 @@ export const AudienceDashboard = ({ appId }) => {
         audiences={audiences}
       />
       <AudienceViewPerTab tab={currentTabId} audiences={audiences} appId={appId} mutate={mutate} onTabChange={onTabChange} />
-      <DashboardSidebar />
+      <DashboardSidebar appSlug={appId} />
     </main>
   );
 };
