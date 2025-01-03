@@ -93,14 +93,16 @@ export const Navigation = ({ appId, eventId }: NavigationProps) => {
       ]
     },
     rightSideCta: {
-      main: <CreateAppModal label="Add new app" variant="green" />,
+      main: <CreateAppModal label="Create new app" variant="green" />,
       app: <CreateEventButton label="Add new event" variant="green" appId={appId} />
     }
   };
   const commonSettings = {
     campaign_and_audience: {
       showFullLogo: false,
+			showAppSelect: true,
       showMiddleNavigation: true,
+			showArrowBack: true,
       middleNavigationItems: navigationConfig.middleNavigationItems.appNav,
       showRightSideCta: false
     }

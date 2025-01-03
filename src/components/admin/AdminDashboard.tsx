@@ -4,7 +4,7 @@ import { CostOverview } from "@/components/analytics/CostOverview";
 import { AnalyticsFilters } from "@/components/analytics/filters/AnalyticsFilters";
 import { TransactionsByMethod } from "@/components/analytics/TransactionsByMethod";
 import { TransactionsCount } from "@/components/analytics/TransactionsCount";
-import { Badge, Card } from "@/components/ui";
+import { Badge, Card, Select } from "@/components/ui";
 import { fetcherWithToken } from "@/requests/requests";
 import { apiUrl } from "@/variables/variables";
 import { motion } from "framer-motion";
@@ -12,16 +12,29 @@ import { ChartBar } from "lucide-react";
 import { useState } from "react";
 import useSWR from "swr";
 import { CardContent } from "../ui/card";
+import { SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 
-export const AdminDashboard = ({hardcodedParam}: {hardcodedParam?: string}) => {
+export const AdminDashboard = ({
+  hardcodedParam,
+  isTicketsView,
+  tickets,
+}: {
+  hardcodedParam?: string;
+  isTicketsView?: boolean;
+  tickets?: ITicket[];
+}) => {
+  const [selectedTicketId, setSelectedTicketId] = useState<string | null>(tickets?.[0]?.id || null);
   const defaultParams = `?getBy=all`;
   const [selectedParam, setSelectedParam] = useState(hardcodedParam || defaultParams);
 
   const { data: filterData, isLoading: filtersLoading } = useSWR(`${apiUrl}/private/analytics/filters`, fetcherWithToken);
 
-  const { data: analyticsData } = useSWR(filterData?.filters ? `${apiUrl}/private/analytics${selectedParam}` : null, fetcherWithToken);
-
-	console.log(selectedParam)
+  const { data: analyticsData } = useSWR(
+    filterData?.filters
+      ? `${apiUrl}/private/analytics${isTicketsView ? `?getBy=ticket&ticketId=${selectedTicketId}` : selectedParam}`
+      : null,
+    fetcherWithToken
+  );
 
   return (
     <div className="container mx-auto pb-8 px-4">
@@ -41,36 +54,65 @@ export const AdminDashboard = ({hardcodedParam}: {hardcodedParam?: string}) => {
                     )}
                   </div>
                 </div>
-                <p className="text-gray-600">Track your app's performance and user engagement.</p>
+                <p className="text-gray-600">
+                  Track your {!!hardcodedParam && hardcodedParam.includes("event") ? "event's" : isTicketsView ? "ticket's" : "app's"}{" "}
+                  performance and user engagement.
+                </p>
               </div>
             </div>
+            {isTicketsView && !!tickets.length && (
+              <Select value={selectedTicketId} onValueChange={setSelectedTicketId} disabled={false}>
+                <SelectTrigger className="w-fit min-w-[200px] mt-4">
+                  <SelectValue placeholder="Select a ticket" />
+                </SelectTrigger>
+                <SelectContent>
+                  {tickets.map((ticket) => (
+                    <SelectItem key={ticket.id} value={ticket.id} defaultValue={selectedTicketId}>
+                      {ticket.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            )}
           </CardContent>
         </Card>
 
-        {!filtersLoading && !hardcodedParam && <AnalyticsFilters filtersData={filterData} onChange={(a) => setSelectedParam(a)} />}
-        <Card className="p-6 lg:col-span-2">
-          <h2 className="text-lg font-semibold mb-4">Cost Overview</h2>
-          <CostOverview data={analyticsData} />
-        </Card>
-
-        <div className="grid gap-6 grid-cols-1 lg:grid-cols-2">
-          <Card className="p-6 h-full">
-            <h2 className="text-lg font-semibold mb-4">Transactions count</h2>
-            <TransactionsCount {...analyticsData?.count} />
+        {isTicketsView && !tickets.length && (
+          <Card className="bg-yellow-500 rounded-3xl p-6 mb-8">
+            <p className="font-semibold text-xl">Warning</p>
+            <p>No tickets found. Please create a ticket first to view analytics.</p>
           </Card>
-          <Card className="p-6">
-            <h2 className="text-lg font-semibold mb-4">3rd Party Costs</h2>
-            <CostByOperator data={analyticsData?.costsByOperatorType} />
-          </Card>
-        </div>
+        )}
+        {!filtersLoading && !hardcodedParam && !isTicketsView && (
+          <AnalyticsFilters filtersData={filterData} onChange={(a) => setSelectedParam(a)} />
+        )}
+        {((isTicketsView && !!tickets.length) || !isTicketsView) && (
+          <>
+            <Card className="p-6 lg:col-span-2">
+              <h2 className="text-lg font-semibold mb-4">Cost Overview</h2>
+              <CostOverview data={analyticsData} />
+            </Card>
 
-        <Card className="p-6">
-          <h2 className="text-lg font-semibold mb-4">Transactions by Method</h2>
-          <TransactionsByMethod
-            eventsData={analyticsData?.eventsTransactions?.data || []}
-            ticketsData={analyticsData?.ticketsTransactions?.data || []}
-          />
-        </Card>
+            <div className="grid gap-6 grid-cols-1 lg:grid-cols-2">
+              <Card className="p-6 h-full">
+                <h2 className="text-lg font-semibold mb-4">Transactions count</h2>
+                <TransactionsCount {...analyticsData?.count} />
+              </Card>
+              <Card className="p-6">
+                <h2 className="text-lg font-semibold mb-4">3rd Party Costs</h2>
+                <CostByOperator data={analyticsData?.costsByOperatorType} />
+              </Card>
+            </div>
+
+            <Card className="p-6">
+              <h2 className="text-lg font-semibold mb-4">Transactions by Method</h2>
+              <TransactionsByMethod
+                eventsData={analyticsData?.eventsTransactions?.data || []}
+                ticketsData={analyticsData?.ticketsTransactions?.data || []}
+              />
+            </Card>
+          </>
+        )}
       </motion.div>
     </div>
   );

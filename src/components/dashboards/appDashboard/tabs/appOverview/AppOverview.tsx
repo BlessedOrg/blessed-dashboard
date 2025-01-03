@@ -9,9 +9,8 @@ export const AppOverview = ({ appId }) => {
   return (
     <div className="w-full flex-col flex gap-4">
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
-        <Card className="bg-gradient-to-r from-yellow-500 to-green-500 border-none">
-          <CardContent className="p-6">
-            <div className="flex justify-between gap-2 items-center">
+        <Card className="bg-gradient-to-l from-yellow-500 to-green-500 border-none">
+          <CardContent className="flex flex-col gap-6 p-6">
               <div className="flex flex-col gap-2">
                 <div className="flex items-center gap-3">
                   <Calendar1 className="w-6 h-6" />
@@ -20,7 +19,6 @@ export const AppOverview = ({ appId }) => {
                 <p className="text-gray-600">Set up your event with all the essential details.</p>
               </div>
               <CreateEventButton appId={appId} />
-            </div>
           </CardContent>
         </Card>
       </motion.div>

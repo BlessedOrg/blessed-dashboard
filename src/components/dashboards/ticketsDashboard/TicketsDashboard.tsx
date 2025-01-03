@@ -1,8 +1,8 @@
 "use client";
+import { DashboardSidebar } from '@/components/common/globalSidebar/DashboardSidebar';
 import { LoadingDashboardSkeleton } from "@/components/common/LoadingDashboardSkeleton";
 import { TicketsDashboardSidebarNav } from "@/components/dashboards/ticketsDashboard/ticketsDashboardSidebarNav/TicketsDashboardSidebarNav";
 import { Suspense, useState } from "react";
-import { DashboardSidebar } from "../../common/DashboardSidebar";
 import { TicketsDashboardContent } from './ticketsDashboardContent/TicketsDashboardContent';
 
 export const TicketsDashboard = ({ appId, eventId }) => {

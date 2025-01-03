@@ -9,8 +9,7 @@ export const Dashboard = () => {
     <div className="w-full flex flex-col gap-10 pb-10">
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
         <Card className="bg-gradient-to-r from-purple-50 to-blue-50 border-none">
-          <CardContent className="p-6">
-            <div className='flex justify-between gap-2 items-center'>
+          <CardContent className="flex flex-col gap-6 p-6">
 						<div className="flex flex-col gap-2">
               <div className="flex items-center gap-3">
                 <AppWindow className="w-6 h-6 text-purple-600" />
@@ -19,7 +18,6 @@ export const Dashboard = () => {
               <p className="text-gray-600">Start building your app with the essential setup</p>
             </div>
 						<CreateAppModal />
-						</div>
           </CardContent>
         </Card>
       </motion.div>

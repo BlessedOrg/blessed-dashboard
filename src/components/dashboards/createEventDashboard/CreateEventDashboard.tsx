@@ -1,5 +1,5 @@
 "use client";
-import { DashboardSidebar } from "@/components/common/DashboardSidebar";
+import { DashboardSidebar } from "@/components/common/globalSidebar/DashboardSidebar";
 import { LoadingDashboardSkeleton } from "@/components/common/LoadingDashboardSkeleton";
 import { CreateEventDashboardSidebarFields } from "@/components/dashboards/createEventDashboard/createDashboardSidebarFields/CreateEventDashboardSidebarFields";
 import { CreateEventDashboardContent } from "@/components/dashboards/createEventDashboard/createEventDashboardContent/CreateEventDashboardContent";

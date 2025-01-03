@@ -1,9 +1,9 @@
 "use client";
-import { HomeDashboardSidebarNav } from "./homeDashboardSidebarNav/HomeDashboardSidebarNav";
-import { DashboardSidebar } from "../../common/DashboardSidebar";
+import { DashboardSidebar } from '@/components/common/globalSidebar/DashboardSidebar';
 import { Suspense, useState } from "react";
-import { DashboardContent } from "./homeDashboardContent/DashboardContent";
 import { LoadingDashboardSkeleton } from "../../common/LoadingDashboardSkeleton";
+import { DashboardContent } from "./homeDashboardContent/DashboardContent";
+import { HomeDashboardSidebarNav } from "./homeDashboardSidebarNav/HomeDashboardSidebarNav";
 
 export const HomeDashboard = () => {
   const [currentTabIndex, setCurrentTabIndex] = useState(0);
