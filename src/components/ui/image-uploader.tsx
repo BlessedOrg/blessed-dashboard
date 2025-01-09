@@ -1,12 +1,12 @@
 "use client";
 
-import { ChangeEvent, DragEvent, useRef, useState } from "react";
-import Image from "next/image";
-import { Crop, ImageIcon, Upload, X } from "lucide-react";
-import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { ImageCropModal } from "@/components/ui/image-crop-modal";
+import { cn } from "@/lib/utils";
 import { resizeImageIfNeeded } from "@/utils/resizeImageIfNeeded";
+import { Crop, ImageIcon, Upload, X } from "lucide-react";
+import Image from "next/image";
+import { ChangeEvent, DragEvent, memo, useRef, useState } from "react";
 
 interface ImageUploaderProps {
   setValue: (name: string, value: any) => void;
@@ -15,7 +15,7 @@ interface ImageUploaderProps {
   className?: string;
 }
 
-export const ImageUploader = ({
+export const ImageUploader = memo(({
   setValue,
   defaultValue,
   name = "logoUrl",
@@ -206,4 +206,4 @@ export const ImageUploader = ({
       />
     </div>
   );
-};
+});

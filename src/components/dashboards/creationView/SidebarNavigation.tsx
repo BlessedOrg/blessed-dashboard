@@ -8,7 +8,7 @@ export const SidebarNavigation = ({ selectedCategory, selectedTab, createViewIte
 
 	const error = form?.formState?.errors;
 	const errorKeys = Object.keys(error)
-	console.log(error)
+	
   return (
     <div className={`xl:sticky xl:top-[6.25rem] xl:h-[calc(100vh-6.25rem)] xl:min-w-[20rem]`}>
       <div className="flex flex-col gap-4 w-full">

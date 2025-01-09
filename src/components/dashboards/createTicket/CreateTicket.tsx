@@ -1,7 +1,6 @@
 "use client";
 import { Navigation } from "@/components/navigation/Navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { generateCreationSchema } from '../creationView/generateCreationSchema';
 import { CreateTicketDashboard } from './CreateTicketDashboard';
@@ -27,16 +26,6 @@ export const CreateTicket = ({ params }) => {
     criteriaMode: "all",
     shouldFocusError: true
   });
-  const {
-    watch,
-    formState: { errors }
-  } = form;
-
-  const currentData = watch();
-
-  useEffect(() => {
-    console.log(currentData);
-  }, [currentData]);
 
   return (
     <div className="flex w-full flex-col ">
