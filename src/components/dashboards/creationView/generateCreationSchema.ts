@@ -20,7 +20,7 @@ export function generateCreationSchema(generatedCategories) {
         fieldSchema = z.coerce.number().refine(val => val > 0, { message: "Field must be greater than 0" })
         break;
       case "array":
-        fieldSchema = z.array(innerSchema(field.fields));
+        fieldSchema = innerSchema(field.fields)
         break;
       case "boolean":
         fieldSchema = z.boolean();
@@ -98,13 +98,16 @@ export function generateCreationSchema(generatedCategories) {
   return z.object(fieldSchemas);
 }
 
-const innerSchema = (fields) =>
-  z.object(
+const innerSchema = (fields) => {
+  if (Array.isArray(fields) && fields.every(field => typeof field === "string")) {
+    return z.array(z.enum(fields as [string, ...string[]]));
+  }
+  return z.array(z.object(
     fields.reduce((acc: any, field: any) => {
-      // Also ensure number fields in arrays are properly coerced
       acc[field.id] = field.type === "number" 
         ? z.coerce.number().transform(val => Number(val))
         : z.string();
       return acc;
     }, {})
-  );
+  ));
+}

@@ -57,11 +57,8 @@ export const createTicketFields = (isEditView: boolean) =>
           schemaFields: [
             {
               id: "paymentMethods",
-              type: "object",
-              fields: [
-                { id: "fiat", type: "boolean", required: true },
-                { id: "crypto", type: "boolean", required: true },
-              ],
+              type: "array",
+							fields: ["FIAT", "CRYPTO"],
             },
           ],
         },

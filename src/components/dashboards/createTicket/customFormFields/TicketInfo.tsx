@@ -5,7 +5,7 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useState } from "react";
 
-export const TicketInfo = ({ form, defaultValues, setValue }) => {
+export const TicketInfo = ({ form }) => {
   const [imageTab, setImageTab] = useState("upload");
 
   const onImageTabChange = (value: string) => {

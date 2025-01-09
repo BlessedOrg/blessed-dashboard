@@ -3,17 +3,17 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
 import { motion } from "framer-motion";
 import { Coins, CreditCard } from "lucide-react";
-import { Controller } from 'react-hook-form';
+import { useFieldArray } from 'react-hook-form';
 
 const paymentTypes = [
   {
-    id: "crypto",
+    id: "CRYPTO",
     label: "Crypto payments",
     icon: <Coins className="w-5 h-5 text-purple-500" />,
     description: "Enable payment for cryptocurrency payments",
   },
   {
-    id: "fiat",
+    id: "FIAT",
     label: "Fiat payments",
     icon: <CreditCard className="w-5 h-5 text-blue-500" />,
     description: "Enable payment for traditional currency payments",
@@ -21,6 +21,12 @@ const paymentTypes = [
 ];
 
 export const TicketPaymentMethods = ({ form }) => {
+
+	const paymentMethods = form.watch("paymentMethods") || [];
+	const { fields, append, remove } = useFieldArray({
+		control: form.control,
+		name: "paymentMethods",
+	});
   return (
     <div>
       <Card>
@@ -46,12 +52,13 @@ export const TicketPaymentMethods = ({ form }) => {
                     <p className="text-sm text-gray-500">{type.description}</p>
                   </div>
                 </div>
-                <Controller
-                  control={form.control}
-									defaultValue={false}
-                  name={`paymentMethods.${type.id}`}
-                  render={({ field }) => <Switch id={type.id} {...field} checked={field.value} onCheckedChange={field.onChange} />}
-                />
+                <Switch id={type.id} checked={paymentMethods.includes(type.id)} onCheckedChange={() => {
+                  if(paymentMethods.includes(type.id)) {
+                    remove(paymentMethods.indexOf(type.id))
+                  } else {
+                    append(type.id)
+                  }
+                }} />
               </motion.div>
             ))}
           </div>
