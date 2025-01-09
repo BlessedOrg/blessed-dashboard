@@ -8,8 +8,7 @@ import { ImageUploader } from "@/components/ui/image-uploader";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { fileToBase64 } from "@/utils/files";
-import { resizeImageIfNeeded } from "@/utils/resizeImageIfNeeded";
+import { fileToBase64, getBase64FromUrl } from "@/utils/files";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2, Upload } from "lucide-react";
 import { useState } from "react";
@@ -94,24 +93,6 @@ export function CreateTicketModal({ appId, eventId, mutateTickets }: CreateTicke
       toast(e?.message || "Something went wrong!", { type: "error" });
     }
     setIsLoading(false);
-  };
-
-  const getBase64FromUrl = async (url) => {
-    const response = await fetch(url);
-
-    if (!response.ok) {
-      return null;
-    }
-
-    const blob = await response.blob();
-    const resizedBlob = await resizeImageIfNeeded(blob, 300 * 1024);
-
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader() as any;
-      reader.onloadend = () => resolve(reader.result.replace(/^data:.+;base64,/, ""));
-      reader.onerror = (error) => reject(error);
-      reader.readAsDataURL(resizedBlob);
-    });
   };
 
   return (
@@ -265,13 +246,7 @@ export function CreateTicketModal({ appId, eventId, mutateTickets }: CreateTicke
           <div className="lg:pl-6 border-t lg:border-t-0 lg:border-l pt-6 lg:pt-0">
             <div className="text-sm font-medium text-gray-500 mb-4">Preview</div>
             <TicketPreview
-              name={form.watch("name") || "Ticket Name"}
-              description={form.watch("description")}
-              price={form.watch("price")}
-              imageUrl={form.watch("imageUrl")}
-              initialCapacity={form.watch("initialSupply")}
-              maxCapacity={form.watch("maxSupply")}
-              symbol={form.watch("symbol")}
+              form={form}
             />
           </div>
         </div>

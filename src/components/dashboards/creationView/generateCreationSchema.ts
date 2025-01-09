@@ -1,11 +1,11 @@
 import z from "zod";
 
-export function generateEventSchema(generatedCategories) {
+export function generateCreationSchema(generatedCategories) {
   const categories = generatedCategories.filter((category) => category !== null);
   const fieldSchemas = {};
 
   function generateFieldSchema(field) {
-    let fieldSchema;
+    let fieldSchema
     switch (field.type) {
       case "text":
         fieldSchema = z.string();
@@ -17,10 +17,13 @@ export function generateEventSchema(generatedCategories) {
         fieldSchema = z.string();
         break;
       case "number":
-        fieldSchema = z.number();
+        fieldSchema = z.coerce.number().refine(val => val > 0, { message: "Field must be greater than 0" })
         break;
       case "array":
         fieldSchema = z.array(innerSchema(field.fields));
+        break;
+      case "boolean":
+        fieldSchema = z.boolean();
         break;
       case "object":
         const nestedSchemas = {};
@@ -32,17 +35,22 @@ export function generateEventSchema(generatedCategories) {
       default:
         fieldSchema = z.any();
     }
+		if(field.type === "number") {
+			console.log(fieldSchema)
 
+		}
     if (!!field?.required) {
       switch (field.type) {
         case "date":
-          fieldSchema = fieldSchema.min(new Date(), `${field.id} is required`);
+          fieldSchema = fieldSchema.min(new Date(), `Field ${field.id} is required`);
           break;
         case "number":
-          fieldSchema = fieldSchema.min(1, `${field.id} is required`);
           break;
         case "text":
-          fieldSchema = fieldSchema.min(1, `${field.id} is required`);
+          fieldSchema = fieldSchema.min(1, `Field ${field.id} is required`);
+          break;
+        case "boolean":
+          fieldSchema = z.boolean();
           break;
         case "object":
           const nestedSchemas = {};
@@ -52,13 +60,18 @@ export function generateEventSchema(generatedCategories) {
           fieldSchema = z.object(nestedSchemas);
           break;
         default:
-          if (field.type !== "object") {
-            fieldSchema = fieldSchema.min(1, `${field.id} is required`);
+          if (field.type !== "object" && field.type !== "boolean") {
+            fieldSchema = fieldSchema.min(1, `Field ${field.id} is required`);
           }
       }
     } else {
       fieldSchema = fieldSchema.optional();
     }
+
+		if(field.type === "number") {
+			console.log("number", field.id)
+			console.log(fieldSchema)
+		}
 
     return fieldSchema;
   }
@@ -66,7 +79,14 @@ export function generateEventSchema(generatedCategories) {
   categories.forEach((category) => {
     category.tabs.forEach((tab) => {
       tab.fields?.forEach((field) => {
-        fieldSchemas[field.id] = generateFieldSchema(field);
+        if (field.row) {
+          // Handle fields inside row layout
+          field.fields?.forEach((subField) => {
+            fieldSchemas[subField.id] = generateFieldSchema(subField);
+          });
+        } else {
+          fieldSchemas[field.id] = generateFieldSchema(field);
+        }
       });
 
       tab.schemaFields?.forEach((field) => {
@@ -78,11 +98,13 @@ export function generateEventSchema(generatedCategories) {
   return z.object(fieldSchemas);
 }
 
-const innerSchema = (fields) => z.object(
-	fields.reduce((acc: any, field: any) => {
-		acc[field.id] = field.type === 'number' 
-			? z.number() 
-			: z.string();
-		return acc;
-	}, {})
-);
+const innerSchema = (fields) =>
+  z.object(
+    fields.reduce((acc: any, field: any) => {
+      // Also ensure number fields in arrays are properly coerced
+      acc[field.id] = field.type === "number" 
+        ? z.coerce.number().transform(val => Number(val))
+        : z.string();
+      return acc;
+    }, {})
+  );

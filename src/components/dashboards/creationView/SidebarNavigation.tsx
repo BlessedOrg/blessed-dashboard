@@ -1,18 +1,27 @@
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import Image from "next/image";
 
-export const CreateEventDashboardSidebarFields = ({ selectedCategory, selectedTab, createViewItems, isProcessing }) => {
+export const SidebarNavigation = ({ selectedCategory, selectedTab, createViewItems, isProcessing, form }) => {
   const router = useRouter();
   const pathname = usePathname();
+
+	const error = form?.formState?.errors;
+	const errorKeys = Object.keys(error)
+	console.log(error)
   return (
     <div className={`xl:sticky xl:top-[6.25rem] xl:h-[calc(100vh-6.25rem)] xl:min-w-[20rem]`}>
       <div className="flex flex-col gap-4 w-full">
         {createViewItems.map((category, index) => {
+					const hasError = category.tabs.some(tab => tab.schemaFields?.some(field => errorKeys.includes(field.id)) || tab.fields?.some(field => errorKeys.includes(field.id)) || tab.fields?.some(field => field.fields?.some(subField => errorKeys.includes(subField.id))));
+
+					const isSelectedWithoutErrors = selectedCategory === category.id && !hasError;
+					const gradient = isSelectedWithoutErrors ? "from-green-500 to-yellow-500" : hasError ? "from-red-200 to-red-500" : "from-white to-yellow-500";
+					
           return (
             <div
               key={category.id}
-              className={`${isProcessing ? "cursor-not-allowed" : ""} bg-gradient-to-r ${category.id === selectedCategory ? "from-green-500 to-yellow-500" : "from-white to-yellow-500 cursor-pointer"} p-4`}
+              className={`${isProcessing ? "cursor-not-allowed" : ""} bg-gradient-to-r ${gradient} p-4`}
               onClick={
                 selectedCategory !== category.id && !isProcessing
                   ? () => {
@@ -43,10 +52,11 @@ export const CreateEventDashboardSidebarFields = ({ selectedCategory, selectedTa
                   }}
                 >
                   {category.tabs.map((tab) => {
+										const hasError = tab.schemaFields?.some(field => errorKeys.includes(field.id)) || tab.fields?.some(field => errorKeys.includes(field.id)) || tab.fields?.some(field => field.fields?.some(subField => errorKeys.includes(subField.id)));
                     return (
                       <li
                         key={tab.href}
-                        className={`w-full font-semibold ${selectedTab === tab.href ? "bg-gray-200" : ""}`}
+                        className={`w-full font-semibold ${hasError ? "bg-red-200" : selectedTab === tab.href ? "bg-gray-200" : ""}`}
                       >
                         <Link
                           aria-disabled={isProcessing}

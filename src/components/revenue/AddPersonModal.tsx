@@ -39,7 +39,6 @@ export function AddPersonModal({ onSubmit, currentTotal }: AddPersonModalProps) 
     }
   });
 
-	console.log(form.formState.errors)
 
   const handleSubmit = async (data: AddPersonFormData) => {
     if (currentTotal + data.feePercentage > 100) {

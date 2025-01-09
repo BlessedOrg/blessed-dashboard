@@ -1,28 +1,21 @@
 "use client";
 
-import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Card, CardContent } from "@/components/ui/card";
 import { DollarSign, Ticket, Users } from "lucide-react";
 
-interface TicketPreviewProps {
-  name: string;
-  description?: string;
-  price: number;
-  imageUrl?: string;
-  initialCapacity: number;
-  maxCapacity: number;
-  symbol: string;
-}
-
 export function TicketPreview({
-  name = "Ticket Name",
-  description,
-  price = 0,
-  imageUrl = "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7",
-  initialCapacity = 100,
-  maxCapacity = 1000,
-  symbol
-}: TicketPreviewProps) {
+  form
+}) {
+	const { watch } = form;
+	const name = watch("name");
+	const description = watch("description");
+	const price = watch("price");
+	const imageUrl = watch("imageUrl");
+	const initialCapacity = watch("initialSupply");
+	const maxCapacity = watch("maxSupply");
+	const symbol = watch("symbol");
+
   const previewImage = imageUrl?.includes("https://") || imageUrl?.includes("data:image") ? imageUrl : "/img/placeholder_image.jpeg";
   return (
     <Card className="overflow-hidden bg-white">
