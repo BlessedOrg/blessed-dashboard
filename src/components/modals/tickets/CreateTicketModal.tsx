@@ -1,5 +1,5 @@
 "use client";
-
+//TODO: To delete
 import { createTicket } from "@/app/api/events";
 import { TicketPreview } from "@/components/modals/tickets/TicketPreview";
 import { Button } from "@/components/ui/button";
