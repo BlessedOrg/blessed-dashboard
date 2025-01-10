@@ -1,10 +1,11 @@
 "use client";
 
 import { LoadingCards } from "@/components/common/LoadingCards";
-import { CreateTicketModal } from "@/components/modals/tickets/CreateTicketModal";
+import { Button } from '@/components/ui/button';
 import { Card, CardContent } from "@/components/ui/card";
 import { ViewEnterAnimation } from "@/components/ui/view-enter-animation";
 import { Ticket, Users } from "lucide-react";
+import Link from "next/link";
 import { TicketCard } from "./TicketCard";
 
 export const TicketsTab = ({ appId, eventId, ticketsData, ticketsLoading, mutate }: { appId: string; eventId: string, ticketsData: ITicket[], ticketsLoading: boolean, mutate: () => void }) => {
@@ -28,7 +29,9 @@ export const TicketsTab = ({ appId, eventId, ticketsData, ticketsLoading, mutate
                 strategy all in one place.
               </p>
             </div>
-            <CreateTicketModal appId={appId} eventId={eventId} mutateTickets={mutate} />
+            <Button variant="outline" asChild>
+							<Link href={`/${appId}/${eventId}/create-ticket`}>Create Ticket</Link>
+						</Button>
           </CardContent>
         </Card>
       </ViewEnterAnimation>

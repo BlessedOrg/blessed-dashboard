@@ -1,14 +1,14 @@
 "use client";
 import { CreateEventDashboard } from "@/components/dashboards/createEventDashboard/CreateEventDashboard";
 import { createEventFields } from "@/components/dashboards/createEventDashboard/createOrEditEvent/createEventFields";
-import { generateEventSchema } from "@/components/dashboards/createEventDashboard/generateEventSchema";
 import { Navigation } from "@/components/navigation/Navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { generateCreationSchema } from '../../creationView/generateCreationSchema';
 
 const eventFields = createEventFields(true);
-const createEventSchema = generateEventSchema(eventFields);
+const createEventSchema = generateCreationSchema(eventFields);
 
 export const EditEvent = ({ params, eventData }) => {
   const form = useForm({

@@ -150,6 +150,16 @@ export const Navigation = ({ appId, eventId }: NavigationProps) => {
       showRightSideCta: false,
       rightSideCta: navigationConfig.rightSideCta.app
     },
+		[`/${appId}/${eventId}/create-ticket`]: {
+      showFullLogo: false,
+      showAppSelect: false,
+      showMiddleNavigation: true,
+      showEventSelect: true,
+			showArrowBack: true,
+      middleNavigationItems: navigationConfig.middleNavigationItems.appNav,
+      showRightSideCta: false,
+      rightSideCta: navigationConfig.rightSideCta.app
+    },
 		[`/${appId}`]: {
       showFullLogo: false,
       showAppSelect: true,

@@ -50,7 +50,6 @@ export const EventDashboardContent = ({ currentTabIndex, mutateEventData, onTabC
 
   useEffect(() => {
     const activeTabIndex = TAB_PARAMS_MAP[currentTab];
-		console.log(TAB_PARAMS_MAP, currentTab)
     onTabChange(activeTabIndex);
   }, [currentTab, onTabChange]);
 

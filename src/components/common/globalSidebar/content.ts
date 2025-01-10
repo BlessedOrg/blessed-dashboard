@@ -226,6 +226,47 @@ export const contentPerPageItems = (appSlug: string, eventSlug: string) => {
       ],
       footer: "Make your app ready to shine and seamlessly integrate it into your ecosystem via our API!",
     },
+		[`/${appSlug}/${eventSlug}/create-ticket`]: {
+			title: "Create Tickets",
+			sections: [
+				{
+					title: "Set up tickets for your event by providing the following details:",
+					items: [
+						{
+							step: 1,
+							title: "Ticket Name",
+							description: "Give your ticket a clear, engaging name.",
+						},
+						{
+							step: 2,
+							title: "Symbol",
+							description: "Add a unique symbol to identify the ticket.",
+						},
+						{
+							step: 3,
+							title: "Brief Description",
+							description: "Highlight what this ticket includes or any unique perks.",
+						},
+						{
+							step: 4,
+							title: "Image",
+							description: "Select from Unsplash or upload a JPG, PNG, or GIF (max 5MB). The ideal dimensions will be specified for seamless display.",
+						},
+						{
+							step: 5,
+							title: "Initial and Max Capacity",
+							description: "Define how many tickets will be available initially and the maximum number that can be sold.",
+						},
+						{
+							step: 6,
+							title: "Price",
+							description: "Set the cost for each ticket type.",
+						},
+					]
+				}
+			],
+			footer: "Additionally, create Ticket Types with varying perks to enhance the attendee experience, such as exclusive access, VIP benefits, or bundled offers.",
+		},
     [`/${appSlug}/create-event`]: commonContentItems["event-preview-and-create"],
     [`/${appSlug}/${eventSlug}`]: {
       title: "Event Overview",

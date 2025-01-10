@@ -7,7 +7,7 @@ import { motion } from "framer-motion";
 import { Coins, CreditCard } from "lucide-react";
 
 interface PaymentType {
-  id: "crypto" | "fiat";
+  id: "CRYPTO" | "FIAT";
   label: string;
   icon: React.ReactNode;
   description: string;
@@ -15,13 +15,13 @@ interface PaymentType {
 
 const paymentTypes: PaymentType[] = [
   {
-    id: "crypto",
+    id: "CRYPTO",
     label: "Crypto payments",
     icon: <Coins className="w-5 h-5 text-purple-500" />,
     description: "Enable distribution for cryptocurrency payments"
   },
   {
-    id: "fiat",
+    id: "FIAT",
     label: "Fiat payments",
     icon: <CreditCard className="w-5 h-5 text-blue-500" />,
     description: "Enable distribution for traditional currency payments"

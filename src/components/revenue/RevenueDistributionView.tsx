@@ -37,6 +37,7 @@ export function RevenueDistributionView({
   tickets,
   isTicketsView = false,
 }: RevenueDistributionViewProps) {
+	const [selectedPaymentMethods, setSelectedPaymentMethods] = useState<string[]>([])
   const [selectedTicketId, setSelectedTicketId] = useState<string | null>(tickets?.[0]?.id || null);
   const ticketId = selectedTicketId || tickets?.[0]?.id;
 
@@ -55,7 +56,7 @@ export function RevenueDistributionView({
 
   const handleAddEntry = async (entry: RevenueEntry) => {
     if (isStateManaged) {
-      const newStakeholders = [...localStakeholders, entry];
+      const newStakeholders = [...localStakeholders, {...entry, paymentMethods: selectedPaymentMethods}];
       setLocalStakeholders(newStakeholders);
       form.setValue("stakeholders", newStakeholders);
       return;
@@ -67,7 +68,7 @@ export function RevenueDistributionView({
         {
           method: "POST",
           body: JSON.stringify({
-            stakeholders: [entry],
+            stakeholders: [{...entry, paymentMethods: selectedPaymentMethods}],
           }),
         }
       );
@@ -127,11 +128,22 @@ export function RevenueDistributionView({
   };
 
   const handlePaymentTypeToggle = (type: string) => {
-    console.log(type);
+    setSelectedPaymentMethods((prev) => {
+			if(prev.includes(type)) {
+				return prev.filter((method) => method !== type)
+			}
+			return [...prev, type]
+		})
+		if(!!stakeholders.length) {
+			form.setValue("stakeholders", stakeholders.map((stakeholder) => ({
+				...stakeholder,
+				paymentMethods: stakeholder.paymentMethods.includes(type) ? stakeholder.paymentMethods.filter((method) => method !== type) : [...stakeholder.paymentMethods, type]
+			})))
+		}
   };
 
   const totalPercentage = stakeholders.reduce((sum, entry) => sum + entry.feePercentage, 0);
-
+console.log(form.getValues())
   return (
     <div className="w-full pb-8 px-4 overflow-hidden">
       {isTicketsView && !tickets?.length && (
@@ -181,7 +193,7 @@ export function RevenueDistributionView({
             )}
 
             <div className="space-y-6">
-              <PaymentTypesCard enabledTypes={new Set(["crypto"])} onToggle={handlePaymentTypeToggle} />
+              <PaymentTypesCard enabledTypes={new Set(selectedPaymentMethods)} onToggle={handlePaymentTypeToggle} />
 
               <Card>
                 <CardContent className="p-6">

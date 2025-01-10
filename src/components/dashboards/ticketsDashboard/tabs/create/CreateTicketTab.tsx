@@ -191,13 +191,7 @@ export function CreateTicketTab({ appId, eventId, mutateTickets }: CreateTicketM
         <div className="lg:pl-6 border-t lg:border-t-0 lg:border-l pt-6 lg:pt-0">
           <div className="text-sm font-medium text-gray-500 mb-4">Preview</div>
           <TicketPreview
-            name={form.watch("name") || "Ticket Name"}
-            description={form.watch("description")}
-            price={form.watch("price")}
-            imageUrl={form.watch("imageUrl")}
-            initialCapacity={form.watch("initialSupply")}
-            maxCapacity={form.watch("maxSupply")}
-            symbol={form.watch("symbol")}
+            form={form}
           />
         </div>
       </div>
