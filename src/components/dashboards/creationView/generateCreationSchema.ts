@@ -35,10 +35,7 @@ export function generateCreationSchema(generatedCategories) {
       default:
         fieldSchema = z.any();
     }
-		if(field.type === "number") {
-			console.log(fieldSchema)
-
-		}
+	
     if (!!field?.required) {
       switch (field.type) {
         case "date":
@@ -68,10 +65,7 @@ export function generateCreationSchema(generatedCategories) {
       fieldSchema = fieldSchema.optional();
     }
 
-		if(field.type === "number") {
-			console.log("number", field.id)
-			console.log(fieldSchema)
-		}
+		console.log(fieldSchema, field.id)
 
     return fieldSchema;
   }

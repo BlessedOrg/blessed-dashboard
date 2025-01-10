@@ -21,15 +21,18 @@ export const CreateTicket = ({ params }) => {
       symbol: "VIP",
       currency: "usd",
       paymentMethods: ["FIAT", "CRYPTO"],
+			stakeholders: []
     },
     mode: "onChange",
     criteriaMode: "all",
     shouldFocusError: true
   });
 
+	// console.log(form.getValues())
+
   return (
     <div className="flex w-full flex-col ">
-      <Navigation appId={params.id} />
+      <Navigation appId={params.id} eventId={params.eventId} />
       <CreateTicketDashboard defaultCategory="setup" form={form} defaultTab="name-and-description" createViewItems={ticketFields} appId={params.id} eventId={params.eventId}/>
     </div>
   );
