@@ -1,10 +1,10 @@
-import { ColumnDef, flexRender, getCoreRowModel, getPaginationRowModel, getSortedRowModel, PaginationState, SortingState, useReactTable, VisibilityState } from "@tanstack/react-table";
 import { Button, Checkbox, DialogClose, DropdownMenu, DropdownMenuContent, DropdownMenuTrigger, Input, Table } from "@/components/ui";
-import { ArrowUpDown, ChevronDown } from "lucide-react";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { DropdownMenuCheckboxItem } from "@/components/ui/dropdown-menu";
 import { TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { ColumnDef, flexRender, getCoreRowModel, getPaginationRowModel, getSortedRowModel, PaginationState, SortingState, useReactTable, VisibilityState } from "@tanstack/react-table";
+import { ArrowUpDown, ChevronDown } from "lucide-react";
 import Image from "next/image";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 interface IFlattenedData {
   id: string;
@@ -63,7 +63,7 @@ const columns: ColumnDef<IFlattenedData>[] = [
   }
 ];
 
-export function EventSelectTable({
+export function EventTicketSelectTable({
   myEvents: myEventsData,
   publicEvents: publicEventsData,
   onSaveEvents,

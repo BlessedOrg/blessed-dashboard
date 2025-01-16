@@ -4,8 +4,9 @@ import { LoadingDashboardSkeleton } from "@/components/common/LoadingDashboardSk
 import { useUserContext } from "@/store/UserContext";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
-import { GenerateContent } from '../creationView/GenerateContent';
-import { SidebarNavigation } from '../creationView/SidebarNavigation';
+import { GenerateContent } from "../creationView/GenerateContent";
+import { SidebarNavigation } from "../creationView/SidebarNavigation";
+
 interface IProps {
   createViewItems: any;
   form: any;
@@ -14,7 +15,7 @@ interface IProps {
   eventId?: string;
   appId?: string;
 }
-export const CreateEventDashboard = ({ createViewItems, form, defaultCategory, defaultTab, eventId, appId }: IProps) => {
+export const Dashboard = ({ createViewItems, form, defaultCategory, defaultTab, eventId, appId }: IProps) => {
   const { isLoading } = useUserContext();
   const selectedCategory = useSearchParams().get("category") || defaultCategory;
   const selectedTab = useSearchParams().get("tab") || defaultTab;
@@ -26,10 +27,26 @@ export const CreateEventDashboard = ({ createViewItems, form, defaultCategory, d
   };
   return (
     <main className="flex xl:flex-row flex-col-reverse md:flex-col gap-6 w-full px-[1.5rem] max-w-[90rem] self-center">
-      <SidebarNavigation isProcessing={isProcessing} selectedCategory={selectedCategory} selectedTab={selectedTab} createViewItems={createViewItems} form={form} />
-      {!isLoading && <GenerateContent isProcessing={isProcessing} form={form} selectedTab={selectedTab} createViewItems={createViewItems} eventId={eventId} appId={appId} toggleProcessingState={toggleProcessingState} />}
+      <SidebarNavigation
+        isProcessing={isProcessing}
+        selectedCategory={selectedCategory}
+        selectedTab={selectedTab}
+        createViewItems={createViewItems}
+        form={form}
+      />
+      {!isLoading && (
+        <GenerateContent
+          isProcessing={isProcessing}
+          form={form}
+          selectedTab={selectedTab}
+          createViewItems={createViewItems}
+          eventId={eventId}
+          appId={appId}
+          toggleProcessingState={toggleProcessingState}
+        />
+      )}
       {isLoading && <LoadingDashboardSkeleton />}
-      <DashboardSidebar appSlug={appId} eventSlug={eventId}/>
+      <DashboardSidebar appSlug={appId} eventSlug={eventId} />
     </main>
   );
 };

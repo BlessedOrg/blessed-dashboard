@@ -51,8 +51,12 @@ export const ImageUploader = memo(({
       reader.onload = (e) => {
         const result = e.target?.result;
         if (typeof result === "string") {
-          setShowCropModal(true);
+          if (!file.type.includes('svg')) {
+            setShowCropModal(true);
+          }
+					setValue(name, result)
           setPreviewImage(result);
+					setValue("logoFile", file)
         }
       };
 
@@ -144,7 +148,7 @@ export const ImageUploader = memo(({
               src={previewImage}
               alt="Upload preview"
               fill
-              className="object-cover rounded-lg"
+              className="rounded-lg"
               onError={() => {
                 console.error("Error loading image");
                 setPreviewImage("");
@@ -157,17 +161,19 @@ export const ImageUploader = memo(({
               </div>
             </div>
             <div className="absolute top-2 right-2 flex gap-2">
-              <Button
-                size="icon"
-                variant="secondary"
-                className="bg-black/50 hover:bg-black/70"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setShowCropModal(true);
-                }}
-              >
-                <Crop className="h-4 w-4 text-white" />
-              </Button>
+              {selectedFile && !selectedFile.type.includes('svg') && (
+                <Button
+                  size="icon"
+                  variant="secondary"
+                  className="bg-black/50 hover:bg-black/70"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setShowCropModal(true);
+                  }}
+                >
+                  <Crop className="h-4 w-4 text-white" />
+                </Button>
+              )}
               <Button
                 size="icon"
                 variant="secondary"

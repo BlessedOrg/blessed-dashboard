@@ -58,8 +58,9 @@ export async function updateCampaignTickets({
   return response;
 }
 
-export async function distributeCampaign({ id, appId }: { id: string; appId: string }) {
-  const response = await fetcherWithToken(`${apiUrl}/private/apps/${appId}/campaigns/${id}/distribute`, {
+export async function distributeCampaign({ id, appId, campaignType }: { id: string; appId: string; campaignType: string }) {
+	const urlEndpoint = campaignType === "REWARD" ? "distribute-rewards" : "distribute-tickets";
+  const response = await fetcherWithToken(`${apiUrl}/private/apps/${appId}/campaigns/${id}/${urlEndpoint}`, {
     method: "POST",
   });
   return response;

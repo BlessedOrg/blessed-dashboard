@@ -35,7 +35,7 @@ export const GenerateContent = ({
                   isProcessing={isProcessing}
                 />
               ))}
-              {tab.fields.map((field) => (
+              {tab?.fields?.map((field) => (
 								<Card key={field.id} className='p-6'>
 									{field.title && <h3 className="text-lg font-medium mb-4">{field.title}</h3>}
                 <div

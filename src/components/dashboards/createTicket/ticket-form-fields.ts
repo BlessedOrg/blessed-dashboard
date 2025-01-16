@@ -1,4 +1,3 @@
-import { PromotionsView } from "@/components/promotions/PromotionsView";
 import { RevenueDistributionView } from "@/components/revenue/RevenueDistributionView";
 import { CreateTicketCTA } from "./customFormFields/CreateTicketCTA";
 import { TicketCapacity } from "./customFormFields/TicketCapacity";
@@ -65,7 +64,7 @@ export const createTicketFields = (isEditView: boolean) =>
         {
           name: "Discounts and promo codes",
           href: "discounts-and-promo-codes",
-          customFieldComponents: [PromotionsView],
+          customFieldComponents: [],
           fields: [],
           schemaFields: [],
         },
