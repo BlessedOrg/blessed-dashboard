@@ -1,8 +1,8 @@
-import "react-toastify/dist/ReactToastify.css";
-import { ToastContainer } from "react-toastify";
-import { UserContextProvider } from "../store/UserContext";
-import { Suspense } from "react";
 import { FixedLoading } from "@/components/ui/fixed-loading";
+import { Suspense } from "react";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { UserContextProvider } from "../store/UserContext";
 
 export const RootProvider = ({ children }) => {
   return (

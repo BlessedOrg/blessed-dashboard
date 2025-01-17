@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { format } from "date-fns";
-import { Calendar, DollarSign, MoreVertical, Package, Send, Users } from "lucide-react";
+import { Calendar, DollarSign, Gift, MoreVertical, Package, Send, Users } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 import { SendTicketModal } from "./SendTicketModal";
@@ -93,7 +93,16 @@ export function TicketCard({ ticket, appId, eventId, mutate }: TicketCardProps) 
                 </div>
               </div>
             </div>
+
+						{!!ticket?.Discounts?.length && <div className="flex items-center gap-2 text-gray-700">
+                <Gift className="w-5 h-5 text-pink-500" />
+                <div>
+                  <p className="text-sm font-medium">Rewards</p>
+                  <p className="text-lg font-semibold">{ticket?.Discounts?.length || 0}</p>
+                </div>
+              </div>}
           </div>
+					
         </div>
         <SendTicketModal
           ticketId={ticket.id}

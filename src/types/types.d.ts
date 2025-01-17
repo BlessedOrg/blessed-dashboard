@@ -1,4 +1,4 @@
-export {};
+export { };
 declare global {
   interface ICampaignDistribution {
     AudiencesUsers: IAudienceUser[];
@@ -10,13 +10,49 @@ declare global {
     id: string;
     name: string;
     slug: string;
+    isDraft: boolean;
     Audiences: IAudience[];
     Tickets?: ITicket[];
+    Discounts?: {
+      DiscountCodes: {
+        campaignDistributionId: string | null;
+        createdAt: string;
+        discountId: string;
+        id: string;
+        reusable: boolean;
+        updatedAt: string;
+        used: boolean;
+        value: string;
+      }[];
+      appId: string;
+      campaignId: string;
+      createdAt: string;
+      description: string;
+      eventId: string;
+      id: string;
+      isTemplate: boolean;
+      isVoucher: boolean;
+      locationLatitude: string | null;
+      locationLongitude: string | null;
+      locationUrl: string;
+      logoUrl: string;
+      minOrderValue: number;
+      name: string;
+      percentage: number;
+      prefix: string | null;
+      templateId: string;
+      ticketId: string | null;
+      uniqueDiscountCodes: boolean;
+      updatedAt: string;
+      validFrom: string;
+      validTo: string;
+    }[];
     CampaignDistribution: ICampaignDistribution;
     appId: string;
     createdAt: Date;
     updatedAt: Date | null;
     deletedAt: Date | null;
+    type: "REWARD" | "TICKET";
   }
 
   interface IAudience {
@@ -46,6 +82,7 @@ declare global {
     Entrance?: IEntrance;
     Event?: IEvent;
     createdAt: Date;
+    eventId: string;
     metadataPayload?: {
       metadataImageUrl?: string;
       name: string;
@@ -128,7 +165,7 @@ declare global {
     developerId: string;
     createdAt: string;
     updatedAt: string;
-    colors: { color1: string, color2: string };
+    colors: { color1: string; color2: string };
     ApiTokens: any[];
   }
 
@@ -145,9 +182,9 @@ declare global {
   interface IEventBouncer {
     id: string;
     User: {
-      id: string
-      email: string
-    },
+      id: string;
+      email: string;
+    };
     eventId: string;
     createdAt: Date;
     updatedAt: Date | null;

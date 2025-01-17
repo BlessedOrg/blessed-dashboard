@@ -2,8 +2,8 @@
 import { Navigation } from "@/components/navigation/Navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { Dashboard } from '../creationView/Dashboard';
 import { generateCreationSchema } from '../creationView/generateCreationSchema';
-import { CreateTicketDashboard } from './CreateTicketDashboard';
 import { createTicketFields } from './ticket-form-fields';
 
 const ticketFields = createTicketFields(false);
@@ -28,12 +28,12 @@ export const CreateTicket = ({ params }) => {
     shouldFocusError: true
   });
 
-	// console.log(form.getValues())
+	console.log(form.getValues())
 
   return (
     <div className="flex w-full flex-col ">
       <Navigation appId={params.id} eventId={params.eventId} />
-      <CreateTicketDashboard defaultCategory="setup" form={form} defaultTab="name-and-description" createViewItems={ticketFields} appId={params.id} eventId={params.eventId}/>
+      <Dashboard defaultCategory="setup" form={form} defaultTab="name-and-description" createViewItems={ticketFields} appId={params.id} eventId={params.eventId}/>
     </div>
   );
 };

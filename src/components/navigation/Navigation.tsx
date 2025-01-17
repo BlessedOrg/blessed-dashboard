@@ -60,7 +60,7 @@ const NavigationLink = ({ item, isActive }: { item: NavigationItem; isActive: bo
 );
 
 const RightSideMenu = ({ showRightSideCta, rightSideCta }: Pick<PathSettings, "showRightSideCta" | "rightSideCta">) => (
-  <div className="hidden md:flex gap-5 items-center">
+  <div className="hidden md:flex gap-5 items-center justify-end">
     <AvatarMenu />
     {showRightSideCta && rightSideCta}
   </div>
@@ -89,7 +89,8 @@ export const Navigation = ({ appId, eventId }: NavigationProps) => {
       appNav: [
         { href: `/${appId}`, label: "App" },
         { href: `/${appId}/campaigns`, label: "Campaigns" },
-        { href: `/${appId}/audience`, label: "Audience" }
+        { href: `/${appId}/audience`, label: "Audiences" },
+        { href: `/${appId}/rewards`, label: "Rewards" },
       ]
     },
     rightSideCta: {
@@ -119,6 +120,9 @@ export const Navigation = ({ appId, eventId }: NavigationProps) => {
     },
     [`/${appId}/audience`]: commonSettings.campaign_and_audience,
     [`/${appId}/campaigns`]: commonSettings.campaign_and_audience,
+		[`/${appId}/rewards`]: commonSettings.campaign_and_audience,
+		[`/${appId}/discounts`]: commonSettings.campaign_and_audience,
+		[`/${appId}/vouchers`]: commonSettings.campaign_and_audience,
     [`/${appId}/create-event`]: {
       showFullLogo: true
     },
@@ -179,7 +183,7 @@ export const Navigation = ({ appId, eventId }: NavigationProps) => {
   const settings = pathSettings[pathname] ?? pathSettings["/"];
 
   return (
-    <nav className="flex justify-between w-full py-6 px-6 sticky top-0 left-0 right-0 z-20 bg-root-background">
+    <nav className="grid grid-cols-2 md:grid-cols-3 w-full py-6 px-6 sticky top-0 left-0 right-0 z-20 bg-root-background">
       <div className="flex gap-2">
         <Logo showFullLogo={settings.showFullLogo} />
 				{settings.showArrowBack && (

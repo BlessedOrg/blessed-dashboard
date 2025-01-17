@@ -1,7 +1,7 @@
 "use client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { formatEth, formatUsd } from "@/lib/format";
+import { formatEth, formatUsd } from "@/utils/format";
 import { motion } from "framer-motion";
 
 interface CostOverviewProps {

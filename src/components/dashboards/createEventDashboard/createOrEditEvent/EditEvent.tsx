@@ -1,10 +1,10 @@
 "use client";
-import { CreateEventDashboard } from "@/components/dashboards/createEventDashboard/CreateEventDashboard";
 import { createEventFields } from "@/components/dashboards/createEventDashboard/createOrEditEvent/createEventFields";
 import { Navigation } from "@/components/navigation/Navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { Dashboard } from '../../creationView/Dashboard';
 import { generateCreationSchema } from '../../creationView/generateCreationSchema';
 
 const eventFields = createEventFields(true);
@@ -38,7 +38,7 @@ export const EditEvent = ({ params, eventData }) => {
   return (
     <div className="flex w-full flex-col ">
       <Navigation appId={params.id} eventId={params.eventId} />
-      <CreateEventDashboard defaultCategory="setup" form={form} defaultTab="name-and-description" createViewItems={eventFields} eventId={params.eventId} appId={params.id} />
+      <Dashboard defaultCategory="setup" form={form} defaultTab="name-and-description" createViewItems={eventFields} eventId={params.eventId} appId={params.id} />
     </div>
   );
 };

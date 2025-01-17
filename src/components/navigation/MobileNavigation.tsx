@@ -1,9 +1,9 @@
 "use client";
-import { useSearchParams } from "next/navigation";
-import { useState } from "react";
 import { HomeDashboardSidebarNav } from "@/components/dashboards/homeDashboard/homeDashboardSidebarNav/HomeDashboardSidebarNav";
 import { dashboardNavItems } from "@/components/dashboards/homeDashboard/homeDashboardSidebarNav/dashboardNavItems";
 import { Menu } from "lucide-react";
+import { useSearchParams } from "next/navigation";
+import { useState } from "react";
 
 export const MobileNavigation = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -15,9 +15,11 @@ export const MobileNavigation = () => {
 
   return (
     <>
-      <button onClick={toggleMenu} className="md:hidden">
+      <div className='flex justify-end'>
+			<button onClick={toggleMenu} className="md:hidden">
         <Menu size={28} />
       </button>
+			</div>
       <div
         className={`flex flex-col md:hidden fixed top-[6.25rem] left-0 w-full h-[calc(100dvh-6.25rem)] bg-gray-500 transition-all duration-300 ${
           isOpen ? "translate-x-0" : "-translate-x-full px-4"

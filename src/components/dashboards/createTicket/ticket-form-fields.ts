@@ -1,10 +1,10 @@
-import { PromotionsView } from "@/components/promotions/PromotionsView";
 import { RevenueDistributionView } from "@/components/revenue/RevenueDistributionView";
 import { CreateTicketCTA } from "./customFormFields/CreateTicketCTA";
 import { TicketCapacity } from "./customFormFields/TicketCapacity";
 import { TicketInfo } from "./customFormFields/TicketInfo";
 import { TicketPaymentMethods } from "./customFormFields/TicketPaymentMethods";
 import { TicketPrice } from "./customFormFields/TicketPrice";
+import { TicketRewards } from './customFormFields/TicketRewards';
 
 export const createTicketFields = (isEditView: boolean) =>
   [
@@ -58,47 +58,45 @@ export const createTicketFields = (isEditView: boolean) =>
             {
               id: "paymentMethods",
               type: "array",
-							fields: ["FIAT", "CRYPTO"],
+              fields: ["FIAT", "CRYPTO"],
             },
           ],
         },
+      ],
+    },
+    {
+      id: "customize",
+      name: "Customize",
+      description: "Fine-tune to your liking easily as a piece of cake.",
+      icon: "/img/icons/cake.svg",
+      tabs: [
+        (isEditView ? null : {
+          name: "Revenue Distribution",
+          href: "revenue-distribution",
+          customFieldComponents: [RevenueDistributionView],
+          schemaFields: [
+            {
+              id: "stakeholders",
+              type: "array",
+              fields: [
+                { id: "walletAddress", type: "text", required: true },
+                { id: "feePercentage", type: "number", required: true },
+                { id: "email", type: "text", required: true },
+              ],
+            },
+          ],
+          fields: [],
+          primary: true,
+        }),
         {
-          name: "Discounts and promo codes",
-          href: "discounts-and-promo-codes",
-          customFieldComponents: [PromotionsView],
+          name: "Ticket rewards",
+          href: "ticket-rewards",
+          customFieldComponents: [TicketRewards],
           fields: [],
           schemaFields: [],
         },
       ],
     },
-    isEditView
-      ? null
-      : {
-          id: "revenue-distribution",
-          name: "Revenue Distribution",
-          description: "Manage revenue sharing and distributions among team members",
-          icon: "/img/icons/cake.svg",
-          tabs: [
-            {
-              name: "Revenue Distribution",
-              href: "revenue-distribution",
-              customFieldComponents: [RevenueDistributionView],
-              schemaFields: [
-                {
-                  id: "stakeholders",
-                  type: "array",
-                  fields: [
-                    { id: "walletAddress", type: "text", required: true },
-                    { id: "feePercentage", type: "number", required: true },
-                    { id: "email", type: "text", required: true },
-                  ],
-                },
-              ],
-              fields: [],
-              primary: true,
-            },
-          ],
-        },
     {
       id: "publish",
       name: "Publish",

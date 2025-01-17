@@ -1,7 +1,7 @@
 "use client";
 
 import { Card, CardContent } from "@/components/ui/card";
-import { formatUsd } from "@/lib/format";
+import { formatUsd } from "@/utils/format";
 import { motion } from "framer-motion";
 import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 
