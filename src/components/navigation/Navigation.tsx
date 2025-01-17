@@ -46,7 +46,7 @@ const Logo = ({ showFullLogo }: { showFullLogo: boolean }) => (
 );
 
 const NavigationItems = ({ items, pathname }: { items: NavigationItem[]; pathname: string }) => (
-  <div className="hidden gap-2 md:flex items-center">
+  <div className="hidden gap-2 md:flex items-center justify-center">
     {items.map((item) => (
       <NavigationLink key={item.href} item={item} isActive={pathname === item.href} />
     ))}
