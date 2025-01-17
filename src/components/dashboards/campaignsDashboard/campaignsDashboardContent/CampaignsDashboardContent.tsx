@@ -83,7 +83,7 @@ export const CampaignsDashboardContent = ({
     setSelectedRewards(selectedRewards.map((reward) => (reward.rewardId === rewardId ? { ...reward, eventId: null } : reward)));
   };
 
-	const isTicketCampaign = selectedCampaignType === "ticket" || currentCampaign?.type === "TICKET"
+	const isTicketCampaign = currentCampaign.isDraft ? selectedCampaignType === "ticket" : currentCampaign?.type === "TICKET"
 
   return (
     <div className={`w-full pb-10 ${visible ? "block" : "hidden"}`}>
