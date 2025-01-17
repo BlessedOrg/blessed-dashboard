@@ -14,7 +14,7 @@ export const AppSelect = ({ currentAppId }) => {
 
   return (
     <Select onValueChange={(value) => router.push(`/${value}${currentTab ? `?tab=${currentTab}` : "?tab=overview"}`)}>
-      <SelectTrigger className="w-fit max-w-[8rem] text-left" disabled={isAppsLoading} variant="pill">
+      <SelectTrigger className="hidden md:flex w-fit max-w-[8rem] text-left" disabled={isAppsLoading} variant="pill">
         <SelectValue placeholder={isAppsLoading ? "Loading.." : apps.find((i) => i.slug === currentAppId)?.name || "Select app"} />
       </SelectTrigger>
       <SelectContent>

@@ -14,7 +14,7 @@ export const EventSelect = ({ currentEventSlug, appId }) => {
 
   return (
     <Select onValueChange={(value) => router.push(`/${appId}/${value}`)}>
-      <SelectTrigger className="w-fit max-w-[10rem] text-left" disabled={isLoading} variant="pill">
+      <SelectTrigger className="hidden md:flex w-fit max-w-[10rem] text-left" disabled={isLoading} variant="pill">
         <SelectValue placeholder={isLoading ? "Loading.." : events.find((i) => i.slug === currentEventSlug)?.name || "Select event"} />
       </SelectTrigger>
       <SelectContent>
