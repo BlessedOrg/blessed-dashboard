@@ -121,6 +121,8 @@ export const Navigation = ({ appId, eventId }: NavigationProps) => {
     [`/${appId}/audience`]: commonSettings.campaign_and_audience,
     [`/${appId}/campaigns`]: commonSettings.campaign_and_audience,
 		[`/${appId}/rewards`]: commonSettings.campaign_and_audience,
+		[`/${appId}/discounts`]: commonSettings.campaign_and_audience,
+		[`/${appId}/vouchers`]: commonSettings.campaign_and_audience,
     [`/${appId}/create-event`]: {
       showFullLogo: true
     },

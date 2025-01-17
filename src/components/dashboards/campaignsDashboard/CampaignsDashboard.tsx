@@ -32,9 +32,9 @@ export const CampaignsDashboard = ({ appId }) => {
         appId={appId}
         mutateCampaigns={mutate}
       />
-      {currentCampaign && (
-        <CampaignsDashboardContent currentCampaign={currentCampaign} isLoading={isLoading} appId={appId} mutateCampaigns={mutate} />
-      )}
+      {currentCampaign && campaigns.map(i => (
+        <CampaignsDashboardContent currentCampaign={i} isLoading={isLoading} appId={appId} mutateCampaigns={mutate} visible={i.id === currentCampaign.id} key={i.id}/>
+      ))}
       {!currentCampaign && (
         <Card className="p-8 text-center text-gray-500 w-full">
           <LandPlot className="w-12 h-12 mx-auto mb-4 opacity-50" />

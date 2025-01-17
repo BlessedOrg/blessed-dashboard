@@ -1,4 +1,5 @@
 import { CreateCampaignModal } from "@/components/dashboards/campaignsDashboard/campaignsDashboardSidebarNav/createCampaignModal/CreateCampaignModal";
+import { Badge } from "@/components/ui";
 import { countAllAudienceUsers } from "@/utils/countAllCampaignUsers";
 
 export const CampaignsDashboardSidebarNav = ({
@@ -7,7 +8,7 @@ export const CampaignsDashboardSidebarNav = ({
   campaigns,
   onTabChange,
   appId,
-  mutateCampaigns
+  mutateCampaigns,
 }: {
   currentTabId: string;
   className?: string;
@@ -37,7 +38,11 @@ export const CampaignsDashboardSidebarNav = ({
                     <h3 className="font-semibold text-lg">{campaign.name}</h3>
                     <p className="text-sm">Created at {new Date(campaign.createdAt).toLocaleDateString()}</p>
                   </div>
-                  <p>{countAllAudienceUsers(campaign).count} users</p>
+                  <div className='text-right'>
+                    <p>{countAllAudienceUsers(campaign).count} users</p>
+                    {campaign.isDraft && <Badge className="bg-orange-400 text-white">Draft</Badge>}
+										{!!campaign.CampaignDistribution && <Badge className="bg-green-500">Distributed</Badge>}
+                  </div>
                 </button>
               </li>
             );

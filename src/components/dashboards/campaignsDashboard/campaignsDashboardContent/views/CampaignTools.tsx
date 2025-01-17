@@ -13,10 +13,10 @@ interface CampaignToolsProps {
   campaignDistribution: any;
   allAudienceUsers: any;
   allUniqueAudienceUsers: any;
-	onSaveCampaign: () => void;
-	selectedCampaignType: "reward" | "ticket" | null;
-	selectedTicketsIds: {eventId: string, ticketId: string}[];
-	selectedRewards: {rewardId: string, eventId?: string}[];
+  onSaveCampaign: () => void;
+  selectedCampaignType: "reward" | "ticket" | null;
+  selectedTicketsIds: { eventId: string; ticketId: string }[];
+  selectedRewards: { rewardId: string; eventId?: string }[];
 }
 
 export const CampaignTools = ({
@@ -27,10 +27,10 @@ export const CampaignTools = ({
   campaignDistribution,
   allAudienceUsers,
   allUniqueAudienceUsers,
-	onSaveCampaign,
-	selectedCampaignType,
-	selectedTicketsIds,
-	selectedRewards,
+  onSaveCampaign,
+  selectedCampaignType,
+  selectedTicketsIds,
+  selectedRewards,
 }: CampaignToolsProps) => {
   const onCampaignDelete = async () => {
     try {
@@ -60,7 +60,7 @@ export const CampaignTools = ({
     setDistributing(true);
     try {
       const res = await distributeCampaign({ id: currentCampaign.id, appId, campaignType: currentCampaign.type });
-      if (res?.distributions) {
+      if (res?.distributions || res?.success) {
         await mutateCampaigns();
         toast("Campaign distributed", { type: "success" });
       }
@@ -70,29 +70,24 @@ export const CampaignTools = ({
     setDistributing(false);
   };
 
-	const disabledSave = !allAudienceUsers?.count || !(selectedCampaignType === "reward" ? selectedRewards.length : selectedTicketsIds.length);
+  const disabledSave =
+    !allAudienceUsers?.count || !(selectedCampaignType === "reward" ? selectedRewards.length : selectedTicketsIds.length);
 
-	const disabledDistribute = campaignDistribution?.id
+  const disabledDistribute = campaignDistribution?.id;
 
   return (
     <>
       <div className="flex w-full justify-between gap-2">
         <div className="flex gap-2">
-          {currentCampaign?.isDraft ? <Button
-            variant="green"
-            size="xl"
-            onClick={onSaveCampaign}
-            disabled={disabledSave}
-          >
-            Save campaign
-          </Button> :<Button
-            variant="green"
-            size="xl"
-            onClick={onDistribute}
-            disabled={disabledDistribute}
-          >
-            Distribute
-          </Button>}
+          {currentCampaign?.isDraft ? (
+            <Button variant="green" size="xl" onClick={onSaveCampaign} disabled={disabledSave}>
+              Save campaign
+            </Button>
+          ) : (
+            <Button variant="green" size="xl" onClick={onDistribute} disabled={disabledDistribute}>
+              Distribute
+            </Button>
+          )}
         </div>
         <Button onClick={onCampaignDelete} size="xl">
           <Trash color="red" />

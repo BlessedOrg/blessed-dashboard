@@ -53,7 +53,6 @@ export function RevenueDistributionView({
   );
 
   const stakeholders = isStateManaged ? localStakeholders : isArray(stakeholdersData) ? stakeholdersData : [];
-
   const handleAddEntry = async (entry: RevenueEntry) => {
     if (isStateManaged) {
       const newStakeholders = [...localStakeholders, {...entry, paymentMethods: selectedPaymentMethods}];
@@ -143,7 +142,7 @@ export function RevenueDistributionView({
   };
 
   const totalPercentage = stakeholders.reduce((sum, entry) => sum + entry.feePercentage, 0);
-console.log(form.getValues())
+console.log(form?.getValues())
   return (
     <div className="w-full pb-8 px-4 overflow-hidden">
       {isTicketsView && !tickets?.length && (

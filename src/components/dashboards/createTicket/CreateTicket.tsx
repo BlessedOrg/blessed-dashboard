@@ -28,7 +28,7 @@ export const CreateTicket = ({ params }) => {
     shouldFocusError: true
   });
 
-	// console.log(form.getValues())
+	console.log(form.getValues())
 
   return (
     <div className="flex w-full flex-col ">

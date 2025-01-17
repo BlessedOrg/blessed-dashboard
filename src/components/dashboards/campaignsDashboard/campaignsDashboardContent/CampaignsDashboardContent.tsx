@@ -18,13 +18,15 @@ export const CampaignsDashboardContent = ({
   appId,
   isLoading,
   mutateCampaigns,
+	visible
 }: {
   currentCampaign: ICampaign;
   appId: string;
   isLoading: boolean;
   mutateCampaigns: any;
+	visible: boolean;
 }) => {
-  const [selectedCampaignType, setSelectedCampaignType] = useState<"reward" | "ticket" | null>("ticket");
+  const [selectedCampaignType, setSelectedCampaignType] = useState<"reward" | "ticket" | null>(currentCampaign?.type === "TICKET" ? "ticket" : "reward");
   const [selectedTicketsIds, setSelectedTicketsIds] = useState<{ eventId: string; ticketId: string }[]>(
     currentCampaign?.Tickets?.map((i) => ({ eventId: i.Event.id, ticketId: i.id })) || []
   );
@@ -81,8 +83,10 @@ export const CampaignsDashboardContent = ({
     setSelectedRewards(selectedRewards.map((reward) => (reward.rewardId === rewardId ? { ...reward, eventId: null } : reward)));
   };
 
+	const isTicketCampaign = selectedCampaignType === "ticket" || currentCampaign?.type === "TICKET"
+
   return (
-    <div className="w-full pb-10">
+    <div className={`w-full pb-10 ${visible ? "block" : "hidden"}`}>
       {!isLoading ? (
         <div className="flex flex-col gap-4">
           <CampaignTools
@@ -131,7 +135,7 @@ export const CampaignsDashboardContent = ({
               </Select>
             </Card>
           )}
-          {selectedCampaignType === "ticket"  && (
+          {isTicketCampaign && (
             <TicketSelectCard
               campaignDistribution={!!campaignDistribution}
               currentCampaign={currentCampaign}
@@ -140,7 +144,7 @@ export const CampaignsDashboardContent = ({
               onTicketDelete={onTicketDelete}
             />
           )}
-          {selectedCampaignType === "reward" && currentCampaign?.isDraft && (
+          {!isTicketCampaign && currentCampaign?.isDraft && (
             <RewardsSelectCard
               appId={appId}
               onSelectReward={onSelectReward}

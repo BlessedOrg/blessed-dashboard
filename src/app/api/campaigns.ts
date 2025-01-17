@@ -40,23 +40,6 @@ export async function updateCampaignAudiences({
   });
   return response;
 }
-export async function updateCampaignTickets({
-  id,
-  appId,
-  ticketsToRemove = [],
-  tickets,
-}: {
-  id: string;
-  appId: string;
-  ticketsToRemove?: string[];
-  tickets?: string[];
-}) {
-  const response = await fetcherWithToken(`${apiUrl}/private/apps/${appId}/campaigns/${id}/tickets`, {
-    method: "PATCH",
-    body: JSON.stringify({ ticketsToRemove, tickets }),
-  });
-  return response;
-}
 
 export async function distributeCampaign({ id, appId, campaignType }: { id: string; appId: string; campaignType: string }) {
 	const urlEndpoint = campaignType === "REWARD" ? "distribute-rewards" : "distribute-tickets";
