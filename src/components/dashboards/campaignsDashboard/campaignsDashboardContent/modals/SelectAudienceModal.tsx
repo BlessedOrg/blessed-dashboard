@@ -14,12 +14,12 @@ export const SelectAudienceModal = ({
   appId,
   defaultValues,
   customTriggerButton,
-  onHandleSubmit
+  onHandleSubmit,
 }: {
   appId: string;
   customTriggerButton?: React.ReactNode;
   defaultValues: string[];
-  onHandleSubmit: (selected, toDelete) => any
+  onHandleSubmit: (selected, toDelete) => any;
 }) => {
   const { data: audienceData, isLoading } = useSWR(`${apiUrl}/private/apps/${appId}/audiences`, fetcherWithToken);
   const audiences = (isArray(audienceData) ? audienceData : []) as IAudience[];
@@ -98,10 +98,10 @@ export const SelectAudienceModal = ({
             <div className="flex flex-col gap-4 items-center">
               <p className="text-center">No audiences found</p>
               <button onClick={() => setIsOpen(false)}>
-							<Link href={`/${appId}/audience`} className="underline text-gray-500">
-                Create one!
-              </Link>
-							</button>
+                <Link href={`/${appId}/audience`} className="underline text-gray-500">
+                  Create one!
+                </Link>
+              </button>
             </div>
           )}
         </div>

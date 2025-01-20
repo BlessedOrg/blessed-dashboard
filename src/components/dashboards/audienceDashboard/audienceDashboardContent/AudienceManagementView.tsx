@@ -39,19 +39,19 @@ export function AudienceManagementView({ appId, mutate, onTabChange, allAudience
   const [isEachTicketRequirementMet, setIsEachTicketRequirementMet] = useState(false);
 
   const onEachTicketRequirementMetChange = (value: any) => {
-		console.log(value)
+    console.log(value);
     setIsEachTicketRequirementMet(value);
   };
   const handleRequirementChange = (ticketId: string, requirement: TicketRequirement) => {
-    setSelectedTickets(prev => prev.map(ticket =>
-      ticket.ticketId === ticketId ? { ...ticket, requirement } : ticket
-    ));
+    setSelectedTickets((prev) => prev.map((ticket) => (ticket.ticketId === ticketId ? { ...ticket, requirement } : ticket)));
   };
-  const eventsWithTickets = (isArray(myEvents) && isArray(publicEvents) ? [...myEvents, ...publicEvents.map(i => ({ ...i, isPublic: true }))] : []).filter(event => !!event.Tickets.length);
-  const allTickets = eventsWithTickets.flatMap(event =>
-    event.Tickets.map(ticket => ({
+  const eventsWithTickets = (
+    isArray(myEvents) && isArray(publicEvents) ? [...myEvents, ...publicEvents.map((i) => ({ ...i, isPublic: true }))] : []
+  ).filter((event) => !!event.Tickets.length);
+  const allTickets = eventsWithTickets.flatMap((event) =>
+    event.Tickets.map((ticket) => ({
       ...ticket,
-      event
+      event,
     }))
   );
 
@@ -61,15 +61,15 @@ export function AudienceManagementView({ appId, mutate, onTabChange, allAudience
       const response = await fetcherWithToken(`${apiUrl}/private/tickets/snapshot`, {
         method: "POST",
         body: JSON.stringify({
-					isEachTicketRequirementMet,
+          isEachTicketRequirementMet,
           snapshot: selectedTickets.map((i) => {
             return {
               eventId: i.eventId,
               ticketId: i.ticketId,
-              type: i?.requirement
+              type: i?.requirement,
             };
-          })
-        })
+          }),
+        }),
       });
       if (response?.all) {
         setEligibleUsers(response?.all || []);
@@ -85,8 +85,8 @@ export function AudienceManagementView({ appId, mutate, onTabChange, allAudience
     try {
       const users = uniqueUsersArray([...eligibleUsers, ...eligibleAudienceUsers]);
       const pyaload = {
-        userIds: users?.filter(i => !!i?.id)?.map((i) => i.id),
-        externalAddresses: users?.filter(i => i?.external)?.map((i) => i.walletAddress)
+        userIds: users?.filter((i) => !!i?.id)?.map((i) => i.id),
+        externalAddresses: users?.filter((i) => i?.external)?.map((i) => i.walletAddress),
       };
       const response = await createAudience({ name: audienceName, appId, data: pyaload });
 
@@ -106,21 +106,21 @@ export function AudienceManagementView({ appId, mutate, onTabChange, allAudience
     const formatSelectedAudienceUsers = (users: IAudienceUser[]) => {
       const uniqueUsers = new Map();
 
-      users.forEach(i => {
+      users.forEach((i) => {
         const isExternal = !!i?.externalWalletAddress;
         let formattedUser;
 
         if (isExternal) {
           formattedUser = {
             walletAddress: i.externalWalletAddress,
-            external: true
+            external: true,
           };
         } else {
           formattedUser = {
             smartWalletAddress: i.User.smartWalletAddress,
             walletAddress: i.User.walletAddress,
             id: i.User.id,
-            email: i.User?.email
+            email: i.User?.email,
           };
         }
 
@@ -132,7 +132,9 @@ export function AudienceManagementView({ appId, mutate, onTabChange, allAudience
 
       return Array.from(uniqueUsers.values());
     };
-    const selectedEligible = formatSelectedAudienceUsers(allAudiences.filter(i => selected.includes(i.id)).flatMap(i => i.AudienceUsers));
+    const selectedEligible = formatSelectedAudienceUsers(
+      allAudiences.filter((i) => selected.includes(i.id)).flatMap((i) => i.AudienceUsers)
+    );
 
     setEligibleAudienceUsers(selectedEligible);
   };
@@ -153,7 +155,7 @@ export function AudienceManagementView({ appId, mutate, onTabChange, allAudience
   const uniqueUsersArray = (users: EligibleUser[]) => {
     const uniqueUsers = new Map();
 
-    users.forEach(formattedUser => {
+    users.forEach((formattedUser) => {
       const key = formattedUser.walletAddress || formattedUser.smartWalletAddress;
       if (!uniqueUsers.has(key)) {
         uniqueUsers.set(key, formattedUser);
@@ -164,26 +166,22 @@ export function AudienceManagementView({ appId, mutate, onTabChange, allAudience
   };
   return (
     <div className="container mx-auto px-4 max-w-5xl">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-      >
+      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
         <Card className="bg-gradient-to-r from-purple-50 to-blue-50 border-none mb-8">
           <CardContent className="p-6">
             <div className="flex items-center gap-3 mb-2">
               <Users className="w-6 h-6 text-purple-600" />
               <h3 className="text-2xl font-bold text-gray-900">Audience Management</h3>
             </div>
-            <p className="text-gray-600">
-              Define ticket requirements and view eligible users for your events
-            </p>
+            <p className="text-gray-600">Define ticket requirements and view eligible users for your events</p>
           </CardContent>
         </Card>
       </motion.div>
       <div className="w-full flex justify-between gap-4 items-center mb-6">
         <AudienceNameEdit currentName={audienceName} onAudienceNameChange={handleAudienceNameChange} />
-        <Button variant="green" onClick={onSaveHandler} isLoading={isSaving} disabled={!eligibleUsers?.length}>Create Audience</Button>
+        <Button variant="green" onClick={onSaveHandler} isLoading={isSaving} disabled={!eligibleUsers?.length}>
+          Create Audience
+        </Button>
       </div>
       <div className="space-y-6">
         <Card>
@@ -192,23 +190,17 @@ export function AudienceManagementView({ appId, mutate, onTabChange, allAudience
               <h2 className="text-lg font-semibold">Setup Requirements</h2>
               <div className="flex gap-2">
                 <SelectAudienceModal
-                  customTriggerButton={<Button
-                    size="sm"
-                    variant="outline"
-                    className="gap-2"
-                  >
-                    <Settings2 className="w-4 h-4" />
-                    Select Audiences
-                  </Button>}
+                  customTriggerButton={
+                    <Button size="sm" variant="outline" className="gap-2">
+                      <Settings2 className="w-4 h-4" />
+                      Select Audiences
+                    </Button>
+                  }
                   appId={appId}
                   defaultValues={selectedAudiences}
                   onHandleSubmit={onSelectAudiences}
                 />
-                <SelectTicketsModal
-                  events={eventsWithTickets}
-                  selectedTickets={selectedTickets}
-                  onTicketsSelect={setSelectedTickets}
-                />
+                <SelectTicketsModal events={eventsWithTickets} selectedTickets={selectedTickets} onTicketsSelect={setSelectedTickets} />
               </div>
             </div>
             <div className="flex items-center gap-2 my-4">
