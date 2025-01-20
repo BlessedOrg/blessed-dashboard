@@ -145,9 +145,7 @@ export function RevenueDistributionView({
 
     try {
       const response = await fetcherWithToken(
-        `${apiUrl}/private/stakeholders/${appId}/notify${
-          eventId ? `/${eventId}` : ""
-        }${ticketId ? `/${ticketId}` : ""}`,
+        `${apiUrl}/private/stakeholders/${appId}/notify`,
         {
           method: "POST",
           body: JSON.stringify({
