@@ -93,7 +93,7 @@ export function DiscountCodesView({rewards}: {rewards: any[]}) {
       >
 
         <div className="space-y-4">
-          {rewards.map((discount) => (
+          {rewards?.map((discount) => (
             <Card key={discount.id} className="overflow-hidden">
               <CardContent className="p-0">
                 <div

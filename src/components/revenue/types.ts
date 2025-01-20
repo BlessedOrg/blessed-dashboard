@@ -5,6 +5,7 @@ export interface RevenueEntry {
 	}
 	email?: string;
   feePercentage: number;
+	walletAddress?: string;
   notifiedAt?: string;
 }
 

@@ -161,7 +161,7 @@ export const CampaignsDashboardContent = ({
         isOpen={distributing}
         title={
           <>
-            Distributing tickets <br /> Please wait
+            Distributing campaign <br /> Please wait
           </>
         }
       />
