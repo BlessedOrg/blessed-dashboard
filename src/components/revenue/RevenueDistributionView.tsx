@@ -11,7 +11,12 @@ import { FieldValues, UseFormReturn } from "react-hook-form";
 import { toast } from "react-toastify";
 import useSWR from "swr";
 import { Select } from "../ui";
-import { SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
+import {
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "../ui/select";
 import { AddPersonModal } from "./AddPersonModal";
 import { PaymentTypesCard } from "./PaymentTypesCard";
 import { RevenueTable } from "./RevenueTable";
@@ -37,31 +42,50 @@ export function RevenueDistributionView({
   tickets,
   isTicketsView = false,
 }: RevenueDistributionViewProps) {
-	const [selectedPaymentMethods, setSelectedPaymentMethods] = useState<string[]>([])
-  const [selectedTicketId, setSelectedTicketId] = useState<string | null>(tickets?.[0]?.id || null);
+  const [selectedPaymentMethods, setSelectedPaymentMethods] = useState<
+    string[]
+  >([]);
+  const [selectedTicketId, setSelectedTicketId] = useState<string | null>(
+    tickets?.[0]?.id || null
+  );
   const ticketId = selectedTicketId || tickets?.[0]?.id;
 
-  const [localStakeholders, setLocalStakeholders] = useState<RevenueEntry[]>(externalStakeholders || []);
- 
+  const [localStakeholders, setLocalStakeholders] = useState<RevenueEntry[]>(
+    externalStakeholders || []
+  );
+
   const {
     data: stakeholdersData,
     isLoading: isStakeholdersLoading,
     mutate: mutateStakeholders,
   } = useSWR(
-    !isStateManaged ? `${apiUrl}/private/stakeholders/${appId}${eventId ? `/${eventId}` : ""}${ticketId ? `/${ticketId}` : ""}` : null,
+    !isStateManaged
+      ? `${apiUrl}/private/stakeholders/${appId}${
+          eventId ? `/${eventId}` : ""
+        }${ticketId ? `/${ticketId}` : ""}`
+      : null,
     fetcherWithToken
   );
 
-	useEffect(() => {
-		if(isArray(stakeholdersData) && !selectedPaymentMethods.length) {
-			setSelectedPaymentMethods(stakeholdersData.map((stakeholder) => stakeholder.paymentMethods).flat())
-		}
-	},[stakeholdersData])
+  useEffect(() => {
+    if (isArray(stakeholdersData) && !selectedPaymentMethods.length) {
+      setSelectedPaymentMethods(
+        stakeholdersData.map((stakeholder) => stakeholder.paymentMethods).flat()
+      );
+    }
+  }, [stakeholdersData]);
 
-  const stakeholders = isStateManaged ? localStakeholders : isArray(stakeholdersData) ? stakeholdersData : [];
+  const stakeholders = isStateManaged
+    ? localStakeholders
+    : isArray(stakeholdersData)
+    ? stakeholdersData
+    : [];
   const handleAddEntry = async (entry: RevenueEntry) => {
     if (isStateManaged) {
-      const newStakeholders = [...localStakeholders, {...entry, paymentMethods: selectedPaymentMethods}];
+      const newStakeholders = [
+        ...localStakeholders,
+        { ...entry, paymentMethods: selectedPaymentMethods },
+      ];
       setLocalStakeholders(newStakeholders);
       form.setValue("stakeholders", newStakeholders);
       return;
@@ -69,11 +93,15 @@ export function RevenueDistributionView({
 
     try {
       const response = await fetcherWithToken(
-        `${apiUrl}/private/stakeholders/add/${appId}${eventId ? `/${eventId}` : ""}${ticketId ? `/${ticketId}` : ""}`,
+        `${apiUrl}/private/stakeholders/add/${appId}${
+          eventId ? `/${eventId}` : ""
+        }${ticketId ? `/${ticketId}` : ""}`,
         {
           method: "POST",
           body: JSON.stringify({
-            stakeholders: [{...entry, paymentMethods: selectedPaymentMethods}],
+            stakeholders: [
+              { ...entry, paymentMethods: selectedPaymentMethods },
+            ],
           }),
         }
       );
@@ -96,7 +124,9 @@ export function RevenueDistributionView({
 
     try {
       const response = await fetcherWithToken(
-        `${apiUrl}/private/stakeholders/${id}/${appId}${eventId ? `/${eventId}` : ""}${ticketId ? `/${ticketId}` : ""}`,
+        `${apiUrl}/private/stakeholders/${id}/${appId}${
+          eventId ? `/${eventId}` : ""
+        }${ticketId ? `/${ticketId}` : ""}`,
         { method: "DELETE" }
       );
       if (response.id) {
@@ -115,7 +145,9 @@ export function RevenueDistributionView({
 
     try {
       const response = await fetcherWithToken(
-        `${apiUrl}/private/stakeholders/${appId}/notify${eventId ? `/${eventId}` : ""}${ticketId ? `/${ticketId}` : ""}`,
+        `${apiUrl}/private/stakeholders/${appId}/notify${
+          eventId ? `/${eventId}` : ""
+        }${ticketId ? `/${ticketId}` : ""}`,
         {
           method: "POST",
           body: JSON.stringify({
@@ -132,24 +164,33 @@ export function RevenueDistributionView({
     }
   };
 
-  const handlePaymentTypeToggle = async(type: string) => {
-    if(isStateManaged) {
-			setSelectedPaymentMethods((prev) => {
-				if(prev.includes(type)) {
-					return prev.filter((method) => method !== type)
-				}
-				return [...prev, type]
-			})
-			if(!!stakeholders.length) {
-				form.setValue("stakeholders", stakeholders.map((stakeholder) => ({
-					...stakeholder,
-					paymentMethods: stakeholder.paymentMethods.includes(type) ? stakeholder.paymentMethods.filter((method) => method !== type) : [...stakeholder.paymentMethods, type]
-				})))
-			}
-		} else {
-			const paymentMethod = selectedPaymentMethods.includes(type) ? selectedPaymentMethods.filter((method) => method !== type) : [...selectedPaymentMethods, type]
-			const response = await fetcherWithToken(
-        `${apiUrl}/private/stakeholders/payment-method/${appId}${eventId ? `/${eventId}` : ""}${ticketId ? `/${ticketId}` : ""}`,
+  const handlePaymentTypeToggle = async (type: string) => {
+    if (isStateManaged) {
+      setSelectedPaymentMethods((prev) => {
+        if (prev.includes(type)) {
+          return prev.filter((method) => method !== type);
+        }
+        return [...prev, type];
+      });
+      if (!!stakeholders.length) {
+        form.setValue(
+          "stakeholders",
+          stakeholders.map((stakeholder) => ({
+            ...stakeholder,
+            paymentMethods: stakeholder.paymentMethods.includes(type)
+              ? stakeholder.paymentMethods.filter((method) => method !== type)
+              : [...stakeholder.paymentMethods, type],
+          }))
+        );
+      }
+    } else {
+      const paymentMethod = selectedPaymentMethods.includes(type)
+        ? selectedPaymentMethods.filter((method) => method !== type)
+        : [...selectedPaymentMethods, type];
+      const response = await fetcherWithToken(
+        `${apiUrl}/private/stakeholders/payment-method/${appId}${
+          eventId ? `/${eventId}` : ""
+        }${ticketId ? `/${ticketId}` : ""}`,
         {
           method: "POST",
           body: JSON.stringify({
@@ -157,18 +198,19 @@ export function RevenueDistributionView({
           }),
         }
       );
-			if(response.success) {
-				toast("Payment method updated successfully", { type: "success" })
-				setSelectedPaymentMethods(paymentMethod)
-				await mutateStakeholders()
-			}
-
-		}
+      if (response.success) {
+        toast("Payment method updated successfully", { type: "success" });
+        setSelectedPaymentMethods(paymentMethod);
+        await mutateStakeholders();
+      }
+    }
   };
 
-
-  const totalPercentage = stakeholders.reduce((sum, entry) => sum + entry.feePercentage, 0);
-console.log(form?.getValues())
+  const totalPercentage = stakeholders.reduce(
+    (sum, entry) => sum + entry.feePercentage,
+    0
+  );
+  console.log(form?.getValues());
   return (
     <div className="w-full pb-8 px-4 overflow-hidden">
       {isTicketsView && !tickets?.length && (
@@ -179,69 +221,94 @@ console.log(form?.getValues())
           </div>
         </>
       )}
-      {((!isTicketsView || (isTicketsView && !!tickets?.length)) && (
-          <>
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
-              <Card className="bg-gradient-to-r from-green-50 to-emerald-50 border-none mb-8">
-                <CardContent className="p-6">
-                  <div className="flex items-center gap-3 mb-2">
-                    <DollarSign className="w-6 h-6 text-green-600" />
-                    <h1 className="text-2xl font-bold text-gray-900">Revenue Distribution</h1>
-                  </div>
-                  <p className="text-gray-600">Manage revenue sharing and distributions among team members</p>
-                  {!!tickets?.length && (
-                    <Select value={selectedTicketId} onValueChange={setSelectedTicketId} disabled={false} >
-                      <SelectTrigger className="w-fit min-w-[200px] mt-4">
-                        <SelectValue placeholder="Select a ticket" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {tickets.map((ticket) => (
-                          <SelectItem key={ticket.id} value={ticket.id} defaultValue={selectedTicketId}>
-                            {ticket.name}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  )}
-                </CardContent>
-              </Card>
-            </motion.div>
-
-            {(!!ticketId || !!eventId) && (
-              <div className="bg-yellow-500 rounded-3xl p-6 mb-8">
-                <p className="font-semibold text-xl">Warning</p>
-                <p>
-                  This will override the distribution set at the {ticketId ? "event" : eventId ? "app" : ""} level. Changes are allowed
-                  until the first ticket is sold.
+      {(!isTicketsView || (isTicketsView && !!tickets?.length)) && (
+        <>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <Card className="bg-gradient-to-r from-green-50 to-emerald-50 border-none mb-8">
+              <CardContent className="p-6">
+                <div className="flex items-center gap-3 mb-2">
+                  <DollarSign className="w-6 h-6 text-green-600" />
+                  <h1 className="text-2xl font-bold text-gray-900">
+                    Revenue Distribution
+                  </h1>
+                </div>
+                <p className="text-gray-600">
+                  Manage revenue sharing and distributions among team members
                 </p>
-              </div>
-            )}
+                {!!tickets?.length && (
+                  <Select
+                    value={selectedTicketId}
+                    onValueChange={setSelectedTicketId}
+                    disabled={false}
+                  >
+                    <SelectTrigger className="w-fit min-w-[200px] mt-4">
+                      <SelectValue placeholder="Select a ticket" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {tickets.map((ticket) => (
+                        <SelectItem
+                          key={ticket.id}
+                          value={ticket.id}
+                          defaultValue={selectedTicketId}
+                        >
+                          {ticket.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                )}
+              </CardContent>
+            </Card>
+          </motion.div>
 
-            <div className="space-y-6">
-              <PaymentTypesCard enabledTypes={new Set(selectedPaymentMethods)} onToggle={handlePaymentTypeToggle} />
-
-              <Card>
-                <CardContent className="p-6">
-                  <div className="flex flex-col xl:flex-row xl:justify-between xl:items-center mb-6 gap-4">
-                    <div>
-                      <h2 className="text-lg font-semibold">Distribution List</h2>
-                      <p className="text-sm text-gray-500">Total allocated: {totalPercentage}%</p>
-                    </div>
-                    <AddPersonModal onSubmit={handleAddEntry} currentTotal={totalPercentage} />
-                  </div>
-
-                  <RevenueTable
-                    isStateManaged={isStateManaged}
-                    entries={stakeholders}
-                    onRemove={handleRemoveEntry}
-                    onNotify={handleNotify}
-                    isLoading={isStakeholdersLoading}
-                  />
-                </CardContent>
-              </Card>
+          {(!!ticketId || !!eventId) && (
+            <div className="bg-yellow-500 rounded-3xl p-6 mb-8">
+              <p className="font-semibold text-xl">Warning</p>
+              <p>
+                This will override the distribution set at the{" "}
+                {ticketId ? "event" : eventId ? "app" : ""} level. Changes are
+                allowed until the first ticket is sold.
+              </p>
             </div>
-          </>
-        ))}
+          )}
+
+          <div className="space-y-6">
+            <PaymentTypesCard
+              enabledTypes={new Set(selectedPaymentMethods)}
+              onToggle={handlePaymentTypeToggle}
+            />
+
+            <Card>
+              <CardContent className="p-6">
+                <div className="flex flex-col xl:flex-row xl:justify-between xl:items-center mb-6 gap-4">
+                  <div>
+                    <h2 className="text-lg font-semibold">Distribution List</h2>
+                    <p className="text-sm text-gray-500">
+                      Total allocated: {totalPercentage}%
+                    </p>
+                  </div>
+                  <AddPersonModal
+                    onSubmit={handleAddEntry}
+                    currentTotal={totalPercentage}
+                  />
+                </div>
+
+                <RevenueTable
+                  isStateManaged={isStateManaged}
+                  entries={stakeholders}
+                  onRemove={handleRemoveEntry}
+                  onNotify={handleNotify}
+                  isLoading={isStakeholdersLoading}
+                />
+              </CardContent>
+            </Card>
+          </div>
+        </>
+      )}
     </div>
   );
 }

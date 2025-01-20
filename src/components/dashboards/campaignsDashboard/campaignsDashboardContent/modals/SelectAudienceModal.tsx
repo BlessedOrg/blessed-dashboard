@@ -1,6 +1,15 @@
 "use client";
 import { LoadingDashboardSkeleton } from "@/components/common/LoadingDashboardSkeleton";
-import { Button, Checkbox, Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui";
+import {
+	Button,
+	Checkbox,
+	Dialog,
+	DialogContent,
+	DialogFooter,
+	DialogHeader,
+	DialogTitle,
+	DialogTrigger,
+} from "@/components/ui";
 import { fetcherWithToken } from "@/requests/requests";
 import { apiUrl } from "@/variables/variables";
 import { isArray } from "lodash-es";
@@ -21,7 +30,10 @@ export const SelectAudienceModal = ({
   defaultValues: string[];
   onHandleSubmit: (selected, toDelete) => any;
 }) => {
-  const { data: audienceData, isLoading } = useSWR(`${apiUrl}/private/apps/${appId}/audiences`, fetcherWithToken);
+  const { data: audienceData, isLoading } = useSWR(
+    `${apiUrl}/private/apps/${appId}/audiences`,
+    fetcherWithToken
+  );
   const audiences = (isArray(audienceData) ? audienceData : []) as IAudience[];
   const [isOpen, setIsOpen] = useState(false);
   const [selectedAudience, setSelectedAudience] = useState(defaultValues);
@@ -60,7 +72,9 @@ export const SelectAudienceModal = ({
     setSelectedAudience(defaultValues);
   }, [defaultValues]);
 
-  const filteredAudiences = audiences?.filter((audience) => !!audience.AudienceUsers.length);
+  const filteredAudiences = audiences?.filter(
+    (audience) => !!audience.AudienceUsers.length
+  );
   return (
     <Dialog open={isOpen}>
       <DialogTrigger asChild onClick={() => setIsOpen((prev) => !prev)}>
@@ -72,9 +86,14 @@ export const SelectAudienceModal = ({
           </button>
         )}
       </DialogTrigger>
-      <DialogContent className="max-w-[530px]" customCloseHandler={() => setIsOpen(false)}>
+      <DialogContent
+        className="max-w-[530px]"
+        customCloseHandler={() => setIsOpen(false)}
+      >
         <DialogHeader>
-          <DialogTitle className="uppercase text-5xl text-center">Select audience</DialogTitle>
+          <DialogTitle className="uppercase text-5xl text-center">
+            Select audience
+          </DialogTitle>
         </DialogHeader>
         <div className="flex flex-col gap-4 max-h-[300px] overflow-y-auto">
           {isLoading && <LoadingDashboardSkeleton />}
@@ -87,10 +106,17 @@ export const SelectAudienceModal = ({
               >
                 <div className="flex flex-col gap-1">
                   <p className="font-semibold">{audience.name}</p>
-                  <p className="font-medium">{audience.AudienceUsers.length} users</p>
-                  <p className="text-sm">Created at {new Date(audience.createdAt).toLocaleDateString()}</p>
+                  <p className="font-medium">
+                    {audience.AudienceUsers.length} users
+                  </p>
+                  <p className="text-sm">
+                    Created at{" "}
+                    {new Date(audience.createdAt).toLocaleDateString()}
+                  </p>
                 </div>
-                <Checkbox checked={selectedAudience.some((i) => i === audience.id)} />
+                <Checkbox
+                  checked={selectedAudience.some((i) => i === audience.id)}
+                />
               </div>
             );
           })}
@@ -98,7 +124,10 @@ export const SelectAudienceModal = ({
             <div className="flex flex-col gap-4 items-center">
               <p className="text-center">No audiences found</p>
               <button onClick={() => setIsOpen(false)}>
-                <Link href={`/${appId}/audience`} className="underline text-gray-500">
+                <Link
+                  href={`/${appId}/audience`}
+                  className="underline text-gray-500"
+                >
                   Create one!
                 </Link>
               </button>
