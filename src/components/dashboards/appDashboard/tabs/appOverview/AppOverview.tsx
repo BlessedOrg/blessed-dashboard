@@ -23,7 +23,7 @@ export const AppOverview = ({ appId }) => {
         </Card>
       </motion.div>
 
-      <AppEventsTab appId={appId} items={3} />
+      <AppEventsTab appId={appId} items={3} isMainView/>
     </div>
   );
 };

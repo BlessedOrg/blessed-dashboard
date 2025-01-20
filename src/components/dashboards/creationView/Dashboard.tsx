@@ -25,6 +25,7 @@ export const Dashboard = ({ createViewItems, form, defaultCategory, defaultTab, 
   const toggleProcessingState = (state: boolean) => {
     setIsProcessing(state);
   };
+	
   return (
     <main className="flex xl:flex-row flex-col-reverse md:flex-col gap-6 w-full px-[1.5rem] max-w-[90rem] self-center">
       <SidebarNavigation

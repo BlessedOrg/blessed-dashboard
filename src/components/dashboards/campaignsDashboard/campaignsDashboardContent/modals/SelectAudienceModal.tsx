@@ -1,14 +1,14 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import { Button, Checkbox, Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui";
-import { PlusCircle } from "lucide-react";
-import useSWR from "swr";
-import { apiUrl } from "@/variables/variables";
-import { fetcherWithToken } from "@/requests/requests";
-import { isArray } from "lodash-es";
 import { LoadingDashboardSkeleton } from "@/components/common/LoadingDashboardSkeleton";
-import { toast } from "react-toastify";
+import { Button, Checkbox, Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui";
+import { fetcherWithToken } from "@/requests/requests";
+import { apiUrl } from "@/variables/variables";
+import { isArray } from "lodash-es";
+import { PlusCircle } from "lucide-react";
 import Link from "next/link";
+import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import useSWR from "swr";
 
 export const SelectAudienceModal = ({
   appId,
@@ -97,9 +97,11 @@ export const SelectAudienceModal = ({
           {!filteredAudiences?.length && (
             <div className="flex flex-col gap-4 items-center">
               <p className="text-center">No audiences found</p>
-              <Link href={`/${appId}/audience`} className="underline text-gray-500">
+              <button onClick={() => setIsOpen(false)}>
+							<Link href={`/${appId}/audience`} className="underline text-gray-500">
                 Create one!
               </Link>
+							</button>
             </div>
           )}
         </div>

@@ -1,15 +1,15 @@
-import { LoadingDashboardSkeleton } from "@/components/common/LoadingDashboardSkeleton";
-import { CreateEventButton } from "@/components/common/CreateEventButton";
-import useSWR from "swr";
-import { apiUrl } from "@/variables/variables";
-import { fetcherWithToken } from "@/requests/requests";
-import { isArray } from "lodash-es";
 import { EventCard } from "@/components/cards/EventCard";
+import { CreateEventButton } from "@/components/common/CreateEventButton";
+import { LoadingDashboardSkeleton } from "@/components/common/LoadingDashboardSkeleton";
 import { Button, Card } from "@/components/ui";
 import { CardContent } from "@/components/ui/card";
+import { fetcherWithToken } from "@/requests/requests";
+import { apiUrl } from "@/variables/variables";
+import { isArray } from "lodash-es";
 import Link from "next/link";
+import useSWR from "swr";
 
-export const AppEventsTab = ({ appId, items = 0 }) => {
+export const AppEventsTab = ({ appId, items = 0, isMainView=false }) => {
   const { data: eventsData, isLoading } = useSWR(`${apiUrl}/private/events/${appId}`, fetcherWithToken);
   const events = isArray(eventsData) ? eventsData : [];
   return (
@@ -29,9 +29,9 @@ export const AppEventsTab = ({ appId, items = 0 }) => {
         })}
         {!isLoading && (
           <div className="flex gap-2 justify-center">
-            <Button asChild variant="outline">
+            {isMainView &&<Button asChild variant="outline">
               <Link href={`/${appId}?tab=events`}>See more</Link>
-            </Button>
+            </Button>}
             <CreateEventButton appId={appId} label="Add new event" variant="green" />
           </div>
         )}

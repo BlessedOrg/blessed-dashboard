@@ -6,7 +6,7 @@ import { apiUrl } from "@/variables/variables";
 import { motion } from "framer-motion";
 import { isArray } from "lodash-es";
 import { DollarSign } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FieldValues, UseFormReturn } from "react-hook-form";
 import { toast } from "react-toastify";
 import useSWR from "swr";
@@ -42,7 +42,7 @@ export function RevenueDistributionView({
   const ticketId = selectedTicketId || tickets?.[0]?.id;
 
   const [localStakeholders, setLocalStakeholders] = useState<RevenueEntry[]>(externalStakeholders || []);
-
+ 
   const {
     data: stakeholdersData,
     isLoading: isStakeholdersLoading,
@@ -51,6 +51,12 @@ export function RevenueDistributionView({
     !isStateManaged ? `${apiUrl}/private/stakeholders/${appId}${eventId ? `/${eventId}` : ""}${ticketId ? `/${ticketId}` : ""}` : null,
     fetcherWithToken
   );
+
+	useEffect(() => {
+		if(isArray(stakeholdersData) && !selectedPaymentMethods.length) {
+			setSelectedPaymentMethods(stakeholdersData.map((stakeholder) => stakeholder.paymentMethods).flat())
+		}
+	},[stakeholdersData])
 
   const stakeholders = isStateManaged ? localStakeholders : isArray(stakeholdersData) ? stakeholdersData : [];
   const handleAddEntry = async (entry: RevenueEntry) => {
@@ -126,20 +132,40 @@ export function RevenueDistributionView({
     }
   };
 
-  const handlePaymentTypeToggle = (type: string) => {
-    setSelectedPaymentMethods((prev) => {
-			if(prev.includes(type)) {
-				return prev.filter((method) => method !== type)
+  const handlePaymentTypeToggle = async(type: string) => {
+    if(isStateManaged) {
+			setSelectedPaymentMethods((prev) => {
+				if(prev.includes(type)) {
+					return prev.filter((method) => method !== type)
+				}
+				return [...prev, type]
+			})
+			if(!!stakeholders.length) {
+				form.setValue("stakeholders", stakeholders.map((stakeholder) => ({
+					...stakeholder,
+					paymentMethods: stakeholder.paymentMethods.includes(type) ? stakeholder.paymentMethods.filter((method) => method !== type) : [...stakeholder.paymentMethods, type]
+				})))
 			}
-			return [...prev, type]
-		})
-		if(!!stakeholders.length) {
-			form.setValue("stakeholders", stakeholders.map((stakeholder) => ({
-				...stakeholder,
-				paymentMethods: stakeholder.paymentMethods.includes(type) ? stakeholder.paymentMethods.filter((method) => method !== type) : [...stakeholder.paymentMethods, type]
-			})))
+		} else {
+			const paymentMethod = selectedPaymentMethods.includes(type) ? selectedPaymentMethods.filter((method) => method !== type) : [...selectedPaymentMethods, type]
+			const response = await fetcherWithToken(
+        `${apiUrl}/private/stakeholders/payment-method/${appId}${eventId ? `/${eventId}` : ""}${ticketId ? `/${ticketId}` : ""}`,
+        {
+          method: "POST",
+          body: JSON.stringify({
+            paymentMethod,
+          }),
+        }
+      );
+			if(response.success) {
+				toast("Payment method updated successfully", { type: "success" })
+				setSelectedPaymentMethods(paymentMethod)
+				await mutateStakeholders()
+			}
+
 		}
   };
+
 
   const totalPercentage = stakeholders.reduce((sum, entry) => sum + entry.feePercentage, 0);
 console.log(form?.getValues())

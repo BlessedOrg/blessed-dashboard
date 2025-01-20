@@ -1,22 +1,22 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Settings2, Users } from "lucide-react";
-import { motion } from "framer-motion";
+import { createAudience } from "@/app/api/audience";
+import { AudienceNameEdit } from "@/components/dashboards/audienceDashboard/audienceDashboardContent/views/AudienceNameEdit";
+import { SelectAudienceModal } from "@/components/dashboards/campaignsDashboard/campaignsDashboardContent/modals/SelectAudienceModal";
 import { SelectTicketsModal } from "@/components/modals/selectTickets/SelectTicketsModal";
-import { EligibleUsersList } from "./views/EligibleUsersList";
-import { TicketRequirementsList } from "./views/requirements/TicketRequirementsList";
-import { EligibleUser, SelectedTicket, TicketRequirement } from "./types";
+import { Button, Checkbox } from "@/components/ui";
+import { Card, CardContent } from "@/components/ui/card";
 import { fetcherWithToken } from "@/requests/requests";
 import { apiUrl } from "@/variables/variables";
+import { motion } from "framer-motion";
+import { isArray, uniqBy } from "lodash-es";
+import { Settings2, Users } from "lucide-react";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import useSWR from "swr";
-import { isArray, uniqBy } from "lodash-es";
-import { AudienceNameEdit } from "@/components/dashboards/audienceDashboard/audienceDashboardContent/views/AudienceNameEdit";
-import { createAudience } from "@/app/api/audience";
-import { Button } from "@/components/ui";
-import { SelectAudienceModal } from "@/components/dashboards/campaignsDashboard/campaignsDashboardContent/modals/SelectAudienceModal";
+import { EligibleUser, SelectedTicket, TicketRequirement } from "./types";
+import { EligibleUsersList } from "./views/EligibleUsersList";
+import { TicketRequirementsList } from "./views/requirements/TicketRequirementsList";
 
 interface AudienceManagementViewProps {
   appId: string;
@@ -36,7 +36,12 @@ export function AudienceManagementView({ appId, mutate, onTabChange, allAudience
   const [eligibleUsers, setEligibleUsers] = useState([]);
   const [eligibleAudienceUsers, setEligibleAudienceUsers] = useState([]);
   const [selectedAudiences, setSelectedAudiences] = useState([]);
+  const [isEachTicketRequirementMet, setIsEachTicketRequirementMet] = useState(false);
 
+  const onEachTicketRequirementMetChange = (value: any) => {
+		console.log(value)
+    setIsEachTicketRequirementMet(value);
+  };
   const handleRequirementChange = (ticketId: string, requirement: TicketRequirement) => {
     setSelectedTickets(prev => prev.map(ticket =>
       ticket.ticketId === ticketId ? { ...ticket, requirement } : ticket
@@ -56,6 +61,7 @@ export function AudienceManagementView({ appId, mutate, onTabChange, allAudience
       const response = await fetcherWithToken(`${apiUrl}/private/tickets/snapshot`, {
         method: "POST",
         body: JSON.stringify({
+					isEachTicketRequirementMet,
           snapshot: selectedTickets.map((i) => {
             return {
               eventId: i.eventId,
@@ -137,7 +143,7 @@ export function AudienceManagementView({ appId, mutate, onTabChange, allAudience
     } else {
       setEligibleUsers([]);
     }
-  }, [selectedTickets]);
+  }, [selectedTickets, isEachTicketRequirementMet]);
 
   const uniqueTickets = uniqBy(allTickets, "id");
   const handleAudienceNameChange = (name: string) => {
@@ -205,7 +211,10 @@ export function AudienceManagementView({ appId, mutate, onTabChange, allAudience
                 />
               </div>
             </div>
-
+            <div className="flex items-center gap-2 my-4">
+              <Checkbox size="lg" checked={isEachTicketRequirementMet} onCheckedChange={onEachTicketRequirementMetChange} />
+              <p>All tickets requirements have to be met together.</p>
+            </div>
             {selectedTickets.length > 0 ? (
               <TicketRequirementsList
                 tickets={uniqueTickets}

@@ -5,14 +5,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Dashboard } from '../../creationView/Dashboard';
-import { generateCreationSchema } from '../../creationView/generateCreationSchema';
+import { schema } from './schema';
 
 const eventFields = createEventFields(false);
-const createEventSchema = generateCreationSchema(eventFields);
-console.log(eventFields)
+
 export const CreateEvent = ({ params }) => {
   const form = useForm({
-    resolver: zodResolver(createEventSchema),
+    resolver: zodResolver(schema),
     defaultValues: {
       startsAt: new Date(),
       endsAt: new Date(),
