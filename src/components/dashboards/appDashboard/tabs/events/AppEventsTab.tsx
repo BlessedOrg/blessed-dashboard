@@ -22,7 +22,7 @@ export const AppEventsTab = ({ appId, items = 0, isMainView=false }) => {
         </CardContent>
       </Card>}
       {!!events?.length && <div className="flex flex-col gap-4 mt-4">
-        <p className="font-semibold">Recent events</p>
+        <p className="font-semibold">{isMainView ? "Recent events" : "All events"}</p>
         {isLoading && <LoadingDashboardSkeleton />}
         {(!!items ? events.slice(0, items) : events).map((event) => {
           return <EventCard event={event} key={event.id} appId={appId} />;
