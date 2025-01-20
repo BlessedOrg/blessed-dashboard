@@ -31,9 +31,10 @@ const paymentTypes: PaymentType[] = [
 interface PaymentTypesCardProps {
   enabledTypes: Set<string>;
   onToggle: (type: string) => void;
+	disabled: boolean;
 }
 
-export function PaymentTypesCard({ enabledTypes, onToggle }: PaymentTypesCardProps) {
+export function PaymentTypesCard({ enabledTypes, onToggle, disabled }: PaymentTypesCardProps) {
   return (
     <Card>
       <CardContent className="p-6">
@@ -60,6 +61,7 @@ export function PaymentTypesCard({ enabledTypes, onToggle }: PaymentTypesCardPro
                 id={type.id}
                 checked={enabledTypes.has(type.id)}
                 onCheckedChange={() => onToggle(type.id)}
+								disabled={disabled}
               />
             </motion.div>
           ))}

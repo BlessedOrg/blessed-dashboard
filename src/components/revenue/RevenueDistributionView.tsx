@@ -42,6 +42,7 @@ export function RevenueDistributionView({
   tickets,
   isTicketsView = false,
 }: RevenueDistributionViewProps) {
+  const [changingPaymentMethod, setChangingPaymentMethod] = useState(false);
   const [selectedPaymentMethods, setSelectedPaymentMethods] = useState<
     string[]
   >([]);
@@ -182,25 +183,31 @@ export function RevenueDistributionView({
         );
       }
     } else {
-      const paymentMethod = selectedPaymentMethods.includes(type)
-        ? selectedPaymentMethods.filter((method) => method !== type)
-        : [...selectedPaymentMethods, type];
-      const response = await fetcherWithToken(
-        `${apiUrl}/private/stakeholders/payment-method/${appId}${
-          eventId ? `/${eventId}` : ""
-        }${ticketId ? `/${ticketId}` : ""}`,
-        {
-          method: "POST",
-          body: JSON.stringify({
-            paymentMethod,
-          }),
+      setChangingPaymentMethod(true);
+      try {
+        const paymentMethod = selectedPaymentMethods.includes(type)
+          ? selectedPaymentMethods.filter((method) => method !== type)
+          : [...selectedPaymentMethods, type];
+        const response = await fetcherWithToken(
+          `${apiUrl}/private/stakeholders/payment-method/${appId}${
+            eventId ? `/${eventId}` : ""
+          }${ticketId ? `/${ticketId}` : ""}`,
+          {
+            method: "POST",
+            body: JSON.stringify({
+              paymentMethod,
+            }),
+          }
+        );
+        if (response.success) {
+          toast("Payment method updated successfully", { type: "success" });
+          setSelectedPaymentMethods(paymentMethod);
+          await mutateStakeholders();
         }
-      );
-      if (response.success) {
-        toast("Payment method updated successfully", { type: "success" });
-        setSelectedPaymentMethods(paymentMethod);
-        await mutateStakeholders();
+      } catch (error) {
+        toast("Failed to update payment method", { type: "error" });
       }
+      setChangingPaymentMethod(false);
     }
   };
 
@@ -278,6 +285,7 @@ export function RevenueDistributionView({
             <PaymentTypesCard
               enabledTypes={new Set(selectedPaymentMethods)}
               onToggle={handlePaymentTypeToggle}
+							disabled={changingPaymentMethod || isStakeholdersLoading}
             />
 
             <Card>

@@ -51,7 +51,7 @@ export function AddPersonModal({ onSubmit, currentTotal }: AddPersonModalProps) 
       // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 1000));
       
-      onSubmit({
+      await onSubmit({
         id: Math.random().toString(36).substr(2, 9),
         ...data
       });
