@@ -1,5 +1,5 @@
 "use client";
-import { DashboardSidebar } from '@/components/common/globalSidebar/DashboardSidebar';
+import { DashboardSidebar } from "@/components/common/globalSidebar/DashboardSidebar";
 import { AudienceDashboardSidebarNav } from "@/components/dashboards/audienceDashboard/AudienceDashboardSidebarNav";
 import { AudienceManagementView } from "@/components/dashboards/audienceDashboard/audienceDashboardContent/AudienceManagementView";
 import { AudiencePreview } from "@/components/dashboards/audienceDashboard/audienceDashboardContent/views/audiences/AudiencePreview";
@@ -11,7 +11,11 @@ import { useState } from "react";
 import useSWR from "swr";
 
 export const AudienceDashboard = ({ appId }) => {
-  const { data: audienceData, isLoading, mutate } = useSWR(`${apiUrl}/private/apps/${appId}/audiences`, fetcherWithToken);
+  const {
+    data: audienceData,
+    isLoading,
+    mutate,
+  } = useSWR(`${apiUrl}/private/apps/${appId}/audiences`, fetcherWithToken);
   const audiences = (isArray(audienceData) ? audienceData : []) as IAudience[];
 
   const [currentTabId, setCurrentTabId] = useState("create");
@@ -27,20 +31,45 @@ export const AudienceDashboard = ({ appId }) => {
         className="hidden md:flex"
         audiences={audiences}
       />
-      <AudienceViewPerTab tab={currentTabId} audiences={audiences} appId={appId} mutate={mutate} onTabChange={onTabChange} />
+      <AudienceViewPerTab
+        tab={currentTabId}
+        audiences={audiences}
+        appId={appId}
+        mutate={mutate}
+        onTabChange={onTabChange}
+      />
       <DashboardSidebar appSlug={appId} />
     </main>
   );
 };
 
 const AudienceViewPerTab = ({ tab, audiences, appId, mutate, onTabChange }) => {
-  if (tab === "create") return <AudienceManagementView appId={appId} mutate={mutate} onTabChange={onTabChange} allAudiences={audiences} />;
+  if (tab === "create")
+    return (
+      <AudienceManagementView
+        appId={appId}
+        mutate={mutate}
+        onTabChange={onTabChange}
+        allAudiences={audiences}
+      />
+    );
 
-  const audience = audiences.find(audience => audience.id === tab);
-  if (!audience) return <div className="w-full">
-    <Card className="p-6">
-      <p className="font-semibold text-center">Audience you are looking for is not exist</p>
-    </Card>
-  </div>;
-  return <AudiencePreview audience={audience} mutate={mutate} onTabChange={onTabChange} />;
+  const audience = audiences.find((audience) => audience.id === tab);
+  if (!audience)
+    return (
+      <div className="w-full">
+        <Card className="p-6">
+          <p className="font-semibold text-center">
+            Audience you are looking for is not exist
+          </p>
+        </Card>
+      </div>
+    );
+  return (
+    <AudiencePreview
+      audience={audience}
+      mutate={mutate}
+      onTabChange={onTabChange}
+    />
+  );
 };

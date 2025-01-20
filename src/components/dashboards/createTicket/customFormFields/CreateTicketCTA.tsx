@@ -43,6 +43,7 @@ export const CreateTicketCTA = ({ form, isProcessing, toggleProcessingState, app
     }
     toggleProcessingState(false);
   });
+
   return (
     <Card className="flex flex-col gap-4 pb-4">
       <TicketPreview form={form} />

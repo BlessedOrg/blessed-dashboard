@@ -6,11 +6,6 @@ export const dashboardNavItems = [
   },
   {
     id: 1,
-    label: "Apps",
-    href: "?tab=apps"
-  },
-  {
-    id: 2,
     label: "Analytics",
     href: "?tab=analytics"
   }

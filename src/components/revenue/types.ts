@@ -4,8 +4,8 @@ export interface RevenueEntry {
 		email: string;
 	}
 	email?: string;
-  walletAddress: string;
   feePercentage: number;
+	walletAddress?: string;
   notifiedAt?: string;
 }
 

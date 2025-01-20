@@ -14,8 +14,6 @@ import { AddPersonFormData, RevenueEntry } from "./types";
 
 const formSchema = z.object({
   email: z.string().email("Please enter a valid email address"),
-  walletAddress: z.string()
-    .regex(/^0x[a-fA-F0-9]{40}$/, "Please enter a valid Ethereum address"),
   feePercentage: z.number()
     .min(0.01, "Percentage must be greater than 0")
     .max(100, "Percentage cannot exceed 100")
@@ -34,7 +32,6 @@ export function AddPersonModal({ onSubmit, currentTotal }: AddPersonModalProps) 
     resolver: zodResolver(formSchema),
     defaultValues: {
       email: "",
-      walletAddress: "",
       feePercentage: 0
     }
   });
@@ -96,20 +93,6 @@ export function AddPersonModal({ onSubmit, currentTotal }: AddPersonModalProps) 
                 {form.formState.errors.email && (
                   <p className="text-sm text-red-500">
                     {form.formState.errors.email.message}
-                  </p>
-                )}
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="walletAddress">Wallet Address</Label>
-                <Input
-                  id="walletAddress"
-                  {...form.register("walletAddress")}
-                  className={form.formState.errors.walletAddress ? "border-red-500" : ""}
-                />
-                {form.formState.errors.walletAddress && (
-                  <p className="text-sm text-red-500">
-                    {form.formState.errors.walletAddress.message}
                   </p>
                 )}
               </div>
