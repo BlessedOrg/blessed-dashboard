@@ -12,7 +12,12 @@ import { ChartBar } from "lucide-react";
 import { useState } from "react";
 import useSWR from "swr";
 import { CardContent } from "../ui/card";
-import { SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
+import {
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "../ui/select";
 
 export const AdminDashboard = ({
   hardcodedParam,
@@ -23,22 +28,39 @@ export const AdminDashboard = ({
   isTicketsView?: boolean;
   tickets?: ITicket[];
 }) => {
-  const [selectedTicketId, setSelectedTicketId] = useState<string | null>(tickets?.[0]?.id || null);
+  const [selectedTicketId, setSelectedTicketId] = useState<string | null>(
+    tickets?.[0]?.id || null
+  );
   const defaultParams = `?getBy=all`;
-  const [selectedParam, setSelectedParam] = useState(hardcodedParam || defaultParams);
+  const [selectedParam, setSelectedParam] = useState(
+    hardcodedParam || defaultParams
+  );
 
-  const { data: filterData, isLoading: filtersLoading } = useSWR(`${apiUrl}/private/analytics/filters`, fetcherWithToken);
+  const { data: filterData, isLoading: filtersLoading } = useSWR(
+    `${apiUrl}/private/analytics/filters`,
+    fetcherWithToken
+  );
 
-  const { data: analyticsData } = useSWR(
+  const { data: analyticsDataResponse } = useSWR(
     filterData?.filters
-      ? `${apiUrl}/private/analytics${isTicketsView ? `?getBy=ticket&ticketId=${selectedTicketId}` : selectedParam}`
+      ? `${apiUrl}/private/analytics${
+          isTicketsView
+            ? `?getBy=ticket&ticketId=${selectedTicketId}`
+            : selectedParam
+        }`
       : null,
     fetcherWithToken
   );
 
+  const analyticsData = analyticsDataResponse?.expense;
   return (
     <div className="container mx-auto pb-8 px-4">
-      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="space-y-6">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="space-y-6"
+      >
         <Card className="bg-gradient-to-r from-purple-50 to-blue-50 border-none">
           <CardContent className="p-6">
             <div className="flex justify-between gap-2 items-center">
@@ -55,19 +77,32 @@ export const AdminDashboard = ({
                   </div>
                 </div>
                 <p className="text-gray-600">
-                  Track your {!!hardcodedParam && hardcodedParam.includes("event") ? "event's" : isTicketsView ? "ticket's" : "app's"}{" "}
+                  Track your{" "}
+                  {!!hardcodedParam && hardcodedParam.includes("event")
+                    ? "event's"
+                    : isTicketsView
+                    ? "ticket's"
+                    : "app's"}{" "}
                   performance and user engagement.
                 </p>
               </div>
             </div>
             {isTicketsView && !!tickets.length && (
-              <Select value={selectedTicketId} onValueChange={setSelectedTicketId} disabled={false}>
+              <Select
+                value={selectedTicketId}
+                onValueChange={setSelectedTicketId}
+                disabled={false}
+              >
                 <SelectTrigger className="w-fit min-w-[200px] mt-4">
                   <SelectValue placeholder="Select a ticket" />
                 </SelectTrigger>
                 <SelectContent>
                   {tickets.map((ticket) => (
-                    <SelectItem key={ticket.id} value={ticket.id} defaultValue={selectedTicketId}>
+                    <SelectItem
+                      key={ticket.id}
+                      value={ticket.id}
+                      defaultValue={selectedTicketId}
+                    >
                       {ticket.name}
                     </SelectItem>
                   ))}
@@ -80,11 +115,16 @@ export const AdminDashboard = ({
         {isTicketsView && !tickets.length && (
           <Card className="bg-yellow-500 rounded-3xl p-6 mb-8">
             <p className="font-semibold text-xl">Warning</p>
-            <p>No tickets found. Please create a ticket first to view analytics.</p>
+            <p>
+              No tickets found. Please create a ticket first to view analytics.
+            </p>
           </Card>
         )}
         {!filtersLoading && !hardcodedParam && !isTicketsView && (
-          <AnalyticsFilters filtersData={filterData} onChange={(a) => setSelectedParam(a)} />
+          <AnalyticsFilters
+            filtersData={filterData}
+            onChange={(a) => setSelectedParam(a)}
+          />
         )}
         {((isTicketsView && !!tickets.length) || !isTicketsView) && (
           <>
@@ -95,7 +135,9 @@ export const AdminDashboard = ({
 
             <div className="grid gap-6 grid-cols-1 lg:grid-cols-2">
               <Card className="p-6 h-full">
-                <h2 className="text-lg font-semibold mb-4">Transactions count</h2>
+                <h2 className="text-lg font-semibold mb-4">
+                  Transactions count
+                </h2>
                 <TransactionsCount {...analyticsData?.count} />
               </Card>
               <Card className="p-6">
@@ -105,7 +147,9 @@ export const AdminDashboard = ({
             </div>
 
             <Card className="p-6">
-              <h2 className="text-lg font-semibold mb-4">Transactions by Method</h2>
+              <h2 className="text-lg font-semibold mb-4">
+                Transactions by Method
+              </h2>
               <TransactionsByMethod
                 eventsData={analyticsData?.eventsTransactions?.data || []}
                 ticketsData={analyticsData?.ticketsTransactions?.data || []}

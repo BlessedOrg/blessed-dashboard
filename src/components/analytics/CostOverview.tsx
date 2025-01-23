@@ -29,7 +29,7 @@ export function CostOverview({ data }: CostOverviewProps) {
     {
       title: "Events Transactions",
       ethCost: parseFloat(data?.eventsTransactions?.ethCost || "0"),
-      usdCost: data?.eventsTransactions.usdCost || 0,
+      usdCost: data?.eventsTransactions?.usdCost || 0,
       description: "Cost of event-related transactions"
     },
     {
