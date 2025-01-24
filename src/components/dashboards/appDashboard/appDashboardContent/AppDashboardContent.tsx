@@ -7,6 +7,7 @@ import { AppEventsTab } from "@/components/dashboards/appDashboard/tabs/events/A
 import { RevenueDistributionView } from '@/components/revenue/RevenueDistributionView';
 import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
+import { PaymentsSettingsTab } from '../tabs/PaymentsSettingsTab';
 
 type TabId = keyof typeof TAB_PARAMS_MAP;
 
@@ -23,7 +24,8 @@ const TAB_PARAMS_MAP = {
   events: 1,
 	revenue: 2,
 	analytics: 3,
-  "api-key": 5
+  "api-key": 5,
+	payments: 7
 } as const;
 
 const DEFAULT_TAB = "overview";
@@ -37,7 +39,8 @@ export const AppDashboardContent = ({ currentTabIndex, onTabChange, appData, isL
     1: <AppEventsTab appId={appData?.slug} />,
 		2: <RevenueDistributionView appId={appData?.id} isStateManaged={false}/>,
 		3: <AdminDashboard hardcodedParam={`?getBy=app&appId=${appData?.id}`} />,
-    5: <ApiKeyTab appId={appData?.slug} apiTokens={appData?.ApiTokens} />
+    5: <ApiKeyTab appId={appData?.slug} apiTokens={appData?.ApiTokens} />,
+		7: <PaymentsSettingsTab />
   };
 
   useEffect(() => {

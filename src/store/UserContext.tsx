@@ -1,16 +1,17 @@
 "use client";
-import React, { createContext, ReactNode, useContext, useEffect, useState } from "react";
-import useSWR from "swr";
-import { fetcherWithToken } from "../requests/requests";
+import { FixedLoading } from "@/components/ui/fixed-loading";
 import { apiUrl, landingPageUrl } from "@/variables/variables";
 import { deleteCookie, getCookie } from "cookies-next";
-import { FixedLoading } from "@/components/ui/fixed-loading";
 import { isArray } from "lodash-es";
+import { createContext, ReactNode, useContext, useEffect, useState } from "react";
+import useSWR from "swr";
+import { fetcherWithToken } from "../requests/requests";
 
 interface IProps {
   children: ReactNode;
 }
 interface UserHook {
+	isVerified: boolean;
   walletAddress: string | null;
   createdAt: string;
   avatarUrl: string;

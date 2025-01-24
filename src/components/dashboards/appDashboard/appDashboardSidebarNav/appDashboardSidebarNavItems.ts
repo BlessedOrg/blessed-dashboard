@@ -43,4 +43,9 @@ export const appDashboardSidebarNavItems = [
     target: "_blank",
     href: docsUrl,
   },
+	{
+		id: 7,
+		label: "Payments",
+		href: "?tab=payments",
+	}
 ] as NavItem[];
