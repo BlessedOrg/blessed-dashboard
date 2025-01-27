@@ -1,4 +1,4 @@
-export { };
+export {};
 declare global {
   interface ICampaignDistribution {
     AudiencesUsers: IAudienceUser[];
@@ -161,6 +161,7 @@ declare global {
     name: string;
     slug: string;
     description: string;
+    stripeKeysVaultKey: string | null;
     imageUrl: string | null;
     developerId: string;
     createdAt: string;

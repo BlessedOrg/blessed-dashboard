@@ -286,6 +286,7 @@ export function RevenueDistributionView({
               enabledTypes={new Set(selectedPaymentMethods)}
               onToggle={handlePaymentTypeToggle}
 							disabled={changingPaymentMethod || isStakeholdersLoading}
+							appId={appId}
             />
 
             <Card>
