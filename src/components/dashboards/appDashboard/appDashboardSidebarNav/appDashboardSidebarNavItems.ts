@@ -28,24 +28,25 @@ export const appDashboardSidebarNavItems = [
     label: "Analytics",
     href: "?tab=analytics",
   },
-	{
-		id: 4,
-		divider: true,
-	},
+  {
+    id: 4,
+    divider: true,
+  },
   {
     id: 5,
+    label: "Payments",
+    href: "?tab=payments",
+  },
+  {
+    id: 6,
     label: "API key",
     href: "?tab=api-key",
   },
   {
-    id: 6,
+    id: 7,
     label: "Docs",
     target: "_blank",
     href: docsUrl,
   },
-	{
-		id: 7,
-		label: "Payments",
-		href: "?tab=payments",
-	}
+
 ] as NavItem[];

@@ -24,8 +24,8 @@ const TAB_PARAMS_MAP = {
   events: 1,
 	revenue: 2,
 	analytics: 3,
-  "api-key": 5,
-	payments: 7
+  "api-key": 6,
+	payments: 5
 } as const;
 
 const DEFAULT_TAB = "overview";
@@ -39,8 +39,8 @@ export const AppDashboardContent = ({ currentTabIndex, onTabChange, appData, isL
     1: <AppEventsTab appId={appData?.slug} />,
 		2: <RevenueDistributionView appId={appData?.id} isStateManaged={false}/>,
 		3: <AdminDashboard hardcodedParam={`?getBy=app&appId=${appData?.id}`} />,
-    5: <ApiKeyTab appId={appData?.slug} apiTokens={appData?.ApiTokens} />,
-		7: <PaymentsSettingsTab appData={appData}/>
+    6: <ApiKeyTab appId={appData?.slug} apiTokens={appData?.ApiTokens} />,
+		5: <PaymentsSettingsTab appData={appData}/>
   };
 
   useEffect(() => {
