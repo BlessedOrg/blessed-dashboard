@@ -40,7 +40,7 @@ export const AppDashboardContent = ({ currentTabIndex, onTabChange, appData, isL
 		2: <RevenueDistributionView appId={appData?.id} isStateManaged={false}/>,
 		3: <AdminDashboard hardcodedParam={`?getBy=app&appId=${appData?.id}`} />,
     5: <ApiKeyTab appId={appData?.slug} apiTokens={appData?.ApiTokens} />,
-		7: <PaymentsSettingsTab />
+		7: <PaymentsSettingsTab appData={appData}/>
   };
 
   useEffect(() => {

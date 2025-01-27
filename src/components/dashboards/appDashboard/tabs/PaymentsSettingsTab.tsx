@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { Settings } from "lucide-react";
 import { StripeCredentialsCard } from './StripeCredentialsCard';
 
-export const PaymentsSettingsTab = () => {
+export const PaymentsSettingsTab = ({appData}: {appData: any}) => {
   return (
     <div className="w-full flex-col flex gap-4">
       <motion.div
@@ -21,9 +21,7 @@ export const PaymentsSettingsTab = () => {
           </CardContent>
         </Card>
       </motion.div>
-      <StripeCredentialsCard onSave={async (data) => {
-        console.log(data);
-      }} />
+      <StripeCredentialsCard appData={appData} />
     </div>
   );
 };

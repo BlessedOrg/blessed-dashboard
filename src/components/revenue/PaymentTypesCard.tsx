@@ -5,10 +5,10 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { useUserContext } from "@/store/UserContext";
 import {
-	Tooltip,
-	TooltipContent,
-	TooltipProvider,
-	TooltipTrigger,
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
 } from "@radix-ui/react-tooltip";
 import { motion } from "framer-motion";
 import { Coins, CreditCard, Link as LinkIcon } from "lucide-react";
@@ -54,7 +54,7 @@ export function PaymentTypesCard({
     (app) => app.id === appId || app.slug === appId
   );
 
-  const hasStripeCredentials = false; //TODO: remove hardcoded value
+  const hasStripeCredentials = app?.stripeKeysVaultKey;
   return (
     <Card>
       <CardContent className="p-6">

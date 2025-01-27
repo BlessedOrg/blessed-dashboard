@@ -5,45 +5,64 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { fetcherWithToken } from '@/requests/requests';
+import { apiUrl } from '@/variables/variables';
 import { zodResolver } from "@hookform/resolvers/zod";
 import { motion } from "framer-motion";
 import { CheckCircle2, CreditCard, Eye, EyeOff, Loader2, PencilLine } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from 'react-toastify';
+import useSWR from 'swr';
 import * as z from "zod";
 
 const stripeSchema = z.object({
-  secretKey: z.string().min(1, "Secret key is required"),
-  webhookSecret: z.string().min(1, "Webhook secret is required"),
+  stripeSecretKey: z.string().min(1, "Secret key is required"),
+  stripeWebhookSecret: z.string().min(1, "Webhook secret is required"),
 });
 
 type StripeFormData = z.infer<typeof stripeSchema>;
 
 interface StripeCredentialsCardProps {
-  savedCredentials?: {
-    secretKey: string;
-    webhookSecret: string;
-  };
-  onSave: (data: StripeFormData) => Promise<void>;
+  appData: any;
 }
 
-export function StripeCredentialsCard({ savedCredentials, onSave }: StripeCredentialsCardProps) {
-  const [isEditing, setIsEditing] = useState(!savedCredentials);
+export function StripeCredentialsCard({ appData }: StripeCredentialsCardProps) {
+  const { data: savedCredentials, isLoading, mutate } = useSWR(`${apiUrl}/private/apps/${appData.id}/stripe-keys`, fetcherWithToken)
+  const [isEditing, setIsEditing] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSecrets, setShowSecrets] = useState(false);
 
   const form = useForm<StripeFormData>({
     resolver: zodResolver(stripeSchema),
     defaultValues: {
-      secretKey: savedCredentials?.secretKey || "",
-      webhookSecret: savedCredentials?.webhookSecret || "",
+      stripeSecretKey: "",
+      stripeWebhookSecret: "",
     },
   });
+
+  useEffect(() => {
+    if (savedCredentials) {
+      form.reset({
+        stripeSecretKey: savedCredentials.stripeSecretKey || "",
+        stripeWebhookSecret: savedCredentials.stripeWebhookSecret || ""
+      });
+      setIsEditing(!savedCredentials.stripeSecretKey);
+    } else {
+      setIsEditing(true);
+    }
+  }, [savedCredentials, form]);
 
   const handleSubmit = async (data: StripeFormData) => {
     setIsSubmitting(true);
     try {
-      await onSave(data);
+      const res = await fetcherWithToken(`${apiUrl}/private/apps/${appData.id}/stripe-keys`, {
+        method: savedCredentials?.stripeSecretKey ? "PUT" : "POST",
+        body: JSON.stringify(data)
+      });
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      await mutate();
+      toast(res?.message || savedCredentials?.stripeSecretKey ? "Credentials updated" : "Credentials saved", { type: "success" })
       setIsEditing(false);
     } catch (error) {
       console.error("Error saving Stripe credentials:", error);
@@ -54,8 +73,25 @@ export function StripeCredentialsCard({ savedCredentials, onSave }: StripeCreden
 
   const maskSecret = (secret: string) => {
     if (!secret) return "";
-    return `${secret.slice(0, 8)}...${secret.slice(-4)}`;
+    return `*****************`;
   };
+
+  if (isLoading) {
+    return (
+      <Card>
+        <CardContent className="p-6">
+          <div className="flex items-center gap-3">
+            <div className="p-2 bg-purple-100 rounded-lg">
+              <Loader2 className="w-6 h-6 text-purple-600 animate-spin" />
+            </div>
+            <div>
+              <h3 className="text-lg font-semibold">Loading...</h3>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
 
   return (
     <Card>
@@ -72,7 +108,7 @@ export function StripeCredentialsCard({ savedCredentials, onSave }: StripeCreden
               </p>
             </div>
           </div>
-          {savedCredentials && !isEditing && (
+          {!!savedCredentials?.stripeSecretKey && !isEditing && (
             <div className="flex items-center gap-2">
               <Badge variant="secondary" className="gap-1">
                 <CheckCircle2 className="w-3 h-3" />
@@ -105,8 +141,8 @@ export function StripeCredentialsCard({ savedCredentials, onSave }: StripeCreden
                   <Input
                     type={showSecrets ? "text" : "password"}
                     placeholder="sk_live_..."
-                    {...form.register("secretKey")}
-                    className={form.formState.errors.secretKey ? "border-red-500" : ""}
+                    {...form.register("stripeSecretKey")}
+                    className={form.formState.errors.stripeSecretKey ? "border-red-500" : ""}
                   />
                   <Button
                     type="button"
@@ -124,12 +160,12 @@ export function StripeCredentialsCard({ savedCredentials, onSave }: StripeCreden
                 </div>
               ) : (
                 <p className="font-mono text-sm bg-gray-50 p-2 rounded">
-                  {showSecrets ? savedCredentials?.secretKey : maskSecret(savedCredentials?.secretKey || "")}
+                  {showSecrets ? savedCredentials?.stripeSecretKey : maskSecret(savedCredentials?.stripeSecretKey || "")}
                 </p>
               )}
-              {form.formState.errors.secretKey && (
+              {form.formState.errors.stripeSecretKey && (
                 <p className="text-sm text-red-500">
-                  {form.formState.errors.secretKey.message}
+                  {form.formState.errors.stripeSecretKey.message}
                 </p>
               )}
             </div>
@@ -141,8 +177,8 @@ export function StripeCredentialsCard({ savedCredentials, onSave }: StripeCreden
                   <Input
                     type={showSecrets ? "text" : "password"}
                     placeholder="whsec_..."
-                    {...form.register("webhookSecret")}
-                    className={form.formState.errors.webhookSecret ? "border-red-500" : ""}
+                    {...form.register("stripeWebhookSecret")}
+                    className={form.formState.errors.stripeWebhookSecret ? "border-red-500" : ""}
                   />
                   <Button
                     type="button"
@@ -160,12 +196,12 @@ export function StripeCredentialsCard({ savedCredentials, onSave }: StripeCreden
                 </div>
               ) : (
                 <p className="font-mono text-sm bg-gray-50 p-2 rounded">
-                  {showSecrets ? savedCredentials?.webhookSecret : maskSecret(savedCredentials?.webhookSecret || "")}
+                  {showSecrets ? savedCredentials?.stripeWebhookSecret : maskSecret(savedCredentials?.stripeWebhookSecret || "")}
                 </p>
               )}
-              {form.formState.errors.webhookSecret && (
+              {form.formState.errors.stripeWebhookSecret && (
                 <p className="text-sm text-red-500">
-                  {form.formState.errors.webhookSecret.message}
+                  {form.formState.errors.stripeWebhookSecret.message}
                 </p>
               )}
             </div>
@@ -173,7 +209,7 @@ export function StripeCredentialsCard({ savedCredentials, onSave }: StripeCreden
 
           {isEditing && (
             <div className="flex justify-end gap-2">
-              {savedCredentials && (
+              {savedCredentials?.stripeSecretKey && (
                 <Button
                   type="button"
                   variant="outline"
